@@ -50,20 +50,42 @@ jobs:
       - name: Add AdMob App ID
         run: |
           python3 - <<'PY'
+          import xml.etree.ElementTree as ET
           from pathlib import Path
 
           p = Path('android/app/src/main/AndroidManifest.xml')
-          s = p.read_text(encoding='utf-8')
+          tree = ET.parse(p)
+          root = tree.getroot()
 
-          meta = '<meta-data android:name="com.google.android.gms.ads.APPLICATION_ID" android:value="ca-app-pub-5129021458262508~7242843920" />'
+          android_ns = 'http://schemas.android.com/apk/res/android'
+          ET.register_namespace('android', android_ns)
 
-          if 'com.google.android.gms.ads.APPLICATION_ID' not in s:
-              s = s.replace('<application', '<application\n        ' + meta, 1)
-              p.write_text(s, encoding='utf-8')
-              print("AdMob App ID added.")
-          else:
-              print("AdMob App ID already exists; preserving existing configuration.")
+          app_id = 'ca-app-pub-5129021458262508~7242843920'
+
+          application = root.find('application')
+          if application is None:
+              raise RuntimeError('No <application> element found in AndroidManifest.xml')
+
+          name_attr = f'{{{android_ns}}}name'
+          value_attr = f'{{{android_ns}}}value'
+          key = 'com.google.android.gms.ads.APPLICATION_ID'
+
+          existing = next(
+              (el for el in application.findall('meta-data')
+               if el.get(name_attr) == key),
+              None
+          )
+
+          if existing is None:
+              existing = ET.SubElement(application, 'meta-data')
+              existing.set(name_attr, key)
+
+          existing.set(value_attr, app_id)
+          tree.write(p, encoding='utf-8', xml_declaration=True)
+          print('AdMob App ID configured successfully.')
           PY
+
+
 
       - name: Build debug APK
         run: |
