@@ -1,8 +1,18 @@
-import { AdMob } from '@capacitor-community/admob';
+import {
+  AdMob,
+  BannerAdPosition
+} from '@capacitor-community/admob';
 
-// Expose only the two methods used by the static StudyQuest UI.
+// Expose the methods used by the static StudyQuest UI.
 window.StudyQuestAdMob = {
   initialize: () => AdMob.initialize(),
-  showBanner: (options) => AdMob.showBanner(options)
+
+  showBanner: (options = {}) =>
+    AdMob.showBanner({
+      ...options,
+      position: BannerAdPosition.TOP
+    })
 };
+
 window.dispatchEvent(new Event('studyquest-admob-ready'));
+
