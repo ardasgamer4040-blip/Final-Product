@@ -1,35 +1,80 @@
 name: Build Android APK
+
 on:
   push:
   workflow_dispatch:
+
 jobs:
   build:
     runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: "StudyQuest Updated/StudyQuest"
+
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: 20
-      - uses: actions/setup-java@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v5
         with:
           distribution: temurin
-          java-version: 17
-      - name: Install packages
-        run: npm install
-      - name: Create Android project
-        run: npx cap add android
-      - name: Make app icons
-        continue-on-error: true
-        run: npx @capacitor/assets generate --android
-      - name: Copy app into Android project
-        run: npx cap sync android
-      - name: Build APK
-        working-directory: android
+          java-version: "17"
+
+      - name: Verify project files
         run: |
+          test -f package.json || (echo "ERROR: package.json not found in project folder" && exit 1)
+          test -f scripts/admob-bridge.js || (echo "ERROR: AdMob bridge file not found" && exit 1)
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Bundle native AdMob bridge
+        run: npx esbuild scripts/admob-bridge.js --bundle --platform=browser --format=iife --outfile=www/admob-bridge.js
+
+      - name: Prepare Android project
+        run: |
+          if [ ! -d android ]; then
+            npx cap add android
+          fi
+
+      - name: Sync Capacitor
+        run: npx cap sync android
+
+      - name: Add AdMob App ID
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          p = Path('android/app/src/main/AndroidManifest.xml')
+          s = p.read_text(encoding='utf-8')
+
+          meta = '<meta-data android:name="com.google.android.gms.ads.APPLICATION_ID" android:value="ca-app-pub-5129021458262508~7242843920" />'
+
+          if 'com.google.android.gms.ads.APPLICATION_ID' not in s:
+              s = s.replace('<application', '<application\n        ' + meta, 1)
+              p.write_text(s, encoding='utf-8')
+              print("AdMob App ID added.")
+          else:
+              print("AdMob App ID already exists; preserving existing configuration.")
+          PY
+
+      - name: Build debug APK
+        run: |
+          cd android
           chmod +x gradlew
           ./gradlew assembleDebug
-      - name: Save APK
+
+      - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: study-quest-apk
-          path: android/app/build/outputs/apk/debug/app-debug.apk
+          name: studyquest-debug-apk
+          path: "StudyQuest Updated/StudyQuest/android/app/build/outputs/apk/debug/app-debug.apk"
+          if-no-files-found: error
+
