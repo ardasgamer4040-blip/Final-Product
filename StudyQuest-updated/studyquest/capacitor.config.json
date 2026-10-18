@@ -1,0 +1,6 @@
+{
+  "appId": "com.ardasthecoder.studyquest",
+  "appName": "StudyQuest",
+  "webDir": "www",
+  "bundledWebRuntime": false
+}

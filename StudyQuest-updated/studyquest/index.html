@@ -1,0 +1,786 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="theme-color" content="#FF5A36">
+<style>:root{color-scheme:light;padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px)}body{margin:0;-webkit-user-select:none;user-select:none}input,textarea{-webkit-user-select:text;user-select:text}[hidden]{display:none!important}</style>
+<title>Study Quest</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+@font-face{font-family:'Bricolage Grotesque';font-weight:600;font-style:normal;font-display:swap;src:url(fonts/bricolage-grotesque-latin-600-normal.woff2) format('woff2')}
+@font-face{font-family:'Bricolage Grotesque';font-weight:800;font-style:normal;font-display:swap;src:url(fonts/bricolage-grotesque-latin-800-normal.woff2) format('woff2')}
+@font-face{font-family:'DM Sans';font-weight:400;font-style:normal;font-display:swap;src:url(fonts/dm-sans-latin-400-normal.woff2) format('woff2')}
+@font-face{font-family:'DM Sans';font-weight:500;font-style:normal;font-display:swap;src:url(fonts/dm-sans-latin-500-normal.woff2) format('woff2')}
+@font-face{font-family:'DM Sans';font-weight:700;font-style:normal;font-display:swap;src:url(fonts/dm-sans-latin-700-normal.woff2) format('woff2')}
+/* Layout: single phone-width column, bottom tab bar, game-style chunky buttons. */
+:root{
+  --bg:#F3F5F9; --surface:#FFFFFF; --ink:#151B2B; --mute:#68708A; --line:#E1E5EF;
+  --accent:#FF5A36; --accent-deep:#C93A1A; --on-accent:#FFFFFF;
+  --good:#12A66A; --good-bg:#DDF5EA; --bad:#E5484D; --bad-bg:#FDE3E4; --xp:#F2A900;
+  --display:'Bricolage Grotesque','DM Sans',system-ui,sans-serif;
+  --body:'DM Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0E1220; --surface:#181D2F; --ink:#EEF1F9; --mute:#98A1BA; --line:#2A3250;
+  --accent:#FF6B48; --accent-deep:#B8381B; --on-accent:#1A0B07;
+  --good:#3DD68C; --good-bg:#12372B; --bad:#FF6B70; --bad-bg:#40191C; --xp:#FFC53D; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0E1220; --surface:#181D2F; --ink:#EEF1F9; --mute:#98A1BA; --line:#2A3250;
+  --accent:#FF6B48; --accent-deep:#B8381B; --on-accent:#1A0B07;
+  --good:#3DD68C; --good-bg:#12372B; --bad:#FF6B70; --bad-bg:#40191C; --xp:#FFC53D; color-scheme:dark}
+*{box-sizing:border-box}
+html,body{min-height:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.45;-webkit-tap-highlight-color:transparent}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none;padding:0}
+input,textarea{font:inherit;color:var(--ink);background:var(--surface);border:2px solid var(--line);border-radius:14px;padding:12px 14px;width:100%;min-width:0}
+input:focus,textarea:focus,button:focus-visible{outline:3px solid color-mix(in srgb,var(--accent) 45%,transparent);outline-offset:2px}
+textarea{resize:vertical;min-height:96px}
+h1,h2,h3{font-family:var(--display);margin:0;text-wrap:balance;line-height:1.1}
+.app{max-width:480px;margin:0 auto;padding-block:16px 120px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:20px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.top .r{display:flex;gap:8px}
+.brand{font-family:var(--display);font-weight:800;font-size:22px;letter-spacing:-.02em}
+.brand span{color:var(--accent)}
+.chip{display:inline-flex;align-items:center;gap:6px;background:var(--surface);border:2px solid var(--line);border-radius:999px;padding:6px 12px;font-weight:700;font-variant-numeric:tabular-nums;min-height:38px}
+.chip.fire{color:var(--accent)}
+.card{background:var(--surface);border:2px solid var(--line);border-radius:22px;padding:18px}
+.motive{display:flex;flex-direction:column;gap:4px;background:color-mix(in srgb,var(--xp) 18%,var(--surface));border-color:color-mix(in srgb,var(--xp) 45%,var(--line))}
+.motive h3{font-size:22px;font-weight:800}
+.lvl{display:flex;flex-direction:column;gap:12px}
+.lvl-row{display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
+.lvl h2{font-size:34px;font-weight:800}
+.small{font-size:13px;color:var(--mute);font-weight:500}
+.bar{height:14px;background:var(--line);border-radius:999px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--xp);border-radius:999px;transition:width .5s}
+.bar.g i{background:var(--good)}
+.eyebrow{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--mute)}
+.goal{display:flex;flex-direction:column;gap:10px}
+.goal-row{display:flex;justify-content:space-between;align-items:baseline}
+.sec{display:flex;flex-direction:column;gap:12px}
+.sec-h{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.link{color:var(--accent);font-weight:700;min-height:36px;padding:0 4px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.tile{--c:var(--accent);text-align:left;background:color-mix(in srgb,var(--c) 14%,var(--surface));border:2px solid color-mix(in srgb,var(--c) 35%,var(--line));border-radius:20px;padding:14px;display:flex;flex-direction:column;gap:10px;min-height:128px;justify-content:space-between;transition:transform .12s}
+.tile:active{transform:scale(.97)}
+.tile h3{font-size:19px;font-weight:800;overflow-wrap:anywhere}
+.tile .bar{height:10px;background:color-mix(in srgb,var(--c) 22%,var(--surface))}
+.tile .bar i{background:var(--c)}
+.tile.new{background:transparent;border-style:dashed;border-color:var(--line);color:var(--mute);align-items:center;justify-content:center;font-weight:700}
+.tile.cls{min-height:96px;justify-content:center}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:54px;border-radius:16px;background:var(--accent);color:var(--on-accent);font-family:var(--display);font-weight:800;font-size:18px;box-shadow:0 5px 0 var(--accent-deep);transition:transform .08s,box-shadow .08s}
+.btn:active{transform:translateY(4px);box-shadow:0 1px 0 var(--accent-deep)}
+.btn.alt{background:var(--surface);color:var(--ink);border:2px solid var(--line);box-shadow:0 5px 0 var(--line)}
+.btn.alt:active{box-shadow:0 1px 0 var(--line)}
+.btn.good{background:var(--good);color:#04230F;box-shadow:0 5px 0 color-mix(in srgb,var(--good) 60%,#000)}
+.btn.bad{background:var(--bad);color:#fff;box-shadow:0 5px 0 color-mix(in srgb,var(--bad) 60%,#000)}
+.btn[disabled]{opacity:.45;pointer-events:none}
+.btn.small-btn{min-height:44px;font-size:15px;box-shadow:0 3px 0 var(--accent-deep)}
+.btn.alt.small-btn{box-shadow:0 3px 0 var(--line)}
+.row{display:flex;gap:12px}
+.row>*{flex:1;min-width:0}
+.nav{position:fixed;left:0;right:0;bottom:0;background:var(--surface);border-top:2px solid var(--line);padding-top:8px;padding-bottom:calc(8px + env(safe-area-inset-bottom,0px));padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));z-index:5}
+.nav div{max-width:480px;margin:0 auto;display:flex;gap:8px}
+.nav button{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px;border-radius:14px;font-size:12px;font-weight:700;color:var(--mute)}
+.nav button.on{color:var(--accent);background:color-mix(in srgb,var(--accent) 12%,transparent)}
+.back{display:flex;align-items:center;gap:6px;color:var(--mute);font-weight:700;min-height:44px}
+.hd{display:flex;align-items:center;gap:12px}
+.dot{width:16px;height:16px;border-radius:50%;background:var(--c);flex:none}
+.hd h1{font-size:30px;font-weight:800;overflow-wrap:anywhere}
+.stats{display:flex;gap:10px}
+.stat{flex:1;background:var(--surface);border:2px solid var(--line);border-radius:16px;padding:10px 12px;min-width:0}
+.stat b{display:block;font-family:var(--display);font-size:22px;font-variant-numeric:tabular-nums}
+.note{background:var(--surface);border:2px dashed var(--line);border-radius:14px;padding:10px 12px;font-size:14px;color:var(--mute)}
+.list{display:flex;flex-direction:column;gap:8px}
+.li{display:flex;align-items:center;gap:10px;background:var(--surface);border:2px solid var(--line);border-radius:14px;padding:10px 12px}
+.li div{flex:1;min-width:0;overflow-wrap:anywhere}
+.li small{display:block;color:var(--mute)}
+.pips{display:flex;gap:3px;margin-top:4px}
+.pips i{width:14px;height:5px;border-radius:3px;background:var(--line)}
+.pips i.on{background:var(--good)}
+.x{width:40px;height:40px;border-radius:12px;color:var(--mute);display:flex;align-items:center;justify-content:center;flex:none}
+.x:active{background:var(--bad-bg);color:var(--bad)}
+label{font-weight:700;font-size:14px;display:block;margin-bottom:6px}
+.field{display:flex;flex-direction:column}
+.swatches{display:flex;gap:10px;flex-wrap:wrap}
+.sw{width:44px;height:44px;border-radius:50%;background:var(--c);border:3px solid var(--surface);box-shadow:0 0 0 2px var(--line)}
+.sw.on{box-shadow:0 0 0 3px var(--ink)}
+.play{display:flex;flex-direction:column;gap:18px;min-height:calc(100vh - 40px)}
+.ptop{display:flex;align-items:center;gap:8px}
+.ptop .bar{flex:1}
+.hearts{display:flex;gap:2px;color:var(--bad)}
+.hearts .lost{opacity:.22}
+.q{background:var(--surface);border:2px solid var(--line);border-radius:24px;padding:24px 20px;min-height:150px;display:flex;flex-direction:column;justify-content:center;gap:10px}
+.q h2{font-size:25px;font-weight:800;overflow-wrap:anywhere}
+.q.shake{animation:shake .4s;border-color:var(--bad)}
+.q.pop{animation:pop2 .35s;border-color:var(--good)}
+@keyframes shake{20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
+@keyframes pop2{50%{transform:scale(1.04)}}
+.opts{display:flex;flex-direction:column;gap:10px}
+.opt{display:flex;gap:12px;align-items:center;text-align:left;background:var(--surface);border:2px solid var(--line);border-radius:16px;padding:14px;min-height:56px;font-weight:500;box-shadow:0 4px 0 var(--line);overflow-wrap:anywhere}
+.opt span:last-child{min-width:0}
+.opt:active{transform:translateY(3px);box-shadow:0 1px 0 var(--line)}
+.opt .k{width:28px;height:28px;border-radius:9px;border:2px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--mute);flex:none}
+.opt.right{background:var(--good-bg);border-color:var(--good);box-shadow:0 4px 0 var(--good)}
+.opt.wrong{background:var(--bad-bg);border-color:var(--bad);box-shadow:0 4px 0 var(--bad)}
+.opt.dim{opacity:.55}
+.sheet{position:fixed;left:0;right:0;bottom:0;z-index:6;padding:16px max(16px,env(safe-area-inset-right,0px)) calc(16px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));animation:up .25s ease-out}
+.sheet.ok{background:var(--good-bg)}
+.sheet.no{background:var(--bad-bg)}
+.sheet>div{max-width:480px;margin:0 auto;display:flex;flex-direction:column;gap:10px}
+.sheet h3{font-size:23px;font-weight:800;display:flex;align-items:center;gap:8px}
+.sheet.ok h3{color:var(--good)}
+.sheet.no h3{color:var(--bad)}
+.sheet .sub{font-weight:500}
+@keyframes up{from{transform:translateY(100%)}to{transform:none}}
+.flip{perspective:1000px;height:280px}
+.flip .in{position:relative;width:100%;height:100%;transition:transform .45s;transform-style:preserve-3d}
+.flip.on .in{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;background:var(--surface);border:2px solid var(--line);border-radius:24px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;gap:12px;box-shadow:0 6px 0 var(--line)}
+.face h2{font-size:25px;font-weight:800;overflow-wrap:anywhere}
+.face.back{transform:rotateY(180deg);background:color-mix(in srgb,var(--c) 14%,var(--surface))}
+.res{text-align:center;display:flex;flex-direction:column;gap:18px;align-items:center;padding-top:24px}
+.stars{display:flex;gap:8px;color:var(--line)}
+.stars .on{color:var(--xp);animation:pop .5s both}
+.stars .on:nth-child(2){animation-delay:.15s}.stars .on:nth-child(3){animation-delay:.3s}
+@keyframes pop{from{transform:scale(0) rotate(-30deg)}70%{transform:scale(1.3)}to{transform:none}}
+.res h1{font-size:36px;font-weight:800}
+.res .line{font-size:18px;font-weight:500;max-width:30ch}
+.big{font-family:var(--display);font-size:56px;font-weight:800;color:var(--xp);font-variant-numeric:tabular-nums;line-height:1}
+.badges{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.bdg{display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px;padding:16px 10px}
+.bdg .ic{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--line);color:var(--mute)}
+.bdg.on .ic{background:var(--xp);color:#3A2800}
+.bdg.off{opacity:.7}
+.bdg b{font-family:var(--display);font-size:16px}
+.bdg p{margin:0;font-size:13px;color:var(--mute)}
+.toastrow{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.tag{background:var(--xp);color:#3A2800;border-radius:999px;padding:6px 12px;font-weight:700;font-size:14px;display:inline-flex;gap:6px;align-items:center}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+
+<style id="studyquest-upgrade">
+:root{color-scheme:light;--bg:#FFF9F0;--surface:#FFFFFF;--ink:#3E3A45;--mute:#817987;--line:#F0E4E4;--accent:#E99B8C;--accent-deep:#C77C70;--on-accent:#3E3030;--good:#72B99A;--good-bg:#E3F5EA;--bad:#D97C86;--bad-bg:#FCE8E9;--xp:#E8BF65}
+:root:not([data-theme="dark"]){color-scheme:light;--bg:#FFF9F0;--surface:#FFFFFF;--ink:#3E3A45;--mute:#817987;--line:#F0E4E4;--accent:#E99B8C;--accent-deep:#C77C70;--on-accent:#3E3030;--good:#72B99A;--good-bg:#E3F5EA;--bad:#D97C86;--bad-bg:#FCE8E9;--xp:#E8BF65}
+:root[data-theme="dark"]{--bg:#242333;--surface:#302E42;--ink:#F8F3F5;--mute:#C1B8CB;--line:#48445C;--accent:#EAA49C;--accent-deep:#B87978;--on-accent:#2D2530;--good:#79C9A7;--good-bg:#204237;--bad:#E38D99;--bad-bg:#492A36;--xp:#E8C777;color-scheme:dark}
+body{background-color:var(--bg);background-image:radial-gradient(#F4DCD6 1px,transparent 1px),radial-gradient(#E2E8D8 1px,transparent 1px);background-position:0 0,18px 18px;background-size:36px 36px;background-attachment:fixed}
+.app{background:color-mix(in srgb,var(--bg) 86%,transparent);border-radius:26px}
+.card,.stat,.li,.tile,.q,.face{box-shadow:0 3px 0 color-mix(in srgb,var(--line) 70%,transparent)}
+.tile{--c:#E8B8AC}.tile:nth-child(5n+2){--c:#9BCDB8}.tile:nth-child(5n+3){--c:#E9CC79}.tile:nth-child(5n+4){--c:#B9AFE0}.tile:nth-child(5n){--c:#E7A9BE}
+.top .brand span{color:#D68B7E}
+.nav div{gap:3px}.nav button{font-size:10px;padding:7px 2px;min-width:0}.nav button svg{width:19px;height:19px}
+.dashboard-subjects{display:flex;flex-direction:column;gap:12px}.section-title{font-family:var(--display);font-weight:800;font-size:22px}
+.settings-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.setting-option{padding:12px;border:2px solid var(--line);border-radius:14px;background:var(--surface);text-align:left;font-weight:700}.setting-option.active{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 16%,var(--surface))}
+.profile-avatar{width:68px;height:68px;display:grid;place-items:center;border-radius:22px;background:#F7E2D9;font-size:34px}
+.quest-row{display:flex;gap:12px;align-items:center}.quest-icon{width:44px;height:44px;border-radius:14px;background:#F9EAC6;display:grid;place-items:center;font-size:22px;flex:none}
+.form-note{font-size:13px;color:var(--mute);line-height:1.5}.support-link{color:var(--accent-deep);font-weight:800;text-decoration:none}
+[dir="rtl"] .app,[dir="rtl"] .card,[dir="rtl"] .tile,[dir="rtl"] .li{text-align:right}[dir="rtl"] .top,[dir="rtl"] .sec-h,[dir="rtl"] .lvl-row,[dir="rtl"] .goal-row{flex-direction:row-reverse}
+@media(min-width:600px){.app{margin-top:16px;margin-bottom:90px;border:1px solid var(--line);padding:22px}}
+</style>
+
+</head>
+<body>
+<div id="app" class="app"></div>
+
+<script>
+(function(){
+var KEY='studyquest.v1';
+var COLORS=['#E8B8AC','#9BCDB8','#E9CC79','#B9AFE0','#E7A9BE','#A8C7D8'];
+var LANGS=[['en','English'],['hi','हिन्दी'],['bn','বাংলা'],['mr','मराठी'],['gu','ગુજરાતી'],['ta','தமிழ்'],['te','తెలుగు'],['kn','ಕನ್ನಡ'],['ml','മലയാളം'],['pa','ਪੰਜਾਬੀ'],['or','ଓଡ଼ିଆ'],['as','অসমীয়া'],['ur','اردو']];
+var WORDS={en:{home:'Dashboard',quests:'Quests',badges:'Achievements',profile:'Profile',settings:'Settings',subjects:'Subjects',change:'Change class',daily:'Daily goal',sound:'Sound effects',language:'Language',theme:'Theme',light:'Pastel light',dark:'Night',support:'Support',faq:'FAQs',save:'Save',cancel:'Cancel',confirm:'Confirm',class:'Class',xp:'XP',streak:'Streak',call:'Call support',progress:'Progress',reset:'Reset progress',name:'Your name',help:'How can we help?',noBackend:'This form is not connected to a support server yet. Please call one of the support numbers below.',questsTitle:'Today’s quests',questions:'Answer 10 questions',perfect:'Get 3 answers correct in a row',explore:'Try 2 different subjects'},hi:{home:'डैशबोर्ड',quests:'मिशन',badges:'उपलब्धियाँ',profile:'प्रोफ़ाइल',settings:'सेटिंग्स',subjects:'विषय',change:'कक्षा बदलें',daily:'दैनिक लक्ष्य',sound:'ध्वनि प्रभाव',language:'भाषा',theme:'थीम',light:'पेस्टल लाइट',dark:'नाइट',support:'सहायता',faq:'सामान्य प्रश्न',save:'सहेजें',cancel:'रद्द करें',confirm:'पुष्टि करें',class:'कक्षा',xp:'XP',streak:'लगातार दिन',call:'सहायता को कॉल करें',progress:'प्रगति',reset:'प्रगति रीसेट करें',name:'आपका नाम',help:'हम कैसे मदद कर सकते हैं?',noBackend:'यह फ़ॉर्म अभी सहायता सर्वर से जुड़ा नहीं है। कृपया नीचे दिए गए नंबर पर कॉल करें।',questsTitle:'आज के मिशन',questions:'10 सवालों के जवाब दें',perfect:'लगातार 3 सही जवाब दें',explore:'2 अलग-अलग विषय आज़माएँ'},ur:{home:'ڈیش بورڈ',quests:'مہمات',badges:'کامیابیاں',profile:'پروفائل',settings:'ترتیبات',subjects:'مضامین',change:'کلاس تبدیل کریں',daily:'روزانہ کا ہدف',sound:'آواز کے اثرات',language:'زبان',theme:'تھیم',light:'ہلکی پیسٹل',dark:'رات',support:'مدد',faq:'عام سوالات',save:'محفوظ کریں',cancel:'منسوخ',confirm:'تصدیق',class:'کلاس',xp:'XP',streak:'مسلسل دن',call:'مدد کے لیے کال',progress:'پیش رفت',reset:'پیش رفت ری سیٹ کریں',name:'آپ کا نام',help:'ہم کیسے مدد کر سکتے ہیں؟',noBackend:'یہ فارم ابھی سپورٹ سرور سے منسلک نہیں ہے۔ نیچے دیے گئے نمبر پر کال کریں۔',questsTitle:'آج کے مشن',questions:'10 سوالات کے جواب دیں',perfect:'لگاتار 3 درست جواب دیں',explore:'2 مختلف مضامین آزمائیں'}};
+function tr(k){var l=st&&st.lang||'en';return (WORDS[l]&&WORDS[l][k])||WORDS.en[k]||k;}
+var SUBJ=[{k:'history',n:'History',c:'#E59A00'},{k:'geo',n:'Geography',c:'#0FA5A0'},{k:'sci',n:'Science',c:'#3FA34D'},{k:'math',n:'Maths',c:'#3B82F6'},{k:'gk',n:'India GK',c:'#E8479B'}];
+
+/* Question bank: [question, correct answer, [3 wrong answers]] — NCERT-style, by class */
+var BANK={
+history:{
+6:[["Which river valley was home to the Harappan civilisation?","Indus",["Ganga","Godavari","Narmada"]],
+["Who founded the Maurya empire?","Chandragupta Maurya",["Ashoka","Bindusara","Samudragupta"]],
+["Which war made Ashoka give up fighting?","Kalinga war",["Battle of Panipat","Battle of Plassey","Battle of Haldighati"]],
+["Which Harappan site is famous for the Great Bath?","Mohenjo-daro",["Lothal","Kalibangan","Dholavira"]],
+["Which is the oldest Veda?","Rigveda",["Samaveda","Yajurveda","Atharvaveda"]],
+["Who wrote the Arthashastra?","Kautilya (Chanakya)",["Kalidasa","Aryabhata","Panini"]],
+["Where did Gautama Buddha attain enlightenment?","Bodh Gaya",["Sarnath","Lumbini","Kushinagar"]],
+["Where was Gautama Buddha born?","Lumbini",["Sarnath","Bodh Gaya","Rajgir"]],
+["Where did Buddha give his first sermon?","Sarnath",["Bodh Gaya","Lumbini","Nalanda"]],
+["Mahavira was the last Tirthankara of which religion?","Jainism",["Buddhism","Sikhism","Zoroastrianism"]]],
+7:[["Who founded the Mughal empire in India?","Babur",["Akbar","Humayun","Sher Shah Suri"]],
+["Babur won the First Battle of Panipat (1526) against whom?","Ibrahim Lodi",["Rana Sanga","Hemu","Sher Shah"]],
+["Who built the Taj Mahal?","Shah Jahan",["Akbar","Jahangir","Aurangzeb"]],
+["Which Sultan shifted the capital from Delhi to Daulatabad?","Muhammad bin Tughluq",["Alauddin Khalji","Iltutmish","Balban"]],
+["The Brihadeshwara temple built by the Cholas is in which city?","Thanjavur",["Madurai","Hampi","Kanchipuram"]],
+["What was the capital of the Vijayanagara Empire?","Hampi",["Warangal","Bidar","Golconda"]],
+["Akbar's policy of universal peace and tolerance was called?","Sulh-i-kul",["Mansabdari","Zabt","Jagirdari"]],
+["Where was Shivaji crowned Chhatrapati in 1674?","Raigad",["Pune","Agra","Sinhagad"]],
+["Who started the construction of the Qutub Minar?","Qutb-ud-din Aibak",["Iltutmish","Balban","Alauddin Khalji"]],
+["Which Bhakti saint, a weaver, wrote famous dohas?","Kabir",["Tulsidas","Surdas","Ramananda"]]],
+8:[["In which year was the Battle of Plassey fought?","1757",["1764","1857","1707"]],
+["Who introduced the Subsidiary Alliance system?","Lord Wellesley",["Lord Dalhousie","Lord Cornwallis","Lord Bentinck"]],
+["Who introduced the Doctrine of Lapse?","Lord Dalhousie",["Lord Wellesley","Lord Curzon","Lord Canning"]],
+["Where did the Revolt of 1857 begin?","Meerut",["Delhi","Kanpur","Jhansi"]],
+["Who introduced the Permanent Settlement in Bengal?","Lord Cornwallis",["Lord Wellesley","Thomas Munro","Warren Hastings"]],
+["Who banned the practice of sati in 1829?","Lord William Bentinck",["Lord Dalhousie","Lord Cornwallis","Lord Ripon"]],
+["Who founded the Brahmo Samaj?","Raja Ram Mohan Roy",["Dayanand Saraswati","Swami Vivekananda","Jyotiba Phule"]],
+["Who founded the Arya Samaj?","Swami Dayanand Saraswati",["Raja Ram Mohan Roy","Annie Besant","Ramakrishna Paramhansa"]],
+["Who led the revolt at Jhansi in 1857?","Rani Lakshmibai",["Begum Hazrat Mahal","Rani Chennamma","Ahilyabai Holkar"]],
+["In which year was the Indian National Congress founded?","1885",["1857","1905","1919"]]],
+9:[["In which year did the French Revolution begin?","1789",["1776","1799","1815"]],
+["The storming of which fortress marked the start of the French Revolution?","The Bastille",["Versailles","The Louvre","The Tuileries"]],
+["Which slogan belongs to the French Revolution?","Liberty, Equality, Fraternity",["Peace, Land and Bread","Truth, Duty, Honour","Faith, Unity, Discipline"]],
+["Who led the Bolsheviks in the Russian Revolution of 1917?","Lenin",["Nicholas II","Kerensky","Rasputin"]],
+["Which Tsar was overthrown in the February Revolution of 1917?","Nicholas II",["Alexander II","Peter the Great","Ivan the Terrible"]],
+["Which Russian slogan promised 'Peace, Land and ___'?","Bread",["Freedom","Work","Power"]],
+["Which treaty ended World War I with Germany in 1919?","Treaty of Versailles",["Treaty of Paris","Treaty of Vienna","Treaty of Tilsit"]],
+["Hitler became Chancellor of Germany in which year?","1933",["1923","1929","1939"]],
+["Who led the Reign of Terror in France?","Robespierre",["Napoleon","Louis XVI","Danton"]],
+["Which device was used for executions in the French Revolution?","Guillotine",["Gallows","Catapult","Cannon"]]],
+10:[["In which year did the Jallianwala Bagh massacre happen?","1919",["1857","1920","1930"]],
+["Gandhiji's Dandi March of 1930 was against which law?","Salt law",["Rowlatt Act","Partition of Bengal","Simon Commission"]],
+["In which year did Gandhiji return to India from South Africa?","1915",["1905","1920","1930"]],
+["In which year did the Non-Cooperation Movement begin?","1920",["1919","1930","1942"]],
+["In which year was the Quit India Movement launched?","1942",["1920","1930","1947"]],
+["The Champaran Satyagraha (1917) was against which practice?","Forced indigo cultivation",["High salt tax","Land revenue hike","Cotton mill closures"]],
+["The 'Poorna Swaraj' resolution was passed at which Congress session?","Lahore (1929)",["Calcutta (1920)","Karachi (1931)","Bombay (1942)"]],
+["Who gave the slogan 'Do or Die' during Quit India?","Mahatma Gandhi",["Subhas Chandra Bose","Bhagat Singh","Jawaharlal Nehru"]],
+["The Gandhi–Irwin Pact was signed in which year?","1931",["1930","1932","1935"]],
+["The Rowlatt Act (1919) allowed the government to do what?","Detain people without trial",["Collect a salt tax","Ban cotton imports","Create separate electorates"]]]
+},
+geo:{
+6:[["Which is the largest continent?","Asia",["Africa","Europe","North America"]],
+["Which imaginary line divides Earth into Northern and Southern Hemispheres?","Equator",["Prime Meridian","Tropic of Cancer","Arctic Circle"]],
+["The Prime Meridian passes through which place?","Greenwich, London",["Paris","New Delhi","Cairo"]],
+["Which is the largest ocean?","Pacific Ocean",["Atlantic Ocean","Indian Ocean","Arctic Ocean"]],
+["Which is the highest mountain peak in the world?","Mount Everest",["K2","Kanchenjunga","Kilimanjaro"]],
+["Which is the longest river in India?","Ganga",["Yamuna","Godavari","Narmada"]],
+["How long does Earth take to rotate once on its axis?","24 hours",["12 hours","30 days","365 days"]],
+["Lines running east to west on a globe are called?","Latitudes",["Longitudes","Meridians","Contours"]],
+["Which is the smallest continent?","Australia",["Europe","Antarctica","South America"]],
+["Kathmandu is the capital of which neighbouring country?","Nepal",["Bhutan","Sri Lanka","Bangladesh"]]],
+7:[["Which layer of the Earth do we live on?","Crust",["Mantle","Core","Atmosphere"]],
+["The Thar desert lies mostly in which state?","Rajasthan",["Gujarat","Punjab","Maharashtra"]],
+["Rocks formed by cooling of magma are called?","Igneous rocks",["Sedimentary rocks","Metamorphic rocks","Fossil rocks"]],
+["Which gas makes up most of the air?","Nitrogen",["Oxygen","Carbon dioxide","Argon"]],
+["Earthquake intensity is measured on which scale?","Richter scale",["Beaufort scale","Kelvin scale","Mohs scale"]],
+["Water changing from liquid to vapour is called?","Evaporation",["Condensation","Precipitation","Freezing"]],
+["Weather happens in which layer of the atmosphere?","Troposphere",["Stratosphere","Mesosphere","Exosphere"]],
+["The ozone layer is found in which layer?","Stratosphere",["Troposphere","Mesosphere","Thermosphere"]],
+["The Amazon rainforest is in which continent?","South America",["Africa","Asia","Australia"]],
+["Which is the largest hot desert in the world?","Sahara",["Thar","Gobi","Kalahari"]]],
+8:[["Which soil is best suited for growing cotton?","Black soil",["Alluvial soil","Red soil","Laterite soil"]],
+["Which of these is a renewable resource?","Solar energy",["Coal","Petroleum","Natural gas"]],
+["Which resource is called 'black gold'?","Petroleum",["Iron ore","Mica","Bauxite"]],
+["Rice is mainly grown in which crop season?","Kharif",["Rabi","Zaid","Spring"]],
+["Which crop is known as the 'golden fibre'?","Jute",["Cotton","Silk","Hemp"]],
+["Which state is the largest producer of tea in India?","Assam",["Kerala","Punjab","Gujarat"]],
+["The Green Revolution mainly boosted the production of which crop?","Wheat",["Cotton","Jute","Tea"]],
+["Jamshedpur, a major steel city, is in which state?","Jharkhand",["Odisha","West Bengal","Bihar"]],
+["Removal of top soil by wind or water is called?","Soil erosion",["Terracing","Afforestation","Weathering"]],
+["Hydroelectric power is produced using what?","Flowing water",["Coal","Uranium","Wind"]]],
+9:[["How many Indian states does the Tropic of Cancer pass through?","8",["6","7","9"]],
+["What are the Himalayas an example of?","Fold mountains",["Block mountains","Volcanic mountains","Residual mountains"]],
+["Which is the highest peak located in India?","Kanchenjunga",["Nanda Devi","Mount Everest","Annapurna"]],
+["Which is the highest peak of the Western Ghats?","Anamudi",["Doddabetta","Mahendragiri","Nanda Devi"]],
+["The Ganga originates from which glacier?","Gangotri",["Yamunotri","Siachen","Milam"]],
+["From which direction do the monsoon winds bring rain to India?","South-west",["North-east","North-west","South-east"]],
+["Chilika Lake, a brackish water lagoon, is in which state?","Odisha",["Kerala","Rajasthan","Assam"]],
+["What is the southernmost tip of the Indian mainland?","Kanyakumari",["Indira Point","Rameswaram","Port Blair"]],
+["India ranks which in the world by area?","7th",["3rd","5th","10th"]],
+["The Deccan Plateau lies in which part of India?","Peninsular India",["Northern plains","Himalayas","Thar region"]]],
+10:[["The Bhakra Nangal dam is built on which river?","Sutlej",["Beas","Ravi","Yamuna"]],
+["Which soil is formed by deposits of rivers?","Alluvial soil",["Black soil","Red soil","Laterite soil"]],
+["The Jharia coalfield is in which state?","Jharkhand",["Odisha","Chhattisgarh","Telangana"]],
+["Rabi crops are sown in which season?","Winter",["Summer","Monsoon","Spring"]],
+["In which year was Project Tiger launched?","1973",["1952","1980","1992"]],
+["The Golden Quadrilateral connects which four cities?","Delhi, Mumbai, Chennai, Kolkata",["Delhi, Jaipur, Lucknow, Patna","Mumbai, Pune, Goa, Kochi","Chennai, Madurai, Kochi, Mysuru"]],
+["Which city is called the Silicon Valley of India?","Bengaluru",["Hyderabad","Pune","Chennai"]],
+["The Sundarbans mangrove forests are in which state?","West Bengal",["Odisha","Gujarat","Kerala"]],
+["Sal trees are found in which type of forest?","Tropical deciduous",["Evergreen","Coniferous","Mangrove"]],
+["Which is the largest freshwater lake in India?","Wular Lake",["Chilika","Dal Lake","Loktak"]]]
+},
+sci:{
+6:[["Which gas do plants take in for photosynthesis?","Carbon dioxide",["Oxygen","Nitrogen","Hydrogen"]],
+["Which organ pumps blood in our body?","Heart",["Lungs","Kidney","Liver"]],
+["Which force pulls objects towards the Earth?","Gravity",["Friction","Magnetism","Inertia"]],
+["Which of these is a good conductor of electricity?","Copper",["Rubber","Wood","Plastic"]],
+["At what temperature does water freeze to ice?","0°C",["100°C","32°C","-10°C"]],
+["Which is the nearest star to Earth?","The Sun",["The Moon","Polaris","Sirius"]],
+["Which part of a plant absorbs water from the soil?","Roots",["Leaves","Stem","Flower"]],
+["Which vitamin do we get from sunlight?","Vitamin D",["Vitamin A","Vitamin C","Vitamin B12"]],
+["A magnet attracts which material?","Iron",["Wood","Plastic","Glass"]],
+["How do we get salt from sea water?","Evaporation",["Filtration","Sedimentation","Magnetic separation"]]],
+7:[["Where do plants make their food?","Leaves",["Roots","Stem","Flowers"]],
+["Which acid is present in lemon?","Citric acid",["Acetic acid","Lactic acid","Tartaric acid"]],
+["What is the SI unit of speed?","Metre per second",["Kilogram","Newton","Joule"]],
+["Animals that eat only plants are called?","Herbivores",["Carnivores","Omnivores","Decomposers"]],
+["Red blood cells carry which gas?","Oxygen",["Nitrogen","Hydrogen","Helium"]],
+["Loss of water vapour from leaves is called?","Transpiration",["Respiration","Photosynthesis","Germination"]],
+["Acids turn blue litmus paper which colour?","Red",["Green","Yellow","It stays blue"]],
+["How does heat travel through solids?","Conduction",["Convection","Radiation","Reflection"]],
+["Which is the hardest natural substance?","Diamond",["Graphite","Iron","Quartz"]],
+["Light travels in which type of path?","Straight lines",["Curved paths","Zigzag paths","Circles"]]],
+8:[["What is the SI unit of force?","Newton",["Joule","Watt","Pascal"]],
+["Which is the powerhouse of the cell?","Mitochondria",["Nucleus","Ribosome","Golgi body"]],
+["Which of these is a fossil fuel?","Petroleum",["Wind","Sunlight","Biogas"]],
+["Sound cannot travel through which medium?","Vacuum",["Water","Steel","Air"]],
+["What is the unit of frequency?","Hertz",["Decibel","Newton","Watt"]],
+["Who first discovered the cell?","Robert Hooke",["Charles Darwin","Gregor Mendel","Louis Pasteur"]],
+["Where does fertilisation take place in humans?","Fallopian tube (oviduct)",["Uterus","Ovary","Vagina"]],
+["Which gas is released when a metal reacts with an acid?","Hydrogen",["Oxygen","Carbon dioxide","Nitrogen"]],
+["Friction is a force that does what?","Opposes motion",["Increases speed","Attracts objects","Produces light"]],
+["What is the SI unit of pressure?","Pascal",["Newton","Joule","Hertz"]]],
+9:[["What is the SI unit of mass?","Kilogram",["Gram","Newton","Pound"]],
+["Newton's first law of motion is also called the law of?","Inertia",["Gravitation","Action and reaction","Momentum"]],
+["What is the value of acceleration due to gravity on Earth?","9.8 m/s²",["98 m/s²","0.98 m/s²","6.67 m/s²"]],
+["The nucleus of an atom contains what?","Protons and neutrons",["Protons and electrons","Electrons and neutrons","Only electrons"]],
+["Who discovered the electron?","J.J. Thomson",["Rutherford","Niels Bohr","Chadwick"]],
+["Which extra outer layer does a plant cell have?","Cell wall",["Cell membrane","Nucleus","Vacuole"]],
+["Sound travels as what type of wave?","Longitudinal wave",["Transverse wave","Electromagnetic wave","Light wave"]],
+["Which of these is a mixture?","Air",["Distilled water","Pure gold","Oxygen"]],
+["What is the melting point of ice in Kelvin?","273 K",["0 K","373 K","100 K"]],
+["Which tissue carries water in plants?","Xylem",["Phloem","Parenchyma","Collenchyma"]]],
+10:[["What is the pH of a neutral solution?","7",["0","1","14"]],
+["What is the SI unit of electrical resistance?","Ohm",["Ampere","Volt","Watt"]],
+["What is the chemical formula of baking soda?","NaHCO₃",["Na₂CO₃","NaCl","NaOH"]],
+["Which mirror is used in vehicle headlights?","Concave mirror",["Convex mirror","Plane mirror","Cylindrical mirror"]],
+["Which mirror is used as a rear-view mirror in vehicles?","Convex mirror",["Concave mirror","Plane mirror","Bifocal mirror"]],
+["Which gas is released during photosynthesis?","Oxygen",["Carbon dioxide","Nitrogen","Methane"]],
+["Who gave the laws of inheritance?","Gregor Mendel",["Charles Darwin","Lamarck","James Watson"]],
+["What is the SI unit of power?","Watt",["Joule","Newton","Volt"]],
+["Which element has the symbol Fe?","Iron",["Fluorine","Francium","Lead"]],
+["Which part controls a reflex action?","Spinal cord",["Cerebrum","Cerebellum","Heart"]]]
+},
+math:{
+6:[["What is 12 × 12?","144",["124","154","122"]],
+["What is the LCM of 4 and 6?","12",["24","6","10"]],
+["What is the HCF of 12 and 18?","6",["3","9","36"]],
+["Which of these is a prime number?","17",["15","21","27"]],
+["What is the perimeter of a square with side 5 cm?","20 cm",["25 cm","10 cm","15 cm"]],
+["What is 1/2 + 1/4?","3/4",["2/6","1/6","1/8"]],
+["An angle of 90° is called?","Right angle",["Acute angle","Obtuse angle","Straight angle"]],
+["How many sides does a hexagon have?","6",["5","7","8"]],
+["What is 25% of 80?","20",["25","15","40"]],
+["What is the smallest prime number?","2",["1","0","3"]]],
+7:[["What is (−5) + (−3)?","−8",["8","−2","2"]],
+["The angles of a triangle add up to?","180°",["90°","270°","360°"]],
+["What is the area of a rectangle 6 cm by 4 cm?","24 cm²",["20 cm²","10 cm²","48 cm²"]],
+["What is 3/5 as a percentage?","60%",["35%","30%","75%"]],
+["Solve: x + 7 = 15","x = 8",["x = 22","x = 7","x = 9"]],
+["What is 13²?","169",["139","196","156"]],
+["An isosceles triangle has how many equal sides?","Two",["Three","None","Four"]],
+["What is the mean of 2, 4, 6, 8?","5",["4","6","20"]],
+["Which of these is a rational number?","2/3",["√2","π","√3"]],
+["What is the perimeter of a rectangle 8 cm by 3 cm?","22 cm",["24 cm","11 cm","14 cm"]]],
+8:[["What is √169?","13",["14","12","11"]],
+["(a + b)² equals?","a² + 2ab + b²",["a² + b²","a² − 2ab + b²","2a + 2b"]],
+["What is the cube of 4?","64",["16","12","48"]],
+["The interior angles of a quadrilateral add up to?","360°",["180°","270°","540°"]],
+["Simple interest on ₹1000 at 10% per year for 2 years?","₹200",["₹100","₹210","₹220"]],
+["Solve: 3x = 27","x = 9",["x = 8","x = 24","x = 81"]],
+["What is the volume of a cube of side 3 cm?","27 cm³",["9 cm³","18 cm³","81 cm³"]],
+["How many diagonals does a quadrilateral have?","2",["1","3","4"]],
+["2³ × 2² equals?","2⁵",["2⁶","4⁵","2¹"]],
+["What is the percentage increase from 50 to 60?","20%",["10%","25%","15%"]]],
+9:[["The zeroes of the polynomial x² − 4 are?","2 and −2",["4 only","4 and −4","0 and 4"]],
+["Who is known as the Father of Geometry?","Euclid",["Pythagoras","Aryabhata","Archimedes"]],
+["Which of these is an irrational number?","√2",["0.25","3/4","9"]],
+["(x + y)(x − y) equals?","x² − y²",["x² + y²","x² − 2xy","2x"]],
+["What is the area of a triangle?","½ × base × height",["base × height","½ × base + height","base + height"]],
+["What is the mean of the first 5 natural numbers?","3",["2","4","5"]],
+["The point (3, −2) lies in which quadrant?","Fourth",["First","Second","Third"]],
+["What is the curved surface area of a cylinder?","2πrh",["πr²h","2πr²","πrh"]],
+["Angles on a straight line add up to?","180°",["90°","270°","360°"]],
+["The graph of a linear equation in two variables is?","A straight line",["A circle","A parabola","A triangle"]]],
+10:[["What is the discriminant of ax² + bx + c = 0?","b² − 4ac",["b² + 4ac","2b − ac","a² − 4bc"]],
+["What is sin 30°?","1/2",["√3/2","1","1/√2"]],
+["What is the sum of the first n natural numbers?","n(n+1)/2",["n(n−1)/2","n²","n(n+1)"]],
+["What is the nth term of an AP?","a + (n−1)d",["a + nd","a − (n−1)d","a·rⁿ⁻¹"]],
+["A right triangle has sides 3 and 4. What is the hypotenuse?","5",["6","7","√7"]],
+["What is tan 45°?","1",["0","√3","1/2"]],
+["What is the probability of a sure event?","1",["0","1/2","100"]],
+["What is the volume of a sphere?","4/3 πr³",["4πr²","πr²h","2/3 πr³"]],
+["What is the degree of a quadratic equation?","2",["1","3","0"]],
+["What is cos 60°?","1/2",["√3/2","1","0"]]]
+},
+gk:[["Which is the national animal of India?","Tiger",["Lion","Elephant","Leopard"]],
+["Which is the national bird of India?","Peacock",["Parrot","Sparrow","Eagle"]],
+["Who composed the National Anthem of India?","Rabindranath Tagore",["Bankim Chandra Chatterjee","Muhammad Iqbal","Subramania Bharati"]],
+["Who is called the Father of the Nation?","Mahatma Gandhi",["Jawaharlal Nehru","Sardar Patel","Subhas Chandra Bose"]],
+["Who was India's first Prime Minister?","Jawaharlal Nehru",["Sardar Patel","Rajendra Prasad","Lal Bahadur Shastri"]],
+["Who was India's first President?","Dr. Rajendra Prasad",["Dr. S. Radhakrishnan","Zakir Husain","Dr. B.R. Ambedkar"]],
+["On which date is Republic Day celebrated?","26 January",["15 August","2 October","14 November"]],
+["Who chaired the Drafting Committee of the Constitution?","Dr. B.R. Ambedkar",["Jawaharlal Nehru","Rajendra Prasad","Sardar Patel"]],
+["Chandrayaan-3 landed near which part of the Moon?","South pole",["North pole","Equator","Centre of the far side"]],
+["The Taj Mahal is in which city?","Agra",["Delhi","Jaipur","Lucknow"]],
+["Which state has the longest coastline in India?","Gujarat",["Tamil Nadu","Kerala","Maharashtra"]],
+["Who was India's first woman Prime Minister?","Indira Gandhi",["Sarojini Naidu","Pratibha Patil","Sonia Gandhi"]],
+["Who is known as the Missile Man of India?","Dr. A.P.J. Abdul Kalam",["Vikram Sarabhai","Homi Bhabha","C.V. Raman"]],
+["Who won the 1930 Nobel Prize in Physics for the Raman effect?","C.V. Raman",["S.N. Bose","Homi Bhabha","S. Chandrasekhar"]],
+["Which is the largest Indian state by area?","Rajasthan",["Madhya Pradesh","Maharashtra","Uttar Pradesh"]]]
+ };
+
+/* Age-appropriate starter questions for UKG–Class 5. These are a compact starter bank,
+   not a claim of complete textbook/chapter coverage. */
+var LOW_BANK={
+ history:[['Who was the first Prime Minister of India?','Jawaharlal Nehru',['Mahatma Gandhi','Sardar Patel','Dr. Rajendra Prasad']],['What is India’s national flag commonly called?','Tiranga',['Union Jack','Maple Leaf','Stars and Stripes']],['Who is known as the Father of the Nation in India?','Mahatma Gandhi',['Subhas Chandra Bose','Bhagat Singh','A.P.J. Abdul Kalam']],['When is Independence Day celebrated in India?','15 August',['26 January','2 October','14 November']]],
+ geo:[['Which planet do we live on?','Earth',['Mars','Venus','Jupiter']],['Which is the largest ocean?','Pacific Ocean',['Indian Ocean','Arctic Ocean','Atlantic Ocean']],['Which direction does the Sun rise from?','East',['West','North','South']],['What do we use to show places on paper?','Map',['Clock','Thermometer','Compass only']]],
+ sci:[['Which part of a plant usually makes food?','Leaves',['Roots','Flowers','Seeds']],['Which sense organ helps us see?','Eyes',['Ears','Nose','Tongue']],['What do humans breathe in to live?','Oxygen',['Carbon dioxide','Helium','Smoke']],['How many legs does a spider have?','Eight',['Six','Four','Ten']]],
+ math:[['What is 2 + 3?','5',['4','6','7']],['How many sides does a triangle have?','3',['2','4','5']],['What is 10 − 4?','6',['5','7','8']],['Which number comes after 19?','20',['18','21','29']],['What is 5 × 2?','10',['7','8','12']]]
+};
+
+var ICONS={
+ flame:['M12 2c1 4-3 5-3 9a5 5 0 0010 0c0-2-1-3-2-4 0 2-1 3-2 3 1-4-1-6-3-8z',1],
+ bolt:['M13 2L4 14h7l-1 8 9-12h-7z',1],
+ star:['M12 2l3 7 7 .6-5.3 4.8L18.5 22 12 18l-6.5 4 1.8-7.6L2 9.6 9 9z',1],
+ heart:['M12 21s-7-4.5-9-9a5 5 0 019-3 5 5 0 019 3c-2 4.5-9 9-9 9z',1],
+ book:['M4 5a2 2 0 012-2h13v16H6a2 2 0 00-2 2zM4 21h15',0],
+ trophy:['M8 4h8v5a4 4 0 01-8 0zM8 6H4v1a3 3 0 003 3M16 6h4v1a3 3 0 01-3 3M12 13v4M8 21h8M12 17v4',0],
+ plus:['M12 5v14M5 12h14',0],
+ x:['M6 6l12 12M18 6L6 18',0],
+ check:['M5 12l5 5 9-10',0],
+ back:['M15 5l-7 7 7 7',0],
+ home:['M3 11l9-8 9 8M5 10v10h5v-6h4v6h5V10',0],
+ vol:['M4 9v6h4l5 4V5L8 9zM16 9a4 4 0 010 6M18.5 6.5a8 8 0 010 11',0],
+ mute:['M4 9v6h4l5 4V5L8 9zM17 9l4 6M21 9l-4 6',0]
+};
+function ic(n,s){s=s||22;var d=ICONS[n];return '<svg width="'+s+'" height="'+s+'" viewBox="0 0 24 24" fill="'+(d[1]?'currentColor':'none')+'" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="'+d[0]+'"/></svg>';}
+
+var BADGES=[
+ {id:'spark',n:'First Spark',d:'Answer your first question',i:'bolt',t:function(s){return s.answered>=1}},
+ {id:'warm',n:'Warm Up',d:'Answer 10 questions',i:'book',t:function(s){return s.answered>=10}},
+ {id:'fifty',n:'Fifty Club',d:'Answer 50 questions',i:'star',t:function(s){return s.answered>=50}},
+ {id:'hundred',n:'Centurion',d:'Answer 100 questions',i:'trophy',t:function(s){return s.answered>=100}},
+ {id:'s3',n:'On Fire',d:'Study 3 days in a row',i:'flame',t:function(s){return s.best>=3}},
+ {id:'s7',n:'Unstoppable',d:'Study 7 days in a row',i:'flame',t:function(s){return s.best>=7}},
+ {id:'flaw',n:'Flawless',d:'Finish a round with no mistakes',i:'heart',t:function(s){return s.perfect>=1}},
+ {id:'l5',n:'Level 5',d:'Reach level 5',i:'trophy',t:function(s){return lvl(s.xp).n>=5}},
+ {id:'maker',n:'Card Maker',d:'Create 5 of your own cards',i:'plus',t:function(s){return s.made>=5}},
+ {id:'expl',n:'Explorer',d:'Study 3 different subjects',i:'book',t:function(s){return Object.keys(s.studied).length>=3}}
+];
+
+var OK_LINES=['Shabash!','Bahut badhiya!','Zabardast!','Kya baat hai!','Ekdum sahi!','Wah, champion!','Bilkul sahi!','Mast jawab!'];
+var NO_LINES=['Koi baat nahi, seekhte raho!','Galti se hi toh seekhte hain!','Himmat mat haarna!','Next one is yours!','Almost there, try the next!'];
+var DAILY=['Small steps every day beat big plans someday.','Aaj ka 1% sudhaar, kal ka bada badlaav.','Mistakes are proof that you are trying.','Topper banne ka secret: roz thoda sa padhna.','Jo mehnat karta hai, uski kismat bhi saath deti hai.','Curiosity is your superpower. Keep asking why.','Ek sawaal aur, phir ek aur. Chalte raho!'];
+function pick(a){return a[Math.floor(Math.random()*a.length)]}
+
+/* Sound effects: tiny synth, started from taps so phones allow it */
+var AC=null;
+function ac(){try{if(!AC){var C=window.AudioContext||window.webkitAudioContext;if(C)AC=new C()}if(AC&&AC.state==='suspended')AC.resume()}catch(e){}return AC}
+function tone(f,t,d,type,v){var a=ac();if(!a||st.sound===false)return;try{var o=a.createOscillator(),g=a.createGain(),s=a.currentTime+(t||0);o.type=type||'sine';o.frequency.value=f;g.gain.setValueAtTime(0.0001,s);g.gain.exponentialRampToValueAtTime(v||0.2,s+0.015);g.gain.exponentialRampToValueAtTime(0.0001,s+d);o.connect(g);g.connect(a.destination);o.start(s);o.stop(s+d+0.03)}catch(e){}}
+var sfx={
+ tap:function(){tone(440,0,.07,'sine',.12)},
+ ok:function(c){var m=1+0.06*Math.min(c||1,5);tone(523*m,0,.12,'triangle');tone(659*m,.09,.12,'triangle');tone(784*m,.18,.24,'triangle')},
+ no:function(){tone(220,0,.16,'sawtooth',.1);tone(165,.14,.3,'sawtooth',.1)},
+ win:function(){[523,659,784,659,784,1047].forEach(function(f,i){tone(f,i*.11,.2,'triangle',.18)})},
+ level:function(){[392,523,659,784,1047,1319].forEach(function(f,i){tone(f,i*.09,.28,'square',.1)})}
+};
+
+function uid(){return Math.random().toString(36).slice(2,9)}
+function esc(s){return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function day(d){d=d||new Date();return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()}
+function yesterday(){var d=new Date();d.setDate(d.getDate()-1);return day(d)}
+function seed(){return {v:2,cls:0,sound:true,prog:{},xp:0,streak:0,best:0,last:'',today:day(),todayN:0,answered:0,perfect:0,made:0,studied:{},badges:[],subjects:[]}}
+var st;
+try{st=JSON.parse(localStorage.getItem(KEY)||'null')}catch(e){st=null}
+if(!st||!st.subjects)st=seed();
+if(st.v!==2){st.v=2;st.subjects=st.subjects||[];st.prog=st.prog||{};st.sound=st.sound!==false;st.cls=st.cls||0}
+st.lang=st.lang||'en';st.theme=st.theme||'light';st.profile=st.profile||{name:'Learner'};st.notifications=st.notifications!==false;
+try{document.documentElement.setAttribute('data-theme',st.theme);document.documentElement.lang=st.lang;document.documentElement.dir=st.lang==='ur'?'rtl':'ltr'}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(st))}catch(e){}}
+function lvl(xp){var n=Math.floor(Math.sqrt(xp/50))+1,a=50*(n-1)*(n-1),b=50*n*n;return {n:n,into:xp-a,span:b-a,left:b-xp}}
+function rollDay(){var t=day();if(st.today!==t){st.today=t;st.todayN=0}}
+function bumpStreak(){var t=day();if(st.last===t)return;st.streak=(st.last===yesterday())?st.streak+1:1;st.last=t;if(st.streak>st.best)st.best=st.streak}
+function liveStreak(){return (st.last===day()||st.last===yesterday())?st.streak:0}
+function mastery(s){if(!s.cards.length)return 0;var t=0;s.cards.forEach(function(c){t+=c.box});return Math.round(t/(4*s.cards.length)*100)}
+function builtins(){
+  if(!st.cls)return [];
+  return SUBJ.map(function(s){
+    var rows=s.k==='gk'?BANK.gk:((BANK[s.k]&&BANK[s.k][st.cls])||LOW_BANK[s.k]||BANK.gk);
+    return {id:'b:'+s.k+':'+st.cls,name:s.n,color:s.c,builtin:true,cards:rows.map(function(r,i){
+      var pk='b:'+s.k+':'+(s.k==='gk'?'x':st.cls)+':'+i;
+      return {id:'q'+i,pk:pk,q:r[0],a:r[1],d:r[2],box:st.prog[pk]||0}})}});
+}
+function find(id){var l=st.subjects.filter(function(s){return s.id===id})[0];if(l)return l;return builtins().filter(function(s){return s.id===id})[0]}
+function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t}return a}
+
+var ui={tab:'home',screen:null,confirm:null,color:COLORS[0]};
+var S=null;
+var app=document.getElementById('app');
+
+function navHtml(){return '<nav class="nav"><div><button data-a="tab" data-v="home" class="'+(ui.tab==='home'?'on':'')+'">'+ic('home')+tr('home')+'</button><button data-a="tab" data-v="quests" class="'+(ui.tab==='quests'?'on':'')+'">⚡'+tr('quests')+'</button><button data-a="tab" data-v="badges" class="'+(ui.tab==='badges'?'on':'')+'">'+ic('trophy')+tr('badges')+'</button><button data-a="tab" data-v="profile" class="'+(ui.tab==='profile'?'on':'')+'">👤'+tr('profile')+'</button><button data-a="tab" data-v="settings" class="'+(ui.tab==='settings'?'on':'')+'">⚙️'+tr('settings')+'</button></div></nav>'}
+function sndBtn(){return '<button class="chip" data-a="snd" aria-label="Sound '+(st.sound===false?'off':'on')+'">'+ic(st.sound===false?'mute':'vol',18)+'</button>'}
+function greeting(){var h=new Date().getHours();return h<12?'Good morning':h<17?'Good afternoon':'Good evening'}
+
+function tileHtml(s){var m=mastery(s);return '<button class="tile" style="--c:'+s.color+'" data-a="open" data-v="'+s.id+'"><div><h3>'+esc(s.name)+'</h3><div class="small">'+s.cards.length+' questions</div></div><div><div class="small" style="margin-bottom:6px">'+m+'% mastered</div><div class="bar"><i style="width:'+m+'%"></i></div></div></button>'}
+
+function home(){
+  rollDay();var L=lvl(st.xp),goal=10,p=Math.min(100,Math.round(st.todayN/goal*100));
+  var dq=DAILY[new Date().getDate()%DAILY.length];var mine=st.subjects.map(tileHtml).join('');
+  var subjects=builtins().map(tileHtml).join('');
+  return '<div class="top"><div class="brand">Study<span>Quest</span></div><div class="r">'+sndBtn()+'<div class="chip fire">'+ic('flame',18)+liveStreak()+'</div></div></div>'+
+  '<div class="card motive"><div class="eyebrow">'+greeting()+', '+esc((st.profile&&st.profile.name)||'champ')+'</div><h3>'+esc(dq)+'</h3><div class="small">Small steps count. Keep learning!</div></div>'+
+  '<div class="card lvl"><div class="lvl-row"><div><div class="eyebrow">Your level</div><h2>Level '+L.n+'</h2></div><div class="chip">'+ic('bolt',16)+st.xp+' XP</div></div><div class="bar"><i style="width:'+Math.round(L.into/L.span*100)+'%"></i></div><div class="small">'+L.left+' XP to level '+(L.n+1)+'</div></div>'+
+  '<div class="card goal"><div class="goal-row"><div class="eyebrow">'+tr('daily')+'</div><b>'+Math.min(st.todayN,goal)+' / '+goal+' questions</b></div><div class="bar g"><i style="width:'+p+'%"></i></div><div class="small">'+(st.todayN>=goal?'Goal complete! Keep going for bonus XP.':'Answer '+(goal-st.todayN)+' more questions today.')+'</div></div>'+
+  '<div class="dashboard-subjects"><div class="sec-h"><h2 class="section-title">'+tr('subjects')+'</h2><button class="link" data-a="class">'+tr('change')+'</button></div><div class="eyebrow">'+tr('class')+' '+(st.cls===11?'UKG':st.cls)+' · Pick a subject to learn</div><div class="grid">'+subjects+'</div></div>'+
+  '<div class="sec"><div class="sec-h"><h2 class="section-title">My decks</h2><button class="link" data-a="newsub">+ New</button></div><div class="grid">'+mine+'<button class="tile new" data-a="newsub">'+ic('plus',28)+'<span>New deck</span></button></div></div>'+navHtml();
+}
+
+function classPick(){
+  var classes=[['UKG',11],['Class 1',1],['Class 2',2],['Class 3',3],['Class 4',4],['Class 5',5],['Class 6',6],['Class 7',7],['Class 8',8],['Class 9',9],['Class 10',10]];
+  var t=classes.map(function(c,i){return '<button class="tile cls" style="--c:'+COLORS[i%COLORS.length]+'" data-a="setcls" data-v="'+c[1]+'"><h3>'+c[0]+'</h3><div class="small">Subjects, lessons & quizzes</div></button>'}).join('');
+  var conf=ui.confirm&&ui.confirm.indexOf('class:')===0?Number(ui.confirm.split(':')[1]):null;
+  var prompt=conf!==null?'<div class="card"><h3>Change to '+(conf===11?'UKG':'Class '+conf)+'?</h3><p class="small">Only progress for your previous class subjects will reset. Your XP, streak, badges, personal decks, and profile will stay safe.</p><div class="row"><button class="btn alt" data-a="cancelclass">'+tr('cancel')+'</button><button class="btn" data-a="confirmclass" data-v="'+conf+'">'+tr('confirm')+'</button></div></div>':'';
+  return (st.cls?'<button class="back" data-a="home">'+ic('back',20)+'Back</button>':'<div class="brand">Study<span>Quest</span></div>')+
+  '<div class="sec"><h1 style="font-size:32px;font-weight:800">Choose your class</h1><div class="small">Choose UKG or Class 1–10. Changing class will keep your overall XP and achievements.</div></div>'+prompt+'<div class="grid">'+t+'</div>'+navHtml();
+}
+
+function badgesView(){
+  var h=BADGES.map(function(b){var on=st.badges.indexOf(b.id)>-1;return '<div class="card bdg '+(on?'on':'off')+'"><div class="ic">'+ic(b.i,26)+'</div><b>'+b.n+'</b><p>'+b.d+'</p></div>'}).join('');
+  var rc=ui.confirm==='reset';
+  return '<div class="top"><div class="brand">Badges</div><div class="chip">'+st.badges.length+' / '+BADGES.length+'</div></div><div class="badges">'+h+'</div>'+
+  '<button class="btn alt small-btn" data-a="reset">'+(rc?'Tap again to erase all progress':'Reset progress')+'</button>'+navHtml();
+}
+
+function questsView(){
+  var goal=Math.min(10,st.todayN),pct=Math.min(100,goal*10),studied=Object.keys(st.studied||{}).length;
+  return '<div class="top"><div><div class="brand">'+tr('questsTitle')+'</div><div class="small">Little missions, real progress.</div></div><div class="chip">'+st.xp+' XP</div></div>'+
+  '<div class="card quest-row"><div class="quest-icon">📚</div><div style="flex:1"><b>'+tr('questions')+'</b><div class="small">'+goal+' / 10 completed</div><div class="bar"><i style="width:'+pct+'%"></i></div></div><b>'+(goal>=10?'✓':'+'+(10-goal))+'</b></div>'+
+  '<div class="card quest-row"><div class="quest-icon">🎯</div><div style="flex:1"><b>'+tr('perfect')+'</b><div class="small">Build a correct-answer combo during a quiz.</div></div><span class="tag">+20 XP</span></div>'+
+  '<div class="card quest-row"><div class="quest-icon">🧭</div><div style="flex:1"><b>'+tr('explore')+'</b><div class="small">Subjects explored: '+studied+'</div></div><span class="tag">+15 XP</span></div>'+
+  '<div class="note">Quests are tracked locally on this device. Rewards shown here are goals; XP is earned by answering questions in quizzes and flashcards.</div>'+navHtml();
+}
+function profileView(){
+  var name=(st.profile&&st.profile.name)||'Learner',L=lvl(st.xp);
+  return '<div class="top"><div class="brand">'+tr('profile')+'</div><div class="chip">Level '+L.n+'</div></div><div class="card" style="display:flex;align-items:center;gap:14px"><div class="profile-avatar">🎒</div><div style="flex:1"><h2>'+esc(name)+'</h2><div class="small">'+(st.cls===11?'UKG':'Class '+st.cls)+' · StudyQuest learner</div></div></div>'+
+  '<div class="field"><label for="profileName">'+tr('name')+'</label><input id="profileName" maxlength="30" value="'+esc(name)+'" placeholder="Enter your name"></div><button class="btn" data-a="saveprofile">'+tr('save')+'</button>'+
+  '<div class="stats"><div class="stat"><span class="small">Total XP</span><b>'+st.xp+'</b></div><div class="stat"><span class="small">Questions</span><b>'+st.answered+'</b></div><div class="stat"><span class="small">Best streak</span><b>'+st.best+'</b></div></div>'+navHtml();
+}
+function settingsView(){
+  var langOpts=LANGS.map(function(l){return '<option value="'+l[0]+'" '+(st.lang===l[0]?'selected':'')+'>'+l[1]+'</option>'}).join('');
+  var themeOpts='<button class="setting-option '+(st.theme!=='dark'?'active':'')+'" data-a="theme" data-v="light">🌷 '+tr('light')+'</button><button class="setting-option '+(st.theme==='dark'?'active':'')+'" data-a="theme" data-v="dark">🌙 '+tr('dark')+'</button>';
+  return '<div class="top"><div class="brand">'+tr('settings')+'</div>'+sndBtn()+'</div>'+
+  '<div class="card sec"><h3>'+tr('language')+'</h3><div class="field"><label for="langSelect">Choose app language</label><select id="langSelect" style="font:inherit;color:var(--ink);background:var(--surface);border:2px solid var(--line);border-radius:14px;padding:12px;width:100%">'+langOpts+'</select></div><button class="btn small-btn" data-a="savelang">Apply language</button><div class="form-note">Language selection is saved on this device. Core navigation is translated for English, Hindi and Urdu; other languages are available in the selector while broader translations are being added. Learning question banks currently remain in English.</div></div>'+
+  '<div class="card sec"><h3>'+tr('theme')+'</h3><div class="settings-grid">'+themeOpts+'</div></div>'+
+  '<div class="card sec"><h3>'+tr('sound')+'</h3><button class="btn alt small-btn" data-a="snd">'+(st.sound===false?'Turn sound on':'Turn sound off')+'</button><div class="form-note">Sound effects are generated locally. No audio is recorded.</div></div>'+
+  '<div class="card sec"><h3>'+tr('support')+'</h3><div class="form-note">'+tr('noBackend')+'</div><div class="list"><div class="li"><div><b>Support line 1</b><small>9304287682</small></div><a class="support-link" href="tel:9304287682">'+tr('call')+'</a></div><div class="li"><div><b>Support line 2</b><small>6205955077</small></div><a class="support-link" href="tel:6205955077">'+tr('call')+'</a></div></div></div>'+
+  '<div class="card sec"><h3>'+tr('faq')+'</h3><details><summary>Is my progress saved?</summary><p class="small">Yes, progress is saved in this app on this device. Clearing app data may erase it.</p></details><details><summary>How do I change class?</summary><p class="small">Tap Change class below the dashboard’s subjects.</p></details><details><summary>Does support form send messages?</summary><p class="small">There is no support backend connected in this version. The form checks your fields locally but cannot send a ticket yet.</p></details></div>'+
+  '<div class="card sec"><h3>Contact support</h3><div class="field"><label for="supportName">Name</label><input id="supportName" maxlength="60" placeholder="Your name"></div><div class="field"><label for="supportContact">Phone or email (optional)</label><input id="supportContact" maxlength="100" placeholder="How can we contact you?"></div><div class="field"><label for="supportMessage">Message</label><textarea id="supportMessage" maxlength="1000" placeholder="Describe the issue"></textarea></div><button class="btn small-btn" data-a="supportsubmit">Validate support request</button><div class="form-note" role="status">'+esc(ui.supportMsg||tr('noBackend'))+'</div></div>'+
+  '<div class="card sec"><h3>Notifications</h3><button class="btn alt small-btn" data-a="notifications">'+(st.notifications?'Reminders preference: On':'Reminders preference: Off')+'</button><div class="form-note">This stores your preference only; scheduled Android notifications are not wired up yet.</div></div>'+
+  '<div class="card sec"><h3>Progress management</h3><button class="btn alt small-btn" data-a="export">Export my progress</button><button class="btn alt small-btn" data-a="reset">'+(ui.confirm==='reset'? 'Tap again to erase all progress':tr('reset'))+'</button><div class="form-note">Export creates a local JSON backup. Reset affects this app’s saved progress.</div></div>'+navHtml();
+}
+function exportData(){try{var blob=new Blob([JSON.stringify(st,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='studyquest-progress.json';a.click();setTimeout(function(){URL.revokeObjectURL(url)},1000)}catch(e){alert('Could not export on this device.')}}
+function changeClass(n){var old=st.cls;if(old===n){ui.confirm=null;ui.screen=null;ui.tab='home';render();return}var prefix='b:';Object.keys(st.prog||{}).forEach(function(k){if(k.indexOf(prefix)===0&&k.indexOf(':'+old+':')>-1)delete st.prog[k]});Object.keys(st.studied||{}).forEach(function(k){if(k.indexOf('b:')===0&&k.indexOf(':'+old)===k.length-(':'+old).length)delete st.studied[k]});st.cls=n;save();ui.confirm=null;ui.screen=null;ui.tab='home';sfx.ok(1);render()}
+
+function subjectView(s){
+  var m=mastery(s),n=s.cards.length;
+  var head='<button class="back" data-a="home">'+ic('back',20)+'Subjects</button><div class="hd" style="--c:'+s.color+'"><span class="dot"></span><h1>'+esc(s.name)+(s.builtin?' · '+(st.cls===11?'UKG':'Class '+st.cls):'')+'</h1></div>'+
+  '<div class="stats"><div class="stat"><span class="small">Questions</span><b>'+n+'</b></div><div class="stat"><span class="small">Mastered</span><b>'+m+'%</b></div></div>'+
+  '<div class="row"><button class="btn" data-a="quiz" data-v="'+s.id+'" '+(n<1?'disabled':'')+'>Play quiz</button><button class="btn alt" data-a="flip" data-v="'+s.id+'" '+(n<1?'disabled':'')+'>Flashcards</button></div>';
+  if(s.builtin)return head+'<div class="note">Each round picks up to 10 questions. The ones you miss come back more often until you master them.</div>'+navHtml();
+  var list=s.cards.map(function(c){var pips='';for(var i=0;i<4;i++)pips+='<i class="'+(i<c.box?'on':'')+'"></i>';return '<div class="li"><div><b>'+esc(c.q)+'</b><small>'+esc(c.a)+'</small><div class="pips">'+pips+'</div></div><button class="x" data-a="delcard" data-v="'+c.id+'" aria-label="Delete card">'+ic('x',18)+'</button></div>'}).join('');
+  var dc=ui.confirm==='sub'+s.id;
+  return head+
+  (n<4?'<div class="note">Add at least 4 cards with different answers to unlock multiple choice quizzes. Flashcards work with any number.</div>':'')+
+  '<div class="card" style="display:flex;flex-direction:column;gap:12px"><div class="eyebrow">Add a card</div><div class="field"><label for="nq">Question</label><input id="nq" placeholder="e.g. Capital of Japan" autocomplete="off"></div><div class="field"><label for="na">Answer</label><input id="na" placeholder="e.g. Tokyo" autocomplete="off"></div><button class="btn small-btn" data-a="addcard" data-v="'+s.id+'">Add card</button></div>'+
+  '<div class="card" style="display:flex;flex-direction:column;gap:12px"><div class="eyebrow">Paste many at once</div><div class="small">One per line, like: question :: answer</div><textarea id="bulk" placeholder="Capital of France :: Paris&#10;Largest planet :: Jupiter"></textarea><button class="btn alt small-btn" data-a="bulk" data-v="'+s.id+'">Import cards</button></div>'+
+  (n?'<div class="sec"><div class="eyebrow">Your cards</div><div class="list">'+list+'</div></div>':'')+
+  '<button class="btn alt small-btn" data-a="delsub" data-v="'+s.id+'">'+(dc?'Tap again to delete deck':'Delete deck')+'</button>'+navHtml();
+}
+
+function newSub(){
+  var sw=COLORS.map(function(c){return '<button class="sw '+(ui.color===c?'on':'')+'" style="--c:'+c+'" data-a="color" data-v="'+c+'" aria-label="Pick colour"></button>'}).join('');
+  return '<button class="back" data-a="home">'+ic('back',20)+'Back</button><h1 style="font-size:32px;font-weight:800">New deck</h1>'+
+  '<div class="field"><label for="sn">Name</label><input id="sn" placeholder="e.g. Hindi grammar, Sanskrit shlokas" maxlength="28" autocomplete="off"></div>'+
+  '<div class="field"><label>Colour</label><div class="swatches">'+sw+'</div></div><button class="btn" data-a="mksub">Create deck</button>'+navHtml();
+}
+
+function startRound(id,mode){
+  var s=find(id);if(!s||!s.cards.length)return;
+  var cards=shuffle(s.cards).sort(function(a,b){return a.box-b.box}).slice(0,10);cards=shuffle(cards);
+  var answers={};s.cards.forEach(function(c){answers[c.a]=1});
+  if(mode==='quiz'&&!s.builtin&&Object.keys(answers).length<4)mode='flip';
+  S={sid:id,mode:mode,cards:cards,i:0,lives:3,combo:0,gain:0,right:0,done:0,locked:false,picked:-1,opts:[],flipped:false,msg:'',L0:lvl(st.xp).n};
+  st.studied[id]=1;
+  sfx.tap();prep();ui.screen='play';render();
+}
+function prep(){
+  var c=S.cards[S.i],s=find(S.sid);S.flipped=false;S.locked=false;S.picked=-1;
+  if(S.mode==='quiz'){
+    if(c.d){S.opts=shuffle(c.d.concat([c.a]))}
+    else{var pool=[];s.cards.forEach(function(x){if(x.a!==c.a&&pool.indexOf(x.a)<0)pool.push(x.a)});S.opts=shuffle(shuffle(pool).slice(0,3).concat([c.a]))}
+  }
+}
+function reward(card,ok,xp){
+  rollDay();card.box=ok?Math.min(4,card.box+1):Math.max(0,card.box-1);
+  if(card.pk)st.prog[card.pk]=card.box;
+  st.answered++;st.todayN++;bumpStreak();
+  if(ok){st.xp+=xp;S.gain+=xp;S.right++}
+  S.done++;
+}
+function play(){
+  var s=find(S.sid),c=S.cards[S.i],pct=Math.round(S.i/S.cards.length*100),h='';
+  for(var i=0;i<3;i++)h+='<span class="'+(i<S.lives?'':'lost')+'">'+ic('heart',22)+'</span>';
+  var top='<div class="ptop"><button class="x" data-a="quit" aria-label="Quit round">'+ic('x',22)+'</button><div class="bar g"><i style="width:'+pct+'%"></i></div><button class="x" data-a="snd" aria-label="Toggle sound">'+ic(st.sound===false?'mute':'vol',20)+'</button><div class="hearts">'+h+'</div></div>';
+  var label=esc(s.name)+(s.builtin?' · '+(st.cls===11?'UKG':'Class '+st.cls):'')+' · '+(S.i+1)+' of '+S.cards.length;
+  if(S.mode==='quiz'){
+    var ok=S.locked&&S.opts[S.picked]===c.a;
+    var o=S.opts.map(function(t,i){var cl='opt';if(S.locked){if(t===c.a)cl+=' right';else if(i===S.picked)cl+=' wrong';else cl+=' dim'}return '<button class="'+cl+'" data-a="pick" data-v="'+i+'"><span class="k">'+'ABCD'[i]+'</span><span>'+esc(t)+'</span></button>'}).join('');
+    var sheet='';
+    if(S.locked){sheet='<div class="sheet '+(ok?'ok':'no')+'"><div><h3>'+ic(ok?'check':'x',26)+esc(S.msg)+'</h3><div class="sub">'+(ok?'Correct! +'+S.lastXp+' XP'+(S.combo>1?' · '+S.combo+' in a row':''):'The answer is <b>'+esc(c.a)+'</b>')+'</div><button class="btn '+(ok?'good':'bad')+'" data-a="next">Continue</button></div></div>'}
+    return '<div class="play">'+top+'<div class="eyebrow">'+label+'</div><div class="q'+(S.locked?(ok?' pop':' shake'):'')+'"><h2>'+esc(c.q)+'</h2></div><div class="opts">'+o+'</div></div>'+sheet;
+  }
+  var f='<div class="flip '+(S.flipped?'on':'')+'" style="--c:'+s.color+'" data-a="flipcard"><div class="in"><div class="face"><div class="eyebrow">Question</div><h2>'+esc(c.q)+'</h2><div class="small">Tap to reveal</div></div><div class="face back"><div class="eyebrow">Answer</div><h2>'+esc(c.a)+'</h2></div></div></div>';
+  return '<div class="play">'+top+'<div class="eyebrow">'+label+'</div>'+f+
+  (S.flipped?'<div class="row"><button class="btn bad" data-a="grade" data-v="0">Again</button><button class="btn good" data-a="grade" data-v="1">Got it</button></div>':'<div class="small" style="text-align:center">Think of the answer, then flip the card.</div>')+'</div>';
+}
+function starCount(){var acc=S.done?S.right/S.done:0;return acc>=.9?3:acc>=.6?2:S.right>0?1:0}
+function finish(){
+  var lv=lvl(st.xp).n;
+  if(S.done>=5&&S.right===S.done)st.perfect++;
+  var got=[];BADGES.forEach(function(b){if(st.badges.indexOf(b.id)<0&&b.t(st)){st.badges.push(b.id);got.push(b)}});
+  S.newBadges=got;S.lvUp=lv>S.L0?lv:0;save();
+  if(S.lvUp||got.length)sfx.level();else if(starCount()>=2)sfx.win();else sfx.tap();
+  ui.screen='result';render();
+}
+function result(){
+  var n=starCount(),stars='';
+  for(var i=0;i<3;i++)stars+='<span class="'+(i<n?'on':'')+'">'+ic('star',48)+'</span>';
+  var title=S.lives<=0?'Out of hearts':n===3?'Brilliant!':n===2?'Nice work':'Keep going';
+  var line=n===3?'Topper! Aaj toh kamaal kar diya!':n===2?'Great effort! One more round and you will master it.':n===1?'Every champion started here. Practice karte raho!':'Don\'t give up. Himmat rakho and try again!';
+  var tags=S.newBadges.map(function(b){return '<span class="tag">'+ic(b.i,16)+b.n+'</span>'}).join('');
+  return '<div class="res"><div class="stars">'+stars+'</div><h1>'+title+'</h1><div class="line">'+line+'</div><div><div class="big">+'+S.gain+'</div><div class="small">XP earned</div></div>'+
+  '<div class="stats" style="width:100%"><div class="stat"><span class="small">Correct</span><b>'+S.right+' / '+S.done+'</b></div><div class="stat"><span class="small">Streak</span><b>'+liveStreak()+' days</b></div></div>'+
+  (S.lvUp?'<div class="tag">Level up! You are now level '+S.lvUp+'</div>':'')+(tags?'<div class="toastrow">'+tags+'</div>':'')+
+  '<div style="width:100%;display:flex;flex-direction:column;gap:14px"><button class="btn" data-a="again">Play again</button><button class="btn alt" data-a="home">Done</button></div></div>';
+}
+
+function render(){
+  var h;
+  if(ui.screen==='play')h=play();
+  else if(ui.screen==='result')h=result();
+  else if(ui.screen==='newsub')h=newSub();
+  else if(ui.screen==='class')h=classPick();
+  else if(ui.screen&&ui.screen.indexOf('sub:')===0){var s=find(ui.screen.slice(4));h=s?subjectView(s):home()}
+  else if(!st.cls)h=classPick();
+  else if(ui.tab==='badges')h=badgesView();
+  else if(ui.tab==='quests')h=questsView();
+  else if(ui.tab==='profile')h=profileView();
+  else if(ui.tab==='settings')h=settingsView();
+  else h=home();
+  app.innerHTML=h;document.documentElement.setAttribute('data-theme',st.theme||'light');document.documentElement.lang=st.lang||'en';document.documentElement.dir=st.lang==='ur'?'rtl':'ltr';
+  window.scrollTo(0,0);
+}
+
+function buzz(n){try{if(navigator.vibrate)navigator.vibrate(n)}catch(e){}}
+function go(scr){ui.screen=scr;ui.confirm=null;render()}
+function checkBadges(){var got=[];BADGES.forEach(function(b){if(st.badges.indexOf(b.id)<0&&b.t(st)){st.badges.push(b.id);got.push(b)}});return got}
+
+app.addEventListener('click',function(e){
+  var el=e.target.closest('[data-a]');if(!el)return;
+  var a=el.getAttribute('data-a'),v=el.getAttribute('data-v');
+  ac();
+  if(a==='tab'){sfx.tap();ui.tab=v;ui.screen=null;ui.confirm=null;render()}
+  else if(a==='snd'){st.sound=(st.sound===false);save();sfx.tap();render()}
+  else if(a==='home'){sfx.tap();S=null;go(null)}
+  else if(a==='class'){sfx.tap();go('class')}
+  else if(a==='setcls'){var n=+v;if(!st.cls){changeClass(n)}else if(n===st.cls){ui.confirm=null;ui.screen=null;ui.tab='home';render()}else{ui.confirm='class:'+n;render()}}
+  else if(a==='confirmclass'){changeClass(+v)}
+  else if(a==='cancelclass'){ui.confirm=null;render()}
+  else if(a==='theme'){st.theme=v==='dark'?'dark':'light';save();render()}
+  else if(a==='savelang'){var ls=document.getElementById('langSelect');if(ls){st.lang=ls.value;save();render()}}
+  else if(a==='saveprofile'){var pn=document.getElementById('profileName');if(pn){st.profile=st.profile||{};st.profile.name=pn.value.trim().slice(0,30)||'Learner';save();render()}}
+  else if(a==='supportsubmit'){var sn=document.getElementById('supportName'),sc=document.getElementById('supportContact'),sm=document.getElementById('supportMessage');if(!sn||!sn.value.trim()||!sm||sm.value.trim().length<8){ui.supportMsg='Please enter your name and a message of at least 8 characters.';render();return}if(sc&&sc.value.trim()&&sc.value.indexOf('@')<0&&!/^[+0-9 ()-]{7,}$/.test(sc.value.trim())){ui.supportMsg='Enter a valid phone number or email address.';render();return}ui.supportMsg='Your fields look valid, but this app has no support server connected, so nothing was sent. Please call 9304287682 or 6205955077.';render()}
+  else if(a==='notifications'){st.notifications=!st.notifications;save();render()}
+  else if(a==='export'){exportData()} 
+  else if(a==='open'){sfx.tap();go('sub:'+v)}
+  else if(a==='newsub'){sfx.tap();go('newsub')}
+  else if(a==='color'){ui.color=v;var t=document.getElementById('sn'),val=t?t.value:'';render();var t2=document.getElementById('sn');if(t2)t2.value=val}
+  else if(a==='mksub'){
+    var nm=document.getElementById('sn').value.trim();if(!nm){document.getElementById('sn').focus();return}
+    var sub={id:uid(),name:nm,color:ui.color,cards:[]};st.subjects.push(sub);save();go('sub:'+sub.id)}
+  else if(a==='addcard'){
+    var q=document.getElementById('nq'),an=document.getElementById('na');
+    if(!q.value.trim()){q.focus();return}if(!an.value.trim()){an.focus();return}
+    find(v).cards.push({id:uid(),q:q.value.trim(),a:an.value.trim(),box:0});st.made++;
+    checkBadges();save();sfx.ok(1);render();document.getElementById('nq').focus()}
+  else if(a==='bulk'){
+    var ta=document.getElementById('bulk'),cnt=0,sub2=find(v);
+    ta.value.split('\n').forEach(function(line){var p=line.split('::');if(p.length<2)p=line.split('\t');if(p.length>=2&&p[0].trim()&&p[1].trim()){sub2.cards.push({id:uid(),q:p[0].trim(),a:p.slice(1).join('::').trim(),box:0});cnt++}});
+    st.made+=cnt;checkBadges();save();if(cnt)sfx.ok(1);render()}
+  else if(a==='delcard'){var sb=find(ui.screen.slice(4));sb.cards=sb.cards.filter(function(c){return c.id!==v});save();render()}
+  else if(a==='delsub'){
+    if(ui.confirm==='sub'+v){st.subjects=st.subjects.filter(function(s){return s.id!==v});save();go(null)}else{ui.confirm='sub'+v;render()}}
+  else if(a==='reset'){
+    if(ui.confirm==='reset'){var c0=st.cls,s0=st.sound,l0=st.lang,t0=st.theme,p0=st.profile;st=seed();st.cls=c0;st.sound=s0;st.lang=l0;st.theme=t0;st.profile=p0;save();ui.confirm=null;ui.tab='home';ui.screen=null;render()}else{ui.confirm='reset';render()}}
+  else if(a==='quiz')startRound(v,'quiz');
+  else if(a==='flip')startRound(v,'flip');
+  else if(a==='again')startRound(S.sid,S.mode);
+  else if(a==='quit'){if(S.done>0)finish();else{S=null;go(null)}}
+  else if(a==='pick'){
+    if(S.locked)return;var c=S.cards[S.i];S.picked=+v;S.locked=true;var ok=S.opts[S.picked]===c.a;
+    if(ok){S.combo++;S.lastXp=10+2*Math.min(S.combo,5);reward(c,true,S.lastXp);buzz(15);sfx.ok(S.combo);
+      S.msg=S.combo>=5?'Unstoppable! Topper material!':S.combo===3?'Teen mein teen! You are on fire!':pick(OK_LINES)}
+    else{S.combo=0;S.lives--;reward(c,false,0);buzz([30,40,30]);sfx.no();S.msg=pick(NO_LINES)}
+    save();render()}
+  else if(a==='next'){
+    sfx.tap();if(S.lives<=0||S.i>=S.cards.length-1)finish();else{S.i++;prep();render()}}
+  else if(a==='flipcard'){sfx.tap();S.flipped=!S.flipped;el.classList.toggle('on',S.flipped);if(S.flipped&&!document.querySelector('[data-a=grade]'))showGrade()}
+  else if(a==='grade'){
+    var cc=S.cards[S.i],good=v==='1';if(good){S.combo++;sfx.ok(S.combo)}else{S.combo=0;S.lives--;sfx.no()}
+    reward(cc,good,6);save();
+    if(S.lives<=0||S.i>=S.cards.length-1)finish();else{S.i++;prep();render()}}
+});
+function showGrade(){
+  /* keep the flipped card in place while adding the grade buttons */
+  var tmp=document.createElement('div');tmp.innerHTML=play();
+  var btns=tmp.querySelector('.row');var note=document.querySelector('.play>.small');
+  if(note&&btns)note.replaceWith(btns);
+}
+render();
+})();
+</script>
+<!-- StudyQuest AdMob Banner -->
+<style>
+  #studyquest-ad-banner {
+    display: none;
+  }
+
+  body.has-admob-banner {
+    padding-bottom: 60px !important;
+  }
+</style>
+
+<script>
+(async function () {
+  if (!window.Capacitor ||
+      !window.Capacitor.isNativePlatform ||
+      !window.Capacitor.isNativePlatform()) {
+    return;
+  }
+
+  const admob = window.Capacitor.Plugins?.AdMob;
+
+  if (!admob) {
+    console.warn("AdMob plugin not found.");
+    return;
+  }
+
+  try {
+    await admob.initialize();
+
+    await admob.showBanner({
+      adId: "ca-app-pub-5129021458262508/1417917582",
+      adSize: "BANNER",
+      position: "BOTTOM_CENTER",
+      margin: 0,
+      isTesting: false
+    });
+
+    document.body.classList.add("has-admob-banner");
+  } catch (error) {
+    console.error("AdMob error:", error);
+  }
+})();
+</script>
+</body>
+</html>
