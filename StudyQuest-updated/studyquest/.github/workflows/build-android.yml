@@ -1,9 +1,6 @@
 name: Build Android APK
-
 on:
   push:
-    branches:
-      - main
   workflow_dispatch:
 jobs:
   build:
@@ -16,26 +13,23 @@ jobs:
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: '17'
-      - run: npm install
-      - name: Bundle native AdMob bridge
-        run: npx esbuild scripts/admob-bridge.js --bundle --platform=browser --format=iife --outfile=www/admob-bridge.js
-      - run: npx cap add android
-      - run: npx cap sync android
-      - name:  Add AdMob App ID 
+          java-version: 17
+      - name: Install packages
+        run: npm install
+      - name: Create Android project
+        run: npx cap add android
+      - name: Make app icons
+        continue-on-error: true
+        run: npx @capacitor/assets generate --android
+      - name: Copy app into Android project
+        run: npx cap sync android
+      - name: Build APK
+        working-directory: android
         run: |
-          python3 - <<'PY'
-          from pathlib import Path
-          p = Path('android/app/src/main/AndroidManifest.xml')
-          s = p.read_text()
-          meta = '<meta-data android:name="com.google.android.gms.ads.APPLICATION_ID" android:value="ca-app-pub-5129021458262508~7242843920" />'
-          if 'com.google.android.gms.ads.APPLICATION_ID' not in s:
-              s = s.replace('<application', '<application\n        ' + meta, 1)
-          p.write_text(s)
-          PY
-      - name: Build debug APK
-        run: cd android && ./gradlew assembleDebug
-      - uses: actions/upload-artifact@v4
+          chmod +x gradlew
+          ./gradlew assembleDebug
+      - name: Save APK
+        uses: actions/upload-artifact@v4
         with:
-          name: studyquest-debug-apk
+          name: study-quest-apk
           path: android/app/build/outputs/apk/debug/app-debug.apk
