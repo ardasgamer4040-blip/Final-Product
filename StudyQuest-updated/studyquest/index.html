@@ -185,10 +185,10 @@ body{background-color:var(--bg);background-image:radial-gradient(#F4DCD6 1px,tra
 
 <script>
 (function(){
-var KEY='studyquest.v1';
+var KEY='studyquest.v1';var SUPPORT_URL='https://formsubmit.co/ajax/ardasgamer4040@gmail.com';
 var COLORS=['#E8B8AC','#9BCDB8','#E9CC79','#B9AFE0','#E7A9BE','#A8C7D8'];
 var LANGS=[['en','English'],['hi','हिन्दी'],['bn','বাংলা'],['mr','मराठी'],['gu','ગુજરાતી'],['ta','தமிழ்'],['te','తెలుగు'],['kn','ಕನ್ನಡ'],['ml','മലയാളം'],['pa','ਪੰਜਾਬੀ'],['or','ଓଡ଼ିଆ'],['as','অসমীয়া'],['ur','اردو']];
-var WORDS={en:{home:'Dashboard',quests:'Quests',badges:'Achievements',profile:'Profile',settings:'Settings',subjects:'Subjects',change:'Change class',daily:'Daily goal',sound:'Sound effects',language:'Language',theme:'Theme',light:'Pastel light',dark:'Night',support:'Support',faq:'FAQs',save:'Save',cancel:'Cancel',confirm:'Confirm',class:'Class',xp:'XP',streak:'Streak',call:'Call support',progress:'Progress',reset:'Reset progress',name:'Your name',help:'How can we help?',noBackend:'This form is not connected to a support server yet. Please call one of the support numbers below.',questsTitle:'Today’s quests',questions:'Answer 10 questions',perfect:'Get 3 answers correct in a row',explore:'Try 2 different subjects'},hi:{home:'डैशबोर्ड',quests:'मिशन',badges:'उपलब्धियाँ',profile:'प्रोफ़ाइल',settings:'सेटिंग्स',subjects:'विषय',change:'कक्षा बदलें',daily:'दैनिक लक्ष्य',sound:'ध्वनि प्रभाव',language:'भाषा',theme:'थीम',light:'पेस्टल लाइट',dark:'नाइट',support:'सहायता',faq:'सामान्य प्रश्न',save:'सहेजें',cancel:'रद्द करें',confirm:'पुष्टि करें',class:'कक्षा',xp:'XP',streak:'लगातार दिन',call:'सहायता को कॉल करें',progress:'प्रगति',reset:'प्रगति रीसेट करें',name:'आपका नाम',help:'हम कैसे मदद कर सकते हैं?',noBackend:'यह फ़ॉर्म अभी सहायता सर्वर से जुड़ा नहीं है। कृपया नीचे दिए गए नंबर पर कॉल करें।',questsTitle:'आज के मिशन',questions:'10 सवालों के जवाब दें',perfect:'लगातार 3 सही जवाब दें',explore:'2 अलग-अलग विषय आज़माएँ'},ur:{home:'ڈیش بورڈ',quests:'مہمات',badges:'کامیابیاں',profile:'پروفائل',settings:'ترتیبات',subjects:'مضامین',change:'کلاس تبدیل کریں',daily:'روزانہ کا ہدف',sound:'آواز کے اثرات',language:'زبان',theme:'تھیم',light:'ہلکی پیسٹل',dark:'رات',support:'مدد',faq:'عام سوالات',save:'محفوظ کریں',cancel:'منسوخ',confirm:'تصدیق',class:'کلاس',xp:'XP',streak:'مسلسل دن',call:'مدد کے لیے کال',progress:'پیش رفت',reset:'پیش رفت ری سیٹ کریں',name:'آپ کا نام',help:'ہم کیسے مدد کر سکتے ہیں؟',noBackend:'یہ فارم ابھی سپورٹ سرور سے منسلک نہیں ہے۔ نیچے دیے گئے نمبر پر کال کریں۔',questsTitle:'آج کے مشن',questions:'10 سوالات کے جواب دیں',perfect:'لگاتار 3 درست جواب دیں',explore:'2 مختلف مضامین آزمائیں'}};
+var WORDS={en:{home:'Dashboard',quests:'Quests',badges:'Achievements',profile:'Profile',settings:'Settings',subjects:'Subjects',change:'Change class',daily:'Daily goal',sound:'Sound effects',language:'Language',theme:'Theme',light:'Pastel light',dark:'Night',support:'Support',faq:'FAQs',save:'Save',cancel:'Cancel',confirm:'Confirm',class:'Class',xp:'XP',streak:'Streak',call:'Call support',progress:'Progress',reset:'Reset progress',name:'Your name',help:'How can we help?',noBackend:'Send us a message with the form below, or call one of the support numbers.',questsTitle:'Today’s quests',questions:'Answer 10 questions',perfect:'Get 3 answers correct in a row',explore:'Try 2 different subjects'},hi:{home:'डैशबोर्ड',quests:'मिशन',badges:'उपलब्धियाँ',profile:'प्रोफ़ाइल',settings:'सेटिंग्स',subjects:'विषय',change:'कक्षा बदलें',daily:'दैनिक लक्ष्य',sound:'ध्वनि प्रभाव',language:'भाषा',theme:'थीम',light:'पेस्टल लाइट',dark:'नाइट',support:'सहायता',faq:'सामान्य प्रश्न',save:'सहेजें',cancel:'रद्द करें',confirm:'पुष्टि करें',class:'कक्षा',xp:'XP',streak:'लगातार दिन',call:'सहायता को कॉल करें',progress:'प्रगति',reset:'प्रगति रीसेट करें',name:'आपका नाम',help:'हम कैसे मदद कर सकते हैं?',questsTitle:'आज के मिशन',questions:'10 सवालों के जवाब दें',perfect:'लगातार 3 सही जवाब दें',explore:'2 अलग-अलग विषय आज़माएँ'},ur:{home:'ڈیش بورڈ',quests:'مہمات',badges:'کامیابیاں',profile:'پروفائل',settings:'ترتیبات',subjects:'مضامین',change:'کلاس تبدیل کریں',daily:'روزانہ کا ہدف',sound:'آواز کے اثرات',language:'زبان',theme:'تھیم',light:'ہلکی پیسٹل',dark:'رات',support:'مدد',faq:'عام سوالات',save:'محفوظ کریں',cancel:'منسوخ',confirm:'تصدیق',class:'کلاس',xp:'XP',streak:'مسلسل دن',call:'مدد کے لیے کال',progress:'پیش رفت',reset:'پیش رفت ری سیٹ کریں',name:'آپ کا نام',help:'ہم کیسے مدد کر سکتے ہیں؟',questsTitle:'آج کے مشن',questions:'10 سوالات کے جواب دیں',perfect:'لگاتار 3 درست جواب دیں',explore:'2 مختلف مضامین آزمائیں'}};
 function tr(k){var l=st&&st.lang||'en';return (WORDS[l]&&WORDS[l][k])||WORDS.en[k]||k;}
 var SUBJ=[{k:'history',n:'History',c:'#E59A00'},{k:'geo',n:'Geography',c:'#0FA5A0'},{k:'sci',n:'Science',c:'#3FA34D'},{k:'math',n:'Maths',c:'#3B82F6'},{k:'gk',n:'India GK',c:'#E8479B'}];
 
@@ -428,6 +428,299 @@ var LOW_BANK={
  math:[['What is 2 + 3?','5',['4','6','7']],['How many sides does a triangle have?','3',['2','4','5']],['What is 10 − 4?','6',['5','7','8']],['Which number comes after 19?','20',['18','21','29']],['What is 5 × 2?','10',['7','8','12']]]
 };
 
+/*GEN*/
+function rng(a){return function(){a|=0;a=a+0x6D2B79F5|0;var t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function gcd(a,b){return b?gcd(b,a%b):a}
+var TBL=[];
+function TB(s,lo,hi,txt,fmt){TBL.push({s:s,lo:lo,hi:hi,rows:txt.trim().split('\n').map(function(l){var p=l.split('|');return [fmt?fmt.replace('#',p[0]):p[0],p[1],p.length>=5?p.slice(2,5):null]})})}
+function MATH(c){var r=rng(c*977+13),out=[],seen={};
+ function R(n,m){return n+Math.floor(r()*(m-n+1))}
+ function nd(a,dec){var o=[],s={},k=0,st=Math.max(1,Math.round(Math.abs(a)/6));s[a]=1;
+  while(o.length<3&&k++<80){var d=(1+Math.floor(r()*3))*(r()<.5?-1:1)*(r()<.5?1:st);var v=dec?+(a+d/10).toFixed(1):a+d;if(a>=0&&v<0)continue;if(s[v])continue;s[v]=1;o.push(String(v))}
+  for(var j=1;o.length<3;j++)o.push(String(a+100+j));return o}
+ function P(q,a,dec){if(seen[q])return;seen[q]=1;out.push([q,String(a),nd(a,dec)])}
+ var g=c<=1?0:c==2?1:c==3?2:c==4?3:c==5?4:c<=7?5:c==8?6:7,pr=[[3,4,5],[5,12,13],[8,15,17],[7,24,25],[20,21,29]];
+ for(var i=0;i<1200&&out.length<150;i++){var k=i%4,a,b,m,h;
+  if(g==0){a=R(1,9);b=R(1,10-a);k%2?P(a+' + '+b+' = ?',a+b):P((a+b)+' − '+a+' = ?',b)}
+  else if(g==1){a=R(10,60);b=R(5,39);if(k==0)P(a+' + '+b+' = ?',a+b);else if(k==1)P((a+b)+' − '+b+' = ?',a);else{m=[2,3,4,5,10][R(0,4)];b=R(1,10);P(m+' × '+b+' = ?',m*b)}}
+  else if(g==2){if(k==0){a=R(100,500);b=R(100,400);P(a+' + '+b+' = ?',a+b)}else if(k==1){a=R(500,999);b=R(100,499);P(a+' − '+b+' = ?',a-b)}else if(k==2){a=R(2,12);b=R(2,12);P(a+' × '+b+' = ?',a*b)}else{a=R(2,12);b=R(2,12);P(a*b+' ÷ '+a+' = ?',b)}}
+  else if(g==3){if(k==0){a=R(12,99);b=R(2,9);P(a+' × '+b+' = ?',a*b)}else if(k==1){a=R(1000,5000);b=R(100,999);P(a+' + '+b+' = ?',a+b)}else if(k==2){a=R(5,40);b=R(3,25);P('Perimeter of a rectangle '+a+' cm by '+b+' cm (in cm)?',2*(a+b))}else{a=R(3,12);b=R(11,99);P(a*b+' ÷ '+a+' = ?',b)}}
+  else if(g==4){if(k==0){a=R(11,99)/10;b=R(11,99)/10;P(a+' + '+b+' = ?',+(a+b).toFixed(1),1)}else if(k==1){a=[10,20,25,50][R(0,3)];b=R(2,20)*20;P(a+'% of '+b+' = ?',a*b/100)}else if(k==2){h=R(2,9);a=h*R(2,6);b=h*R(7,12);P('HCF of '+a+' and '+b+' = ?',gcd(a,b))}else{a=R(5,40);b=R(3,25);P('Area of a rectangle '+a+' cm × '+b+' cm (in cm²)?',a*b)}}
+  else if(g==5){if(k==0){a=R(2,20);b=R(2,30);P('(−'+a+') + '+b+' = ?',b-a)}else if(k==1){a=R(2,9);b=R(2,12);P('Solve: '+a+'x = '+a*b+'. x = ?',b)}else if(k==2){a=[10,20,25,40,50][R(0,4)];b=R(2,25)*20;P(a+'% of '+b+' = ?',a*b/100)}else{m=R(5,40);a=R(1,4);P('Mean of '+(m-a)+', '+m+' and '+(m+a)+' = ?',m)}}
+  else if(g==6){if(k==0){a=R(11,30);P('√'+a*a+' = ?',a)}else if(k==1){a=R(11,25);P(a+'² = ?',a*a)}else if(k==2){a=R(2,6);b=R(1,20);m=R(2,15);P('Solve: '+a+'x + '+b+' = '+(a*m+b)+'. x = ?',m)}else{a=R(1,20)*100;b=[10,20,25,40][R(0,3)];P('Cost price ₹'+a+', selling price ₹'+(a+a*b/100)+'. Profit % = ?',b)}}
+  else{if(k==0){a=R(1,9);b=R(1,9);P('Discriminant of x² + '+a+'x + '+b+' = 0 is ?',a*a-4*b)}else if(k==1){a=R(1,10);b=R(2,9);P('10th term of the AP '+a+', '+(a+b)+', '+(a+2*b)+', … = ?',a+9*b)}else if(k==2){h=pr[R(0,4)];P('Right triangle with legs '+h[0]+' and '+h[1]+'. Hypotenuse = ?',h[2])}else{a=R(10,60);P('Sum of the first '+a+' natural numbers = ?',a*(a+1)/2)}}}
+ return out}
+var GC={};
+function genFor(s,c){var key=s+c;if(GC[key])return GC[key];var l=c===11?0:c,out=[];
+ if(s==='math')return GC[key]=MATH(l);
+ var r=rng(l*31+s.length*7+1);
+ TBL.forEach(function(t){if(t.s!==s||l<t.lo||l>t.hi)return;var ans=t.rows.map(function(x){return x[1]});
+  t.rows.forEach(function(x){var w=x[2];if(!w){w=[];var n=0;while(w.length<3&&n++<80){var c2=ans[Math.floor(r()*ans.length)];if(c2!==x[1]&&w.indexOf(c2)<0)w.push(c2)}}if(w.length===3&&w.indexOf(x[1])<0)out.push([x[0],x[1],w])})});
+ return GC[key]=out}
+TB('gk',3,10,`Andhra? skip
+Assam|Dispur
+Bihar|Patna
+Chhattisgarh|Raipur
+Goa|Panaji
+Gujarat|Gandhinagar
+Haryana|Chandigarh
+Himachal Pradesh|Shimla
+Jharkhand|Ranchi
+Karnataka|Bengaluru
+Kerala|Thiruvananthapuram
+Madhya Pradesh|Bhopal
+Maharashtra|Mumbai
+Manipur|Imphal
+Meghalaya|Shillong
+Mizoram|Aizawl
+Nagaland|Kohima
+Odisha|Bhubaneswar
+Punjab|Chandigarh
+Rajasthan|Jaipur
+Sikkim|Gangtok
+Tamil Nadu|Chennai
+Telangana|Hyderabad
+Tripura|Agartala
+Uttar Pradesh|Lucknow
+Uttarakhand|Dehradun
+West Bengal|Kolkata
+Arunachal Pradesh|Itanagar`,'What is the capital of #?');
+TBL[0].rows.shift();
+TB('gk',2,10,`Taj Mahal|Agra
+Red Fort|Delhi
+Charminar|Hyderabad
+Gateway of India|Mumbai
+Hawa Mahal|Jaipur
+Golden Temple|Amritsar
+Victoria Memorial|Kolkata
+Meenakshi Temple|Madurai
+Mysore Palace|Mysuru
+India Gate|Delhi
+Lotus Temple|Delhi`,'In which city is the # located?');
+TB('gk',0,5,`India's national animal is?|Tiger|Lion|Elephant|Leopard
+India's national bird is?|Peacock|Sparrow|Parrot|Crow
+India's national flower is?|Lotus|Rose|Marigold|Jasmine
+India's national fruit is?|Mango|Apple|Banana|Orange
+India's national tree is?|Banyan|Neem|Mango|Peepal
+India's currency is the?|Rupee|Dollar|Taka|Yen
+How many days are in a week?|7|5|6|8
+How many months are in a year?|12|10|11|13
+How many colours are in a rainbow?|7|5|6|8
+On which date is Independence Day celebrated in India?|15 August|26 January|2 October|14 November
+On which date is Republic Day celebrated in India?|26 January|15 August|5 September|1 May
+Gandhi Jayanti is celebrated on?|2 October|14 November|15 August|26 January
+Children's Day is celebrated on the birthday of?|Jawaharlal Nehru|Mahatma Gandhi|Dr. Kalam|Sardar Patel
+Which festival is the festival of lights?|Diwali|Holi|Eid|Pongal
+What do we call a baby cow?|Calf|Kitten|Puppy|Cub`);
+TB('gk',4,10,`Who is known as the 'Missile Man of India'?|Dr. A. P. J. Abdul Kalam
+Who won the 1930 Nobel Prize in Physics for the Raman effect?|C. V. Raman
+Who was the first Indian to travel to space?|Rakesh Sharma
+Who was the first woman of Indian origin in space?|Kalpana Chawla
+Who won the Nobel Peace Prize in 1979 for work in Kolkata?|Mother Teresa
+Who was India's first woman Prime Minister?|Indira Gandhi
+Who was India's first woman President?|Pratibha Patil
+Who was the first Indian to win a Nobel Prize (Literature, 1913)?|Rabindranath Tagore
+Who is called the 'Nightingale of India'?|Sarojini Naidu
+Who is known as the 'Father of the Indian Constitution'?|Dr. B. R. Ambedkar`);
+TB('gk',6,10,`Which Indian space agency launched Chandrayaan-3?|ISRO|NASA|DRDO|BARC
+India's first satellite, launched in 1975, was named?|Aryabhata|Bhaskara|INSAT-1A|Rohini
+Which bank is India's central bank?|Reserve Bank of India|State Bank of India|Punjab National Bank|NABARD
+Who appoints the Prime Minister of India?|The President|The Chief Justice|The Lok Sabha Speaker|The Vice-President
+What is the minimum voting age in India?|18 years|21 years|16 years|25 years
+Which Article of the Constitution abolishes untouchability?|Article 17|Article 14|Article 19|Article 21
+Fundamental Rights are in which Part of the Constitution?|Part III|Part I|Part IV|Part V
+How many houses does India's Parliament have?|Two|One|Three|Four`);
+TB('geo',4,10,`Varanasi|Ganga
+Agra|Yamuna
+Ahmedabad|Sabarmati
+Kolkata|Hooghly
+Hyderabad|Musi
+Nashik|Godavari
+Delhi|Yamuna
+Vijayawada|Krishna
+Lucknow|Gomti
+Surat|Tapti
+Patna|Ganga`,'Which river flows by the city of #?');
+TB('geo',6,10,`Hirakud Dam|Mahanadi
+Bhakra Nangal Dam|Sutlej
+Tehri Dam|Bhagirathi
+Sardar Sarovar Dam|Narmada
+Nagarjuna Sagar Dam|Krishna
+Mettur Dam|Kaveri
+Indira Sagar Dam|Narmada`,'On which river is the # built?');
+TB('geo',5,10,`India|New Delhi
+Nepal|Kathmandu
+Bhutan|Thimphu
+Bangladesh|Dhaka
+Pakistan|Islamabad
+Afghanistan|Kabul
+Myanmar|Naypyidaw
+China|Beijing
+Japan|Tokyo
+France|Paris
+United Kingdom|London
+United States|Washington, D.C.
+Russia|Moscow
+Egypt|Cairo
+Australia|Canberra
+Canada|Ottawa
+Germany|Berlin
+Italy|Rome
+Brazil|Brasília`,'What is the capital of #?');
+TB('geo',0,5,`In which direction does the Sun rise?|East|West|North|South
+How many continents are there?|7|5|6|8
+Which is the largest continent?|Asia|Africa|Europe|Australia
+Which is the largest ocean?|Pacific Ocean|Indian Ocean|Atlantic Ocean|Arctic Ocean
+We live on which planet?|Earth|Mars|Venus|Jupiter
+Which is the highest mountain peak in the world?|Mount Everest|K2|Kangchenjunga|Nanda Devi
+Which desert is in Rajasthan?|Thar Desert|Sahara Desert|Gobi Desert|Kalahari Desert
+Which ocean lies to the south of India?|Indian Ocean|Pacific Ocean|Atlantic Ocean|Arctic Ocean
+Which mountains lie in the north of India?|Himalayas|Western Ghats|Aravallis|Vindhyas
+Which river is called the holiest river in India?|Ganga|Narmada|Krishna|Kaveri`);
+TB('geo',6,10,`The Tropic of Cancer passes through how many Indian states?|8|5|10|12
+Which is the highest peak in India?|Kangchenjunga|Mount Everest|Nanda Devi|Kamet
+Which is the southernmost point of mainland India?|Kanyakumari|Rameswaram|Kochi|Goa
+Which Indian state has the longest coastline?|Gujarat|Tamil Nadu|Kerala|Maharashtra
+Which state is the largest by area in India?|Rajasthan|Madhya Pradesh|Maharashtra|Uttar Pradesh
+Which state is the largest by population in India?|Uttar Pradesh|Maharashtra|Bihar|West Bengal
+Which state is called the 'Land of Five Rivers'?|Punjab|Haryana|Gujarat|Assam
+The Sundarbans delta is in which state?|West Bengal|Odisha|Kerala|Gujarat
+Which soil is best for growing cotton?|Black soil|Alluvial soil|Red soil|Laterite soil
+Which plateau covers much of southern India?|Deccan Plateau|Malwa Plateau|Chota Nagpur Plateau|Meghalaya Plateau
+Which river flows through Assam?|Brahmaputra|Narmada|Godavari|Sutlej
+The Standard Meridian of India is?|82°30′ E|75° E|90° E|68° E
+Which Indian state produces the most tea?|Assam|Kerala|Karnataka|Gujarat
+India's southernmost point (Indira Point) is in which island group?|Andaman and Nicobar Islands|Lakshadweep|Maldives|Sri Lanka`);
+TB('history',4,10,`Who is called the Father of the Nation?|Mahatma Gandhi
+Who is known as the Iron Man of India?|Sardar Vallabhbhai Patel
+Who was independent India's first Prime Minister?|Jawaharlal Nehru
+Who gave the call 'Give me blood, and I will give you freedom'?|Subhas Chandra Bose
+Which queen of Jhansi fought in the Revolt of 1857?|Rani Lakshmibai
+Which revolutionary was hanged in 1931 with Rajguru and Sukhdev?|Bhagat Singh
+Who chaired the Drafting Committee of the Constitution?|Dr. B. R. Ambedkar
+Who said 'Swaraj is my birthright and I shall have it'?|Bal Gangadhar Tilak
+Who wrote the song 'Vande Mataram'?|Bankim Chandra Chatterjee
+Who was the first President of India?|Dr. Rajendra Prasad
+Who gave the slogan 'Jai Jawan Jai Kisan'?|Lal Bahadur Shastri
+Who was the first Indian woman President of the Indian National Congress?|Sarojini Naidu
+Who led the Dandi March in 1930?|Mahatma Gandhi
+Who wrote 'Jana Gana Mana', India's national anthem?|Rabindranath Tagore`);
+TB('history',5,10,`India became independent|1947
+The first Battle of Panipat was fought|1526
+The Battle of Plassey was fought|1757
+The Third Battle of Panipat was fought|1761
+The Battle of Buxar was fought|1764
+The Battle of Haldighati was fought|1576
+The Second Battle of Tarain was fought|1192
+The Indian National Congress was founded|1885
+Bengal was partitioned by the British|1905
+The Jallianwala Bagh massacre happened|1919
+The Non-Cooperation Movement began|1920
+The Simon Commission came to India|1928
+The Dandi (Salt) March took place|1930
+The Quit India Movement began|1942
+The Constitution was adopted by the Constituent Assembly|1949
+The Constitution came into effect|1950
+Gandhi returned to India from South Africa|1915`,'In which year was this event: # ?');
+TB('history',3,10,`Mohenjo-daro and Harappa were cities of which civilisation?|Indus Valley Civilisation|Vedic Age|Gupta Empire|Mughal Empire
+Who founded the Maurya Empire?|Chandragupta Maurya|Ashoka|Harsha|Akbar
+After which war did Ashoka give up violence?|Kalinga War|Battle of Plassey|Battle of Panipat|Battle of Buxar
+Ashoka's edicts were mostly written in which script?|Brahmi|Devanagari|Persian|Tamil
+Who built the Taj Mahal?|Shah Jahan|Akbar|Babur|Aurangzeb
+Which Mughal emperor built Fatehpur Sikri?|Akbar|Humayun|Jahangir|Shah Jahan
+Who founded the Mughal Empire in India?|Babur|Akbar|Humayun|Sher Shah Suri
+Which Chola king built the Brihadeeswarar Temple at Thanjavur?|Rajaraja Chola I|Ashoka|Krishnadevaraya|Shivaji
+Which Gupta ruler is often called the 'Napoleon of India'?|Samudragupta|Chandragupta I|Skandagupta|Kumaragupta
+Which Chinese pilgrim visited India during Harsha's reign?|Xuanzang|Fa-Hien|Marco Polo|Ibn Battuta
+Which ancient university in Bihar attracted students from many lands?|Nalanda|Aligarh|Shantiniketan|Banaras
+Who founded Sikhism?|Guru Nanak|Guru Gobind Singh|Kabir|Ramananda
+Who was crowned Chhatrapati at Raigad in 1674?|Shivaji|Sambhaji|Baji Rao I|Maharana Pratap
+Where did the Revolt of 1857 begin?|Meerut|Plassey|Bombay|Madras
+Who was the last Viceroy and first Governor-General of free India?|Lord Mountbatten|Lord Curzon|Lord Dalhousie|Lord Wellesley
+Which Congress session in 1929 declared Poorna Swaraj the goal?|Lahore|Bombay|Calcutta|Lucknow
+Who rebuilt the Grand Trunk Road in the 16th century?|Sher Shah Suri|Akbar|Ashoka|Shah Jahan
+Which movement used the slogan 'Do or Die'?|Quit India Movement|Non-Cooperation Movement|Swadeshi Movement|Civil Disobedience Movement
+Which massacre took place in Amritsar in 1919?|Jallianwala Bagh|Chauri Chaura|Kakori|Dandi`);
+TB('history',0,5,`Who is the Father of our Nation?|Mahatma Gandhi|Jawaharlal Nehru|Subhas Chandra Bose|Bhagat Singh
+Which colour is at the top of the Indian flag?|Saffron|Green|White|Blue
+What colour is the Ashoka Chakra on the flag?|Navy blue|Red|Black|Yellow
+Who was the first Prime Minister of India?|Jawaharlal Nehru|Mahatma Gandhi|Sardar Patel|Dr. Rajendra Prasad
+Which king built the Taj Mahal in memory of his wife?|Shah Jahan|Ashoka|Akbar|Shivaji
+At which fort does the Prime Minister hoist the flag on 15 August?|Red Fort|Agra Fort|Golconda Fort|Amber Fort`);
+TB('sci',7,10,`Hydrogen|H
+Helium|He
+Carbon|C
+Nitrogen|N
+Oxygen|O
+Sodium|Na
+Potassium|K
+Calcium|Ca
+Iron|Fe
+Copper|Cu
+Silver|Ag
+Gold|Au
+Mercury|Hg
+Lead|Pb
+Zinc|Zn
+Chlorine|Cl
+Sulphur|S
+Magnesium|Mg
+Aluminium|Al
+Neon|Ne`,'What is the chemical symbol of #?');
+TB('sci',7,10,`Force|newton
+Work or energy|joule
+Power|watt
+Pressure|pascal
+Frequency|hertz
+Electric current|ampere
+Electrical resistance|ohm
+Potential difference|volt
+Electric charge|coulomb
+Mass|kilogram
+Length|metre
+Time|second
+Temperature|kelvin`,'What is the SI unit of #?');
+TB('sci',3,8,`Heart|It pumps blood around the body
+Lungs|They help us breathe
+Kidneys|They filter blood and remove waste
+Stomach|It helps digest food
+Brain|It controls the body and thinking
+Skin|It protects the body and senses touch
+Small intestine|It absorbs digested food`,'What is the main job of the #?');
+TB('sci',0,5,`Which animal gives us milk?|Cow|Lion|Fish|Snake
+Which part of a plant absorbs water from the soil?|Roots|Leaves|Flowers|Fruits
+Which organ do we use to smell?|Nose|Ears|Eyes|Hands
+Which organ do we use to hear?|Ears|Eyes|Nose|Tongue
+What do bees make?|Honey|Milk|Butter|Sugar
+Which animal is called the 'Ship of the Desert'?|Camel|Horse|Elephant|Cow
+Frozen water is called?|Ice|Steam|Cloud|Fog
+How many legs does an insect have?|6|4|8|10
+Which gas do we breathe in to stay alive?|Oxygen|Smoke|Helium|Carbon dioxide
+Which bird gives us eggs and also clucks?|Hen|Eagle|Crow|Owl
+Which planet is closest to the Sun?|Mercury|Earth|Mars|Jupiter
+What do plants need to make their food?|Sunlight and water|Sand and stones|Plastic|Only milk`);
+TB('sci',4,10,`Which planet is known as the Red Planet?|Mars|Venus|Jupiter|Saturn
+Which is the largest planet in our solar system?|Jupiter|Saturn|Earth|Neptune
+Which planet has prominent rings?|Saturn|Mars|Mercury|Venus
+Which is the hottest planet in our solar system?|Venus|Mercury|Mars|Jupiter
+What is Earth's natural satellite?|Moon|Sun|Mars|Phobos`);
+TB('sci',6,10,`Which gas do plants take in for photosynthesis?|Carbon dioxide|Oxygen|Nitrogen|Hydrogen
+Which organelle is called the powerhouse of the cell?|Mitochondria|Nucleus|Ribosome|Vacuole
+What is the pH of a neutral solution at 25 °C?|7|0|1|14
+What is the chemical formula of water?|H₂O|CO₂|NaCl|O₂
+Which gas is most abundant in Earth's atmosphere?|Nitrogen|Oxygen|Carbon dioxide|Argon
+Which vitamin does the body make with sunlight?|Vitamin D|Vitamin C|Vitamin A|Vitamin B12
+Which blood cells carry oxygen?|Red blood cells|White blood cells|Platelets|Plasma
+Which is the hardest natural substance?|Diamond|Iron|Quartz|Gold
+Which metal is liquid at room temperature?|Mercury|Iron|Copper|Zinc
+Which acid is found in lemons?|Citric acid|Acetic acid|Sulphuric acid|Hydrochloric acid
+What is the formula of common salt?|NaCl|KCl|CaCO₃|NaOH
+Which lens is used in a magnifying glass?|Convex lens|Concave lens|Plane mirror|Prism
+What is the speed of light, approximately?|3 × 10⁸ m/s|3 × 10⁶ m/s|3 × 10⁵ m/s|3 × 10³ m/s
+Newton's first law is also called the law of?|Inertia|Gravitation|Action-reaction|Acceleration
+What is the atomic number of carbon?|6|12|8|14`);
+/*ENDGEN*/
+
 var ICONS={
  flame:['M12 2c1 4-3 5-3 9a5 5 0 0010 0c0-2-1-3-2-4 0 2-1 3-2 3 1-4-1-6-3-8z',1],
  bolt:['M13 2L4 14h7l-1 8 9-12h-7z',1],
@@ -495,9 +788,9 @@ function mastery(s){if(!s.cards.length)return 0;var t=0;s.cards.forEach(function
 function builtins(){
   if(!st.cls)return [];
   return SUBJ.map(function(s){
-    var rows=s.k==='gk'?BANK.gk:((BANK[s.k]&&BANK[s.k][st.cls])||LOW_BANK[s.k]||BANK.gk);
+    var base=s.k==='gk'?BANK.gk:((BANK[s.k]&&BANK[s.k][st.cls])||LOW_BANK[s.k]||BANK.gk);var rows=base.concat(genFor(s.k,st.cls));
     return {id:'b:'+s.k+':'+st.cls,name:s.n,color:s.c,builtin:true,cards:rows.map(function(r,i){
-      var pk='b:'+s.k+':'+(s.k==='gk'?'x':st.cls)+':'+i;
+      var pk=i<base.length?'b:'+s.k+':'+(s.k==='gk'?'x':st.cls)+':'+i:'g:'+s.k+':'+st.cls+':'+i;
       return {id:'q'+i,pk:pk,q:r[0],a:r[1],d:r[2],box:st.prog[pk]||0}})}});
 }
 function find(id){var l=st.subjects.filter(function(s){return s.id===id})[0];if(l)return l;return builtins().filter(function(s){return s.id===id})[0]}
@@ -529,9 +822,9 @@ function classPick(){
   var classes=[['UKG',11],['Class 1',1],['Class 2',2],['Class 3',3],['Class 4',4],['Class 5',5],['Class 6',6],['Class 7',7],['Class 8',8],['Class 9',9],['Class 10',10]];
   var t=classes.map(function(c,i){return '<button class="tile cls" style="--c:'+COLORS[i%COLORS.length]+'" data-a="setcls" data-v="'+c[1]+'"><h3>'+c[0]+'</h3><div class="small">Subjects, lessons & quizzes</div></button>'}).join('');
   var conf=ui.confirm&&ui.confirm.indexOf('class:')===0?Number(ui.confirm.split(':')[1]):null;
-  var prompt=conf!==null?'<div class="card"><h3>Change to '+(conf===11?'UKG':'Class '+conf)+'?</h3><p class="small">Only progress for your previous class subjects will reset. Your XP, streak, badges, personal decks, and profile will stay safe.</p><div class="row"><button class="btn alt" data-a="cancelclass">'+tr('cancel')+'</button><button class="btn" data-a="confirmclass" data-v="'+conf+'">'+tr('confirm')+'</button></div></div>':'';
+  var prompt=conf!==null?'<div class="card"><h3>Change to '+(conf===11?'UKG':'Class '+conf)+'?</h3><p class="small">Changing your class resets ALL progress: XP, level, streak, badges and quiz progress. This cannot be undone. Your name, language, theme and personal decks are kept.</p><div class="row"><button class="btn alt" data-a="cancelclass">'+tr('cancel')+'</button><button class="btn" data-a="confirmclass" data-v="'+conf+'">'+tr('confirm')+'</button></div></div>':'';
   return (st.cls?'<button class="back" data-a="home">'+ic('back',20)+'Back</button>':'<div class="brand">Study<span>Quest</span></div>')+
-  '<div class="sec"><h1 style="font-size:32px;font-weight:800">Choose your class</h1><div class="small">Choose UKG or Class 1–10. Changing class will keep your overall XP and achievements.</div></div>'+prompt+'<div class="grid">'+t+'</div>'+navHtml();
+  '<div class="sec"><h1 style="font-size:32px;font-weight:800">Choose your class</h1><div class="small">Choose UKG or Class 1–10. Changing class resets your XP, level, streak and badges.</div></div>'+prompt+'<div class="grid">'+t+'</div>'+navHtml();
 }
 
 function badgesView(){
@@ -564,12 +857,12 @@ function settingsView(){
   '<div class="card sec"><h3>'+tr('sound')+'</h3><button class="btn alt small-btn" data-a="snd">'+(st.sound===false?'Turn sound on':'Turn sound off')+'</button><div class="form-note">Sound effects are generated locally. No audio is recorded.</div></div>'+
   '<div class="card sec"><h3>'+tr('support')+'</h3><div class="form-note">'+tr('noBackend')+'</div><div class="list"><div class="li"><div><b>Support line 1</b><small>9304287682</small></div><a class="support-link" href="tel:9304287682">'+tr('call')+'</a></div><div class="li"><div><b>Support line 2</b><small>6205955077</small></div><a class="support-link" href="tel:6205955077">'+tr('call')+'</a></div></div></div>'+
   '<div class="card sec"><h3>'+tr('faq')+'</h3><details><summary>Is my progress saved?</summary><p class="small">Yes, progress is saved in this app on this device. Clearing app data may erase it.</p></details><details><summary>How do I change class?</summary><p class="small">Tap Change class below the dashboard’s subjects.</p></details><details><summary>Does support form send messages?</summary><p class="small">There is no support backend connected in this version. The form checks your fields locally but cannot send a ticket yet.</p></details></div>'+
-  '<div class="card sec"><h3>Contact support</h3><div class="field"><label for="supportName">Name</label><input id="supportName" maxlength="60" placeholder="Your name"></div><div class="field"><label for="supportContact">Phone or email (optional)</label><input id="supportContact" maxlength="100" placeholder="How can we contact you?"></div><div class="field"><label for="supportMessage">Message</label><textarea id="supportMessage" maxlength="1000" placeholder="Describe the issue"></textarea></div><button class="btn small-btn" data-a="supportsubmit">Validate support request</button><div class="form-note" role="status">'+esc(ui.supportMsg||tr('noBackend'))+'</div></div>'+
+  '<div class="card sec"><h3>Contact support</h3><div class="field"><label for="supportName">Name</label><input id="supportName" maxlength="60" placeholder="Your name" value="'+esc((ui.sd||{}).n||'')+'"></div><div class="field"><label for="supportContact">Your email (required, so we can reply)</label><input id="supportContact" type="email" inputmode="email" autocomplete="email" maxlength="100" placeholder="you@example.com" value="'+esc((ui.sd||{}).c||'')+'"></div><div class="field"><label for="supportMessage">Message</label><textarea id="supportMessage" maxlength="1000" placeholder="Describe the issue">'+esc((ui.sd||{}).m||'')+'</textarea></div><button class="btn small-btn" data-a="supportsubmit"'+(ui.sending?' disabled':'')+'>Submit request</button><div class="form-note" role="status">'+esc(ui.supportMsg||tr('noBackend'))+'</div></div>'+
   '<div class="card sec"><h3>Notifications</h3><button class="btn alt small-btn" data-a="notifications">'+(st.notifications?'Reminders preference: On':'Reminders preference: Off')+'</button><div class="form-note">This stores your preference only; scheduled Android notifications are not wired up yet.</div></div>'+
   '<div class="card sec"><h3>Progress management</h3><button class="btn alt small-btn" data-a="export">Export my progress</button><button class="btn alt small-btn" data-a="reset">'+(ui.confirm==='reset'? 'Tap again to erase all progress':tr('reset'))+'</button><div class="form-note">Export creates a local JSON backup. Reset affects this app’s saved progress.</div></div>'+navHtml();
 }
 function exportData(){try{var blob=new Blob([JSON.stringify(st,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='studyquest-progress.json';a.click();setTimeout(function(){URL.revokeObjectURL(url)},1000)}catch(e){alert('Could not export on this device.')}}
-function changeClass(n){var old=st.cls;if(old===n){ui.confirm=null;ui.screen=null;ui.tab='home';render();return}var prefix='b:';Object.keys(st.prog||{}).forEach(function(k){if(k.indexOf(prefix)===0&&k.indexOf(':'+old+':')>-1)delete st.prog[k]});Object.keys(st.studied||{}).forEach(function(k){if(k.indexOf('b:')===0&&k.indexOf(':'+old)===k.length-(':'+old).length)delete st.studied[k]});st.cls=n;save();ui.confirm=null;ui.screen=null;ui.tab='home';sfx.ok(1);render()}
+function changeClass(n){var old=st.cls;if(old===n){ui.confirm=null;ui.screen=null;ui.tab='home';render();return}var keep={sound:st.sound,lang:st.lang,theme:st.theme,profile:st.profile,notifications:st.notifications,subjects:(st.subjects||[]).map(function(d){(d.cards||[]).forEach(function(c){c.box=0});return d})};st=seed();Object.keys(keep).forEach(function(k){st[k]=keep[k]});st.cls=n;S=null;save();ui.confirm=null;ui.screen=null;ui.tab='home';sfx.ok(1);render()}
 
 function subjectView(s){
   var m=mastery(s),n=s.cards.length;
@@ -689,7 +982,11 @@ app.addEventListener('click',function(e){
   else if(a==='theme'){st.theme=v==='dark'?'dark':'light';save();render()}
   else if(a==='savelang'){var ls=document.getElementById('langSelect');if(ls){st.lang=ls.value;save();render()}}
   else if(a==='saveprofile'){var pn=document.getElementById('profileName');if(pn){st.profile=st.profile||{};st.profile.name=pn.value.trim().slice(0,30)||'Learner';save();render()}}
-  else if(a==='supportsubmit'){var sn=document.getElementById('supportName'),sc=document.getElementById('supportContact'),sm=document.getElementById('supportMessage');if(!sn||!sn.value.trim()||!sm||sm.value.trim().length<8){ui.supportMsg='Please enter your name and a message of at least 8 characters.';render();return}if(sc&&sc.value.trim()&&sc.value.indexOf('@')<0&&!/^[+0-9 ()-]{7,}$/.test(sc.value.trim())){ui.supportMsg='Enter a valid phone number or email address.';render();return}ui.supportMsg='Your fields look valid, but this app has no support server connected, so nothing was sent. Please call 9304287682 or 6205955077.';render()}
+  else if(a==='supportsubmit'){if(ui.sending)return;var sn=document.getElementById('supportName'),sc=document.getElementById('supportContact'),sm=document.getElementById('supportMessage');var nv=sn?sn.value.trim():'',ev=sc?sc.value.trim():'',mv=sm?sm.value.trim():'';ui.sd={n:nv,c:ev,m:mv};
+ if(!nv||mv.length<8){ui.supportMsg='Please enter your name and a message of at least 8 characters.';render();return}
+ if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(ev)){ui.supportMsg='Please enter a valid email address so we can contact you.';render();return}
+ ui.sending=true;ui.supportMsg='Sending…';render();
+ fetch(SUPPORT_URL,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({name:nv,email:ev,message:mv,_replyto:ev,_subject:'StudyQuest support request',_captcha:'false',app:'StudyQuest',class:st.cls===11?'UKG':String(st.cls)})}).then(function(r){return r.json().catch(function(){return {}}).then(function(j){if(r.ok&&String(j.success)!=='false'){ui.sd=null;ui.supportMsg='Thank you! Your request was sent. We will reply to your email.'}else{ui.supportMsg='Could not send your request ('+(j.message||r.status)+'). Your text is kept. Try again or call 9304287682 or 6205955077.'}})}).catch(function(e){var fb=[['name',nv],['email',ev],['message',mv],['_replyto',ev],['_subject','StudyQuest support request'],['_captcha','false']].map(function(p){return encodeURIComponent(p[0])+'='+encodeURIComponent(p[1])}).join('&');return fetch(SUPPORT_URL.replace('/ajax',''),{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:fb}).then(function(){ui.sd=null;ui.supportMsg='Request submitted, but delivery cannot be confirmed from this device. If nobody replies, please call 9304287682 or 6205955077.'}).catch(function(e2){ui.supportMsg='Could not send ('+((e2&&e2.message)||'network error')+'). Your text is kept. Please call 9304287682 or 6205955077.'})}).then(function(){ui.sending=false;render()})}
   else if(a==='notifications'){st.notifications=!st.notifications;save();render()}
   else if(a==='export'){exportData()} 
   else if(a==='open'){sfx.tap();go('sub:'+v)}
@@ -746,7 +1043,7 @@ render();
   }
 
   body.has-admob-banner {
-    padding-bottom: 60px !important;
+    padding-top: 60px !important;
   }
 </style>
 
@@ -771,7 +1068,7 @@ render();
     await admob.showBanner({
       adId: "ca-app-pub-5129021458262508/1417917582",
       adSize: "BANNER",
-      position: "BOTTOM_CENTER",
+      position: "TOP_CENTER",
       margin: 0,
       isTesting: false
     });
