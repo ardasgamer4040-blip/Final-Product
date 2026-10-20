@@ -190,7 +190,7 @@ var COLORS=['#E8B8AC','#9BCDB8','#E9CC79','#B9AFE0','#E7A9BE','#A8C7D8'];
 var LANGS=[['en','English'],['hi','हिन्दी'],['bn','বাংলা'],['mr','मराठी'],['gu','ગુજરાતી'],['ta','தமிழ்'],['te','తెలుగు'],['kn','ಕನ್ನಡ'],['ml','മലയാളം'],['pa','ਪੰਜਾਬੀ'],['or','ଓଡ଼ିଆ'],['as','অসমীয়া'],['ur','اردو']];
 var WORDS={en:{home:'Dashboard',quests:'Quests',badges:'Achievements',profile:'Profile',settings:'Settings',subjects:'Subjects',change:'Change class',daily:'Daily goal',sound:'Sound effects',language:'Language',theme:'Theme',light:'Pastel light',dark:'Night',support:'Support',faq:'FAQs',save:'Save',cancel:'Cancel',confirm:'Confirm',class:'Class',xp:'XP',streak:'Streak',call:'Call support',progress:'Progress',reset:'Reset progress',name:'Your name',help:'How can we help?',noBackend:'Send us a message with the form below, or call one of the support numbers.',questsTitle:'Today’s quests',questions:'Answer 10 questions',perfect:'Get 3 answers correct in a row',explore:'Try 2 different subjects'},hi:{home:'डैशबोर्ड',quests:'मिशन',badges:'उपलब्धियाँ',profile:'प्रोफ़ाइल',settings:'सेटिंग्स',subjects:'विषय',change:'कक्षा बदलें',daily:'दैनिक लक्ष्य',sound:'ध्वनि प्रभाव',language:'भाषा',theme:'थीम',light:'पेस्टल लाइट',dark:'नाइट',support:'सहायता',faq:'सामान्य प्रश्न',save:'सहेजें',cancel:'रद्द करें',confirm:'पुष्टि करें',class:'कक्षा',xp:'XP',streak:'लगातार दिन',call:'सहायता को कॉल करें',progress:'प्रगति',reset:'प्रगति रीसेट करें',name:'आपका नाम',help:'हम कैसे मदद कर सकते हैं?',questsTitle:'आज के मिशन',questions:'10 सवालों के जवाब दें',perfect:'लगातार 3 सही जवाब दें',explore:'2 अलग-अलग विषय आज़माएँ'},ur:{home:'ڈیش بورڈ',quests:'مہمات',badges:'کامیابیاں',profile:'پروفائل',settings:'ترتیبات',subjects:'مضامین',change:'کلاس تبدیل کریں',daily:'روزانہ کا ہدف',sound:'آواز کے اثرات',language:'زبان',theme:'تھیم',light:'ہلکی پیسٹل',dark:'رات',support:'مدد',faq:'عام سوالات',save:'محفوظ کریں',cancel:'منسوخ',confirm:'تصدیق',class:'کلاس',xp:'XP',streak:'مسلسل دن',call:'مدد کے لیے کال',progress:'پیش رفت',reset:'پیش رفت ری سیٹ کریں',name:'آپ کا نام',help:'ہم کیسے مدد کر سکتے ہیں؟',questsTitle:'آج کے مشن',questions:'10 سوالات کے جواب دیں',perfect:'لگاتار 3 درست جواب دیں',explore:'2 مختلف مضامین آزمائیں'}};
 function tr(k){var l=st&&st.lang||'en';return (WORDS[l]&&WORDS[l][k])||WORDS.en[k]||k;}
-var SUBJ=[{k:'history',n:'History',c:'#E59A00'},{k:'geo',n:'Geography',c:'#0FA5A0'},{k:'sci',n:'Science',c:'#3FA34D'},{k:'math',n:'Maths',c:'#3B82F6'},{k:'gk',n:'India GK',c:'#E8479B'}];
+var SUBJ=[{k:'eng',n:'English',c:'#7C5CFF'},{k:'history',n:'History',c:'#E59A00'},{k:'geo',n:'Geography',c:'#0FA5A0'},{k:'sci',n:'Science',c:'#3FA34D'},{k:'math',n:'Maths',c:'#3B82F6'},{k:'gk',n:'India GK',c:'#E8479B'}];
 
 /* Question bank: [question, correct answer, [3 wrong answers]] — NCERT-style, by class */
 var BANK={
@@ -440,8 +440,8 @@ function MATH(c){var r=rng(c*977+13),out=[],seen={};
   for(var j=1;o.length<3;j++)o.push(String(a+100+j));return o}
  function P(q,a,dec){if(seen[q])return;seen[q]=1;out.push([q,String(a),nd(a,dec)])}
  var g=c<=1?0:c==2?1:c==3?2:c==4?3:c==5?4:c<=7?5:c==8?6:7,pr=[[3,4,5],[5,12,13],[8,15,17],[7,24,25],[20,21,29]];
- for(var i=0;i<1200&&out.length<150;i++){var k=i%4,a,b,m,h;
-  if(g==0){a=R(1,9);b=R(1,10-a);k%2?P(a+' + '+b+' = ?',a+b):P((a+b)+' − '+a+' = ?',b)}
+ for(var i=0;i<4000&&out.length<250;i++){var k=i%4,a,b,m,h;
+  if(c===0){var em=['🍎','⭐','🎈','🐟','🌸'][R(0,4)],nn=R(1,9);if(k==0)P('How many '+em+' are there? '+new Array(nn+1).join(em),nn);else if(k==1)P('What comes after '+nn+'?',nn+1);else if(k==2){a=R(1,4);b=R(1,5-a);P(a+' + '+b+' = ?',a+b)}else{a=R(1,9);b=R(1,9);if(a!==b)P('Which number is bigger: '+a+' or '+b+'?',Math.max(a,b))}}else if(g==0){a=R(1,9);b=R(1,10-a);k%2?P(a+' + '+b+' = ?',a+b):P((a+b)+' − '+a+' = ?',b)}
   else if(g==1){a=R(10,60);b=R(5,39);if(k==0)P(a+' + '+b+' = ?',a+b);else if(k==1)P((a+b)+' − '+b+' = ?',a);else{m=[2,3,4,5,10][R(0,4)];b=R(1,10);P(m+' × '+b+' = ?',m*b)}}
   else if(g==2){if(k==0){a=R(100,500);b=R(100,400);P(a+' + '+b+' = ?',a+b)}else if(k==1){a=R(500,999);b=R(100,499);P(a+' − '+b+' = ?',a-b)}else if(k==2){a=R(2,12);b=R(2,12);P(a+' × '+b+' = ?',a*b)}else{a=R(2,12);b=R(2,12);P(a*b+' ÷ '+a+' = ?',b)}}
   else if(g==3){if(k==0){a=R(12,99);b=R(2,9);P(a+' × '+b+' = ?',a*b)}else if(k==1){a=R(1000,5000);b=R(100,999);P(a+' + '+b+' = ?',a+b)}else if(k==2){a=R(5,40);b=R(3,25);P('Perimeter of a rectangle '+a+' cm by '+b+' cm (in cm)?',2*(a+b))}else{a=R(3,12);b=R(11,99);P(a*b+' ÷ '+a+' = ?',b)}}
@@ -452,7 +452,7 @@ function MATH(c){var r=rng(c*977+13),out=[],seen={};
  return out}
 var GC={};
 function genFor(s,c){var key=s+c;if(GC[key])return GC[key];var l=c===11?0:c,out=[];
- if(s==='math')return GC[key]=MATH(l);
+ if(s==='math')out=MATH(l);
  var r=rng(l*31+s.length*7+1);
  TBL.forEach(function(t){if(t.s!==s||l<t.lo||l>t.hi)return;var ans=t.rows.map(function(x){return x[1]});
   t.rows.forEach(function(x){var w=x[2];if(!w){w=[];var n=0;while(w.length<3&&n++<80){var c2=ans[Math.floor(r()*ans.length)];if(c2!==x[1]&&w.indexOf(c2)<0)w.push(c2)}}if(w.length===3&&w.indexOf(x[1])<0)out.push([x[0],x[1],w])})});
@@ -497,21 +497,7 @@ Meenakshi Temple|Madurai
 Mysore Palace|Mysuru
 India Gate|Delhi
 Lotus Temple|Delhi`,'In which city is the # located?');
-TB('gk',0,5,`India's national animal is?|Tiger|Lion|Elephant|Leopard
-India's national bird is?|Peacock|Sparrow|Parrot|Crow
-India's national flower is?|Lotus|Rose|Marigold|Jasmine
-India's national fruit is?|Mango|Apple|Banana|Orange
-India's national tree is?|Banyan|Neem|Mango|Peepal
-India's currency is the?|Rupee|Dollar|Taka|Yen
-How many days are in a week?|7|5|6|8
-How many months are in a year?|12|10|11|13
-How many colours are in a rainbow?|7|5|6|8
-On which date is Independence Day celebrated in India?|15 August|26 January|2 October|14 November
-On which date is Republic Day celebrated in India?|26 January|15 August|5 September|1 May
-Gandhi Jayanti is celebrated on?|2 October|14 November|15 August|26 January
-Children's Day is celebrated on the birthday of?|Jawaharlal Nehru|Mahatma Gandhi|Dr. Kalam|Sardar Patel
-Which festival is the festival of lights?|Diwali|Holi|Eid|Pongal
-What do we call a baby cow?|Calf|Kitten|Puppy|Cub`);
+
 TB('gk',4,10,`Who is known as the 'Missile Man of India'?|Dr. A. P. J. Abdul Kalam
 Who won the 1930 Nobel Prize in Physics for the Raman effect?|C. V. Raman
 Who was the first Indian to travel to space?|Rakesh Sharma
@@ -687,7 +673,7 @@ Stomach|It helps digest food
 Brain|It controls the body and thinking
 Skin|It protects the body and senses touch
 Small intestine|It absorbs digested food`,'What is the main job of the #?');
-TB('sci',0,5,`Which animal gives us milk?|Cow|Lion|Fish|Snake
+TB('sci',3,5,`Which animal gives us milk?|Cow|Lion|Fish|Snake
 Which part of a plant absorbs water from the soil?|Roots|Leaves|Flowers|Fruits
 Which organ do we use to smell?|Nose|Ears|Eyes|Hands
 Which organ do we use to hear?|Ears|Eyes|Nose|Tongue
@@ -719,7 +705,895 @@ Which lens is used in a magnifying glass?|Convex lens|Concave lens|Plane mirror|
 What is the speed of light, approximately?|3 × 10⁸ m/s|3 × 10⁶ m/s|3 × 10⁵ m/s|3 × 10³ m/s
 Newton's first law is also called the law of?|Inertia|Gravitation|Action-reaction|Acceleration
 What is the atomic number of carbon?|6|12|8|14`);
+TB('sci',0,2,`Which animal says 'moo'?|Cow|Dog|Cat|Duck
+Which animal says 'meow'?|Cat|Cow|Dog|Hen
+Which animal says 'bow-wow'?|Dog|Cat|Cow|Lion
+Which animal has a long trunk?|Elephant|Cat|Rabbit|Fish
+Which animal can fly?|Bird|Fish|Dog|Cow
+Which animal lives in water?|Fish|Cat|Cow|Horse
+Which is a fruit?|Apple|Chair|Pencil|Shoe
+Which is a vegetable?|Potato|Banana|Mango|Grapes
+What colour is the sun?|Yellow|Blue|Green|Black
+What colour is grass?|Green|Red|Pink|Black
+What colour is a ripe tomato?|Red|Blue|Green|White
+What colour is milk?|White|Black|Blue|Red
+We see with our ___|eyes|ears|nose|hands
+We hear with our ___|ears|eyes|feet|nose
+We smell with our ___|nose|ears|hands|eyes
+We walk with our ___|legs|eyes|ears|head
+Which meal do we eat in the morning?|Breakfast|Dinner|Lunch|Sleep`);
+TB('sci',1,2,`How many legs does a dog have?|4|2|6|8
+Which season brings rain?|Monsoon|Summer|Winter|Spring
+Which season is very hot?|Summer|Winter|Monsoon|Autumn
+Which animal gives us wool?|Sheep|Cow|Dog|Cat
+Which bird can talk like us?|Parrot|Crow|Owl|Eagle
+Where does a fish live?|Water|Tree|Sand|Nest
+What do plants need to grow?|Water and sunlight|Only sand|Plastic|Chocolate
+Which animal is the biggest?|Elephant|Cat|Rabbit|Hen
+What gives us light in the day?|Sun|Moon|Star|Candle
+What do we drink to stay healthy?|Water|Paint|Petrol|Ink`);
+TB('math',0,2,`How many sides does a triangle have?|3|2|4|5
+How many sides does a square have?|4|3|5|6
+Which shape is round?|Circle|Square|Triangle|Rectangle
+How many fingers are on one hand?|5|4|6|10
+How many eyes do we have?|2|1|3|4
+Which is the biggest number?|9|3|5|1
+Which is the biggest number?|8|2|4|6`);
+TB('gk',0,5,`India's national animal is?|Tiger|Lion|Elephant|Leopard
+India's national bird is?|Peacock|Sparrow|Parrot|Crow
+India's national flower is?|Lotus|Rose|Marigold|Jasmine`);
+TB('gk',1,5,`How many days are in a week?|7|5|6|8
+What do we call a baby cow?|Calf|Kitten|Puppy|Cub
+Which festival is the festival of lights?|Diwali|Holi|Eid|Pongal`);
+TB('gk',2,5,`How many months are in a year?|12|10|11|13
+How many colours are in a rainbow?|7|5|6|8
+India's national fruit is?|Mango|Apple|Banana|Orange
+India's currency is the?|Rupee|Dollar|Taka|Yen`);
+TB('gk',3,5,`On which date is Independence Day celebrated in India?|15 August|26 January|2 October|14 November
+On which date is Republic Day celebrated in India?|26 January|15 August|5 September|1 May
+Gandhi Jayanti is celebrated on?|2 October|14 November|15 August|26 January
+Children's Day is celebrated on the birthday of?|Jawaharlal Nehru|Mahatma Gandhi|Dr. Kalam|Sardar Patel`);
+TB('eng',0,2,`A|Apple
+B|Ball
+C|Cat
+D|Dog
+E|Egg
+F|Fish
+G|Goat
+H|Hat
+I|Ice cream
+J|Jug
+K|Kite
+L|Lion
+M|Mango
+N|Nest
+O|Orange
+P|Parrot
+Q|Queen
+R|Rabbit
+S|Sun
+T|Tiger
+U|Umbrella
+V|Van
+W|Watch
+Y|Yak
+Z|Zebra`,'# is for ___');
+TB('eng',0,1,`A|B
+B|C
+C|D
+D|E
+E|F
+F|G
+G|H
+H|I
+J|K
+K|L
+L|M
+M|N
+N|O
+P|Q
+Q|R
+R|S
+S|T
+T|U
+U|V
+W|X
+X|Y
+Y|Z`,'Which letter comes after #?');
+TB('eng',0,2,`Which letter is a vowel?|A|B|C|D
+Which letter is a vowel?|E|F|G|H
+Which letter is a vowel?|I|J|K|L
+Which letter is a vowel?|O|P|Q|R
+Which letter is a vowel?|U|V|W|X`);
+TB('eng',1,4,`hot|cold
+big|small
+up|down
+day|night
+happy|sad
+tall|short
+fast|slow
+hard|soft
+old|new
+open|close
+full|empty
+in|out`,'What is the opposite of #?');
+TB('eng',2,5,`cat|cats
+boy|boys
+box|boxes
+child|children
+mouse|mice
+man|men
+foot|feet
+tooth|teeth
+bus|buses
+baby|babies
+leaf|leaves
+woman|women`,'What is the plural of #?');
+TB('eng',1,3,`dog|puppy
+cat|kitten
+cow|calf
+horse|foal
+sheep|lamb
+hen|chick
+duck|duckling`,'What do we call a baby #?');
+TB('eng',3,6,`happy|glad
+big|large
+begin|start
+quick|fast
+smart|clever
+small|tiny
+rich|wealthy
+shut|close
+silent|quiet
+buy|purchase`,'Which word means the same as #?');
+TB('eng',3,7,`brave|cowardly
+ancient|modern
+victory|defeat
+strong|weak
+always|never
+accept|refuse
+increase|decrease
+generous|selfish
+expand|contract
+arrive|depart`,'What is the opposite of #?');
+TB('eng',3,10,`She ___ to school every day.|goes|go|going|gone
+They ___ playing football now.|are|is|am|be
+He ___ his homework yesterday.|finished|finishes|finish|finishing
+Which word is a noun?|Delhi|Run|Quickly|Beautiful
+Which word is a verb?|Jump|Table|Blue|Soft
+Which word is an adjective?|Beautiful|Sing|Slowly|Book
+Which word is an adverb?|Quickly|Quick|Run|Table
+___ apple a day keeps the doctor away.|An|A|The|Some
+She is ___ honest girl.|an|a|the|one
+The cat is ___ the table.|under|of|and|but
+Choose the correct spelling.|Beautiful|Beutiful|Beautifull|Buetiful
+Choose the correct spelling.|Receive|Recieve|Receve|Receeve
+Which is a proper noun?|India|country|city|river
+Which punctuation mark ends a question?|Question mark|Full stop|Comma|Exclamation mark
+Which sentence is correct?|He does not like tea.|He do not like tea.|He don't likes tea.|He not like tea.`);
+TB('eng',6,10,`'A piece of cake' means?|Very easy|A dessert|A small gift|Very costly
+'Once in a blue moon' means?|Very rarely|Every night|Very often|Never
+'To spill the beans' means?|To reveal a secret|To cook|To waste food|To tell a lie
+'To break the ice' means?|To start a conversation|To break something|To feel cold|To stop talking
+One word for 'a place where books are kept'?|Library|Museum|Bakery|Studio
+The passive form of 'She wrote a letter' is?|A letter was written by her|A letter is written by her|She was written by a letter|A letter wrote her
+Identify the tense: 'I have finished my work.'|Present perfect|Simple past|Past perfect|Future perfect
+Neither of the boys ___ present.|was|were|are|have been
+Synonym of 'abundant'?|Plentiful|Scarce|Tiny|Rare
+Antonym of 'transparent'?|Opaque|Clear|Thin|Bright`);
+TB('gk',0,2,`Which vehicle flies in the sky?|Aeroplane|Car|Bus|Bicycle
+Which vehicle has two wheels?|Bicycle|Bus|Train|Truck
+What do we use to write?|Pencil|Spoon|Comb|Soap
+Which animal is a pet?|Dog|Lion|Tiger|Wolf
+What do we wear on our feet?|Shoes|Cap|Gloves|Scarf
+What do we use to brush our teeth?|Toothbrush|Comb|Spoon|Plate`);
 /*ENDGEN*/
+
+/*HI*/
+var XM={},XO=['bn','mr','gu','ta','te','kn','ml','pa','or','as','ur'];
+`Dashboard|ড্যাশবোর্ড|डॅशबोर्ड|ડેશબોર્ડ|டாஷ்போர்டு|డ్యాష్‌బోర్డ్|ಡ್ಯಾಶ್‌ಬೋರ್ಡ್|ഡാഷ്‌ബോർഡ്|ਡੈਸ਼ਬੋਰਡ|ଡ୍ୟାସବୋର୍ଡ|ডেশ্বব’ৰ্ড|ڈیش بورڈ
+Quests|মিশন|मिशन|મિશન|பணிகள்|మిషన్లు|ಮಿಷನ್‌ಗಳು|ദൗത്യങ്ങൾ|ਮਿਸ਼ਨ|ମିଶନ|মিছন|مہمات
+Achievements|অর্জন|यश|સિદ્ધિઓ|சாதனைகள்|విజయాలు|ಸಾಧನೆಗಳು|നേട്ടങ്ങൾ|ਪ੍ਰਾਪਤੀਆਂ|ସଫଳତା|কৃতিত্ব|کامیابیاں
+Badges|ব্যাজ|बॅज|બેજ|பேட்ஜ்கள்|బ్యాడ్జ్‌లు|ಬ್ಯಾಡ್ಜ್‌ಗಳು|ബാഡ്ജുകൾ|ਬੈਜ|ବ୍ୟାଜ୍|বেজ|بیجز
+Profile|প্রোফাইল|प्रोफाइल|પ્રોફાઇલ|சுயவிவரம்|ప్రొఫైల్|ಪ್ರೊಫೈಲ್|പ്രൊഫൈൽ|ਪ੍ਰੋਫਾਈਲ|ପ୍ରୋଫାଇଲ୍|প্ৰফাইল|پروفائل
+Settings|সেটিংস|सेटिंग्ज|સેટિંગ્સ|அமைப்புகள்|సెట్టింగ్‌లు|ಸೆಟ್ಟಿಂಗ್‌ಗಳು|ക്രമീകരണങ്ങൾ|ਸੈਟਿੰਗਾਂ|ସେଟିଂସ|ছেটিংছ|ترتیبات
+Subjects|বিষয়|विषय|વિષયો|பாடங்கள்|సబ్జెక్టులు|ವಿಷಯಗಳು|വിഷയങ്ങൾ|ਵਿਸ਼ੇ|ବିଷୟ|বিষয়|مضامین
+Change class|ক্লাস বদলান|इयत्ता बदला|ધોરણ બદલો|வகுப்பை மாற்று|తరగతి మార్చండి|ತರಗತಿ ಬದಲಿಸಿ|ക്ലാസ് മാറ്റുക|ਜਮਾਤ ਬਦਲੋ|ଶ୍ରେଣୀ ବଦଳାନ୍ତୁ|শ্ৰেণী সলনি কৰক|کلاس تبدیل کریں
+Daily goal|দৈনিক লক্ষ্য|दैनिक ध्येय|દૈનિક લક્ષ્ય|தினசரி இலக்கு|రోజువారీ లక్ష్యం|ದೈನಂದಿನ ಗುರಿ|ദിവസേനയുള്ള ലക്ഷ്യം|ਰੋਜ਼ਾਨਾ ਟੀਚਾ|ଦୈନିକ ଲକ୍ଷ୍ୟ|দৈনিক লক্ষ্য|روزانہ کا ہدف
+Language|ভাষা|भाषा|ભાષા|மொழி|భాష|ಭಾಷೆ|ഭാഷ|ਭਾਸ਼ਾ|ଭାଷା|ভাষা|زبان
+Support|সহায়তা|मदत|સહાય|உதவி|సహాయం|ಸಹಾಯ|സഹായം|ਸਹਾਇਤਾ|ସହାୟତା|সহায়|مدد
+FAQs|সাধারণ প্রশ্ন|नेहमीचे प्रश्न|સામાન્ય પ્રશ્નો|அடிக்கடி கேட்கப்படும் கேள்விகள்|తరచుగా అడిగే ప్రశ్నలు|ಪದೇ ಪದೇ ಕೇಳುವ ಪ್ರಶ್ನೆಗಳು|പതിവ് ചോദ്യങ്ങൾ|ਅਕਸਰ ਪੁੱਛੇ ਸਵਾਲ|ସାଧାରଣ ପ୍ରଶ୍ନ|সঘন সোধা প্ৰশ্ন|عام سوالات
+Cancel|বাতিল|रद्द करा|રદ કરો|ரத்து|రద్దు|ರದ್ದುಮಾಡಿ|റദ്ദാക്കുക|ਰੱਦ ਕਰੋ|ବାତିଲ|বাতিল|منسوخ
+Streak|ধারাবাহিক দিন|सलग दिवस|સતત દિવસો|தொடர் நாட்கள்|వరుస రోజులు|ನಿರಂತರ ದಿನಗಳು|തുടർച്ചയായ ദിവസങ്ങൾ|ਲਗਾਤਾਰ ਦਿਨ|ଧାରାବାହିକ ଦିନ|ধাৰাবাহিক দিন|مسلسل دن
+Call support|সহায়তায় কল করুন|मदतीला कॉल करा|સહાયને કૉલ કરો|உதவிக்கு அழைக்கவும்|సహాయానికి కాల్ చేయండి|ಸಹಾಯಕ್ಕೆ ಕರೆ ಮಾಡಿ|സഹായത്തെ വിളിക്കുക|ਸਹਾਇਤਾ ਨੂੰ ਕਾਲ ਕਰੋ|ସହାୟତାକୁ କଲ୍ କରନ୍ତୁ|সহায়ত কল কৰক|مدد کے لیے کال
+Reset progress|অগ্রগতি রিসেট করুন|प्रगती रीसेट करा|પ્રગતિ રીસેટ કરો|முன்னேற்றத்தை மீட்டமை|పురోగతిని రీసెట్ చేయండి|ಪ್ರಗತಿ ರೀಸೆಟ್ ಮಾಡಿ|പുരോഗതി റീസെറ്റ് ചെയ്യുക|ਤਰੱਕੀ ਰੀਸੈੱਟ ਕਰੋ|ପ୍ରଗତି ରିସେଟ୍ କରନ୍ତୁ|অগ্ৰগতি ৰিছেট কৰক|پیش رفت ری سیٹ کریں
+Your name|আপনার নাম|तुमचे नाव|તમારું નામ|உங்கள் பெயர்|మీ పేరు|ನಿಮ್ಮ ಹೆಸರು|നിങ്ങളുടെ പേര്|ਤੁਹਾਡਾ ਨਾਮ|ଆପଣଙ୍କ ନାମ|আপোনাৰ নাম|آپ کا نام
+Today’s quests|আজকের মিশন|आजचे मिशन|આજના મિશન|இன்றைய பணிகள்|నేటి మిషన్లు|ಇಂದಿನ ಮಿಷನ್‌ಗಳು|ഇന്നത്തെ ദൗത്യങ്ങൾ|ਅੱਜ ਦੇ ਮਿਸ਼ਨ|ଆଜିର ମିଶନ|আজিৰ মিছন|آج کے مشن
+Total XP|মোট XP|एकूण XP|કુલ XP|மொத்த XP|మొత్తం XP|ಒಟ್ಟು XP|ആകെ XP|ਕੁੱਲ XP|ମୋଟ XP|মুঠ XP|کل XP
+Your level|আপনার লেভেল|तुमची पातळी|તમારું લેવલ|உங்கள் நிலை|మీ స్థాయి|ನಿಮ್ಮ ಹಂತ|നിങ്ങളുടെ ലെവൽ|ਤੁਹਾਡਾ ਲੈਵਲ|ଆପଣଙ୍କ ଲେଭେଲ୍|আপোনাৰ লেভেল|آپ کا لیول
+Back|ফিরে যান|मागे|પાછા|பின்செல்|వెనుకకు|ಹಿಂದೆ|തിരികെ|ਪਿੱਛੇ|ଫେରନ୍ତୁ|উভতি যাওক|واپس
+Play quiz|কুইজ খেলুন|क्विझ खेळा|ક્વિઝ રમો|வினாடி வினா விளையாடு|క్విజ్ ఆడండి|ರಸಪ್ರಶ್ನೆ ಆಡಿ|ക്വിസ് കളിക്കുക|ਕੁਇਜ਼ ਖੇਡੋ|କୁଇଜ୍ ଖେଳନ୍ତୁ|কুইজ খেলক|کوئز کھیلیں
+Flashcards|ফ্ল্যাশকার্ড|फ्लॅशकार्ड|ફ્લેશકાર્ડ|ஃபிளாஷ் கார்டுகள்|ఫ్లాష్‌కార్డ్‌లు|ಫ್ಲ್ಯಾಶ್‌ಕಾರ್ಡ್‌ಗಳು|ഫ്ലാഷ് കാർഡുകൾ|ਫਲੈਸ਼ਕਾਰਡ|ଫ୍ଲାସ୍‌କାର୍ଡ|ফ্লেশ্বকাৰ্ড|فلیش کارڈز
+Choose your class|আপনার ক্লাস বেছে নিন|तुमची इयत्ता निवडा|તમારું ધોરણ પસંદ કરો|உங்கள் வகுப்பைத் தேர்ந்தெடுக்கவும்|మీ తరగతిని ఎంచుకోండి|ನಿಮ್ಮ ತರಗತಿಯನ್ನು ಆಯ್ಕೆಮಾಡಿ|നിങ്ങളുടെ ക്ലാസ് തിരഞ്ഞെടുക്കുക|ਆਪਣੀ ਜਮਾਤ ਚੁਣੋ|ଆପଣଙ୍କ ଶ୍ରେଣୀ ବାଛନ୍ତୁ|আপোনাৰ শ্ৰেণী বাছনি কৰক|اپنی کلاس منتخب کریں
+Choose app language|অ্যাপের ভাষা বেছে নিন|अॅपची भाषा निवडा|એપની ભાષા પસંદ કરો|செயலியின் மொழியைத் தேர்ந்தெடுக்கவும்|యాప్ భాషను ఎంచుకోండి|ಆ್ಯಪ್ ಭಾಷೆಯನ್ನು ಆಯ್ಕೆಮಾಡಿ|ആപ്പ് ഭാഷ തിരഞ്ഞെടുക്കുക|ਐਪ ਦੀ ਭਾਸ਼ਾ ਚੁਣੋ|ଆପ୍ ଭାଷା ବାଛନ୍ତୁ|এপৰ ভাষা বাছনি কৰক|ایپ کی زبان منتخب کریں
+Apply language|ভাষা প্রয়োগ করুন|भाषा लागू करा|ભાષા લાગુ કરો|மொழியைப் பயன்படுத்து|భాషను వర్తింపజేయండి|ಭಾಷೆಯನ್ನು ಅನ್ವಯಿಸಿ|ഭാഷ പ്രയോഗിക്കുക|ਭਾਸ਼ਾ ਲਾਗੂ ਕਰੋ|ଭାଷା ପ୍ରୟୋଗ କରନ୍ତୁ|ভাষা প্ৰয়োগ কৰক|زبان لاگو کریں
+Contact support|সহায়তার সঙ্গে যোগাযোগ|मदतीशी संपर्क साधा|સહાયનો સંપર્ક કરો|உதவியைத் தொடர்புகொள்ளவும்|సహాయాన్ని సంప్రదించండి|ಸಹಾಯವನ್ನು ಸಂಪರ್ಕಿಸಿ|സഹായവുമായി ബന്ധപ്പെടുക|ਸਹਾਇਤਾ ਨਾਲ ਸੰਪਰਕ ਕਰੋ|ସହାୟତା ସହ ଯୋଗାଯୋଗ କରନ୍ତୁ|সহায়ৰ সৈতে যোগাযোগ কৰক|مدد سے رابطہ کریں
+Submit request|অনুরোধ পাঠান|विनंती पाठवा|વિનંતી મોકલો|கோரிக்கையை அனுப்பு|అభ్యర్థనను పంపండి|ವಿನಂತಿಯನ್ನು ಕಳುಹಿಸಿ|അഭ്യർത്ഥന അയയ്ക്കുക|ਬੇਨਤੀ ਭੇਜੋ|ଅନୁରୋଧ ପଠାନ୍ତୁ|অনুৰোধ পঠিয়াওক|درخواست بھیجیں
+History|ইতিহাস|इतिहास|ઇતિહાસ|வரலாறு|చరిత్ర|ಇತಿಹಾಸ|ചരിത്രം|ਇਤਿਹਾਸ|ଇତିହାସ|ইতিহাস|تاریخ
+Geography|ভূগোল|भूगोल|ભૂગોળ|புவியியல்|భూగోళశాస్త్రం|ಭೂಗೋಳ|ഭൂമിശാസ്ത്രം|ਭੂਗੋਲ|ଭୂଗୋଳ|ভূগোল|جغرافیہ
+Science|বিজ্ঞান|विज्ञान|વિજ્ઞાન|அறிவியல்|సైన్స్|ವಿಜ್ಞಾನ|ശാസ്ത്രം|ਵਿਗਿਆਨ|ବିଜ୍ଞାନ|বিজ্ঞান|سائنس
+Maths|গণিত|गणित|ગણિત|கணிதம்|గణితం|ಗಣಿತ|ഗണിതം|ਗਣਿਤ|ଗଣିତ|গণিত|ریاضی
+India GK|ভারত সাধারণ জ্ঞান|भारत सामान्य ज्ञान|ભારત સામાન્ય જ્ઞાન|இந்தியா பொது அறிவு|భారత సాధారణ జ్ఞానం|ಭಾರತ ಸಾಮಾನ್ಯ ಜ್ಞಾನ|ഇന്ത്യ പൊതുവിജ്ഞാനം|ਭਾਰਤ ਆਮ ਗਿਆਨ|ଭାରତ ସାଧାରଣ ଜ୍ଞାନ|ভাৰত সাধাৰণ জ্ঞান|بھارت عمومی معلومات
+EVS|পরিবেশ বিদ্যা|पर्यावरण अभ्यास|પર્યાવરણ અભ્યાસ|சுற்றுச்சூழல் அறிவியல்|పరిసరాల విజ్ఞానం|ಪರಿಸರ ಅಧ್ಯಯನ|പരിസര പഠനം|ਵਾਤਾਵਰਣ ਸਿੱਖਿਆ|ପରିବେଶ ଅଧ୍ୟୟନ|পৰিৱেশ বিজ্ঞান|ماحولیاتی مطالعہ
+Class|ক্লাস|इयत्ता|ધોરણ|வகுப்பு|తరగతి|ತರಗತಿ|ക്ലാസ്|ਜਮਾਤ|ଶ୍ରେଣୀ|শ্ৰেণী|کلاس
+Level|লেভেল|पातळी|લેવલ|நிலை|స్థాయి|ಹಂತ|ലെവൽ|ਲੈਵਲ|ଲେଭେଲ୍|লেভেল|لیول
+questions|প্রশ্ন|प्रश्न|પ્રશ્નો|கேள்விகள்|ప్రశ్నలు|ಪ್ರಶ್ನೆಗಳು|ചോദ്യങ്ങൾ|ਸਵਾਲ|ପ୍ରଶ୍ନ|প্ৰশ্ন|سوالات
+mastered|আয়ত্ত|आत्मसात|પારંગત|தேர்ச்சி|నైపుణ్యం|ಪಾಂಡಿತ್ಯ|പ്രാവീണ്യം|ਮੁਹਾਰਤ|ଦକ୍ଷତା|দক্ষতা|مہارت
+Good morning|সুপ্রভাত|सुप्रभात|સુપ્રભાત|காலை வணக்கம்|శుభోదయం|ಶುಭೋದಯ|സുപ്രഭാതം|ਸ਼ੁਭ ਸਵੇਰ|ସୁପ୍ରଭାତ|সুপ্ৰভাত|صبح بخیر`.split('\n').forEach(function(l){var p=l.split('|');XO.forEach(function(g,i){(XM[g]=XM[g]||{})[p[0]]=p[i+1]})});
+function xo(c,g){var D=XM[g];if(!D)return undefined;if(D[c]!==undefined)return D[c];var m;
+ if(m=c.match(/^Class (\d+|UKG)$/))return D['Class']+' '+m[1];
+ if(m=c.match(/^Level (\d+)$/))return D['Level']+' '+m[1];
+ if(m=c.match(/^(\d+) questions?$/))return m[1]+' '+D['questions'];
+ if(m=c.match(/^(\d+)% mastered$/))return m[1]+'% '+D['mastered'];
+ if(m=c.match(/^Good (morning|afternoon|evening), (.*)$/))return D['Good morning']+', '+m[2];
+ if(c.indexOf(' · ')>0){var ch=false,ps=c.split(' · ').map(function(p){var t=xo(p,g);if(t===undefined)return p;ch=true;return t});return ch?ps.join(' · '):undefined}
+ return undefined}
+
+function pl(t){var o={};t.trim().split('\n').forEach(function(l){var i=l.indexOf('|');if(i>0)o[l.slice(0,i)]=l.slice(i+1)});return o}
+var XD=pl(`+ New|+ नया
+Achievements|उपलब्धियाँ
+Answer 10 more questions today.|आज 10 और प्रश्नों के उत्तर दें।
+Answer 10 questions|10 प्रश्नों के उत्तर दें
+Answer 100 questions|100 प्रश्नों के उत्तर दें
+Answer 50 questions|50 प्रश्नों के उत्तर दें
+Answer your first question|अपने पहले प्रश्न का उत्तर दें
+Apply language|भाषा लागू करें
+Back|वापस
+Badges|बैज
+Best streak|सबसे लंबी स्ट्रीक
+Build a correct-answer combo during a quiz.|क्विज़ के दौरान सही उत्तरों की कड़ी बनाएँ।
+Call support|सहायता को कॉल करें
+Card Maker|कार्ड निर्माता
+Centurion|शतकवीर
+Change class|कक्षा बदलें
+Choose UKG or Class 1–10. Changing class resets your XP, level, streak and badges.|यूकेजी या कक्षा 1–10 चुनें। कक्षा बदलने पर आपका XP, लेवल, स्ट्रीक और बैज रीसेट हो जाएँगे।
+Choose app language|ऐप की भाषा चुनें
+Choose your class|अपनी कक्षा चुनें
+Contact support|सहायता से संपर्क करें
+Create 5 of your own cards|अपने 5 कार्ड बनाएँ
+Curiosity is your superpower. Keep asking why.|जिज्ञासा आपकी सुपरपावर है। पूछते रहिए, क्यों?
+Daily goal|दैनिक लक्ष्य
+Dashboard|डैशबोर्ड
+Describe the issue|समस्या बताएँ
+Does support form send messages?|क्या सहायता फ़ॉर्म संदेश भेजता है?
+Each round picks up to 10 questions. The ones you miss come back more often until you master them.|हर राउंड में 10 तक प्रश्न आते हैं। जो आप चूकते हैं, वे सीखने तक बार-बार आते हैं।
+Enter your name|अपना नाम लिखें
+Explorer|खोजी
+Export creates a local JSON backup. Reset affects this app’s saved progress.|एक्सपोर्ट से इस डिवाइस पर JSON बैकअप बनता है। रीसेट से इस ऐप की सहेजी प्रगति मिट जाती है।
+Export my progress|मेरी प्रगति एक्सपोर्ट करें
+FAQs|सामान्य प्रश्न
+Fifty Club|फिफ्टी क्लब
+Finish a round with no mistakes|बिना गलती के एक राउंड पूरा करें
+First Spark|पहली चिंगारी
+Flashcards|फ़्लैशकार्ड
+Flawless|बेदाग़
+Get 3 answers correct in a row|लगातार 3 सही उत्तर दें
+How do I change class?|मैं कक्षा कैसे बदलूँ?
+Is my progress saved?|क्या मेरी प्रगति सहेजी जाती है?
+Language|भाषा
+Language selection is saved on this device. Hindi is fully available for the app screens and many questions; other languages are still in progress and show English for now.|भाषा का चुनाव इस डिवाइस पर सहेजा जाता है। ऐप की सभी स्क्रीन और कई प्रश्न हिन्दी में उपलब्ध हैं; बाकी भाषाओं पर काम चल रहा है और अभी उनमें अंग्रेज़ी दिखेगी।
+Learner|विद्यार्थी
+Little missions, real progress.|छोटे मिशन, असली प्रगति।
+Mastered|पूरा सीखा
+Message|संदेश
+My decks|मेरे डेक
+Name|नाम
+New deck|नया डेक
+Notifications|सूचनाएँ
+On Fire|धधकता जोश
+Play quiz|क्विज़ खेलें
+Please enter your name and a message of at least 8 characters.|कृपया अपना नाम और कम से कम 8 अक्षरों का संदेश लिखें।
+Please enter a valid email address so we can contact you.|कृपया सही ईमेल पता लिखें ताकि हम आपसे संपर्क कर सकें।
+Profile|प्रोफ़ाइल
+Progress management|प्रगति प्रबंधन
+Quest|मिशन
+Questions|प्रश्न
+Quests are tracked locally on this device. Rewards shown here are goals; XP is earned by answering questions in quizzes and flashcards.|मिशन इसी डिवाइस पर ट्रैक होते हैं। यहाँ दिखे इनाम लक्ष्य हैं; XP क्विज़ और फ़्लैशकार्ड में प्रश्नों के उत्तर देने से मिलता है।
+Quit round|राउंड छोड़ें
+Reach level 5|लेवल 5 तक पहुँचें
+Reminders preference: Off|रिमाइंडर पसंद: बंद
+Reminders preference: On|रिमाइंडर पसंद: चालू
+Reset progress|प्रगति रीसेट करें
+Save|सहेजें
+Send us a message with the form below, or call one of the support numbers.|नीचे दिए फ़ॉर्म से हमें संदेश भेजें, या किसी सहायता नंबर पर कॉल करें।
+Settings|सेटिंग्स
+Small steps count. Keep learning!|छोटे कदम भी मायने रखते हैं। सीखते रहिए!
+Sound effects|ध्वनि प्रभाव
+Sound effects are generated locally. No audio is recorded.|ध्वनि प्रभाव डिवाइस पर ही बनते हैं। कोई ऑडियो रिकॉर्ड नहीं होता।
+Sound off|ध्वनि बंद
+Sound on|ध्वनि चालू
+Study|पढ़ाई
+Study 3 days in a row|लगातार 3 दिन पढ़ें
+Study 3 different subjects|3 अलग विषय पढ़ें
+Study 7 days in a row|लगातार 7 दिन पढ़ें
+Subjects|विषय
+Subjects, lessons & quizzes|विषय, पाठ और क्विज़
+Submit request|अनुरोध भेजें
+Support|सहायता
+Support line 1|सहायता लाइन 1
+Support line 2|सहायता लाइन 2
+Tap Change class below the dashboard’s subjects.|डैशबोर्ड के विषयों के नीचे "कक्षा बदलें" दबाएँ।
+Tap again to erase all progress|पूरी प्रगति मिटाने के लिए फिर दबाएँ
+Theme|थीम
+Yes. Fill in your name, your email and your message in Contact support and press Submit request. It is emailed to our support team and we will reply to your email. You need an internet connection.|हाँ। "सहायता से संपर्क करें" में अपना नाम, ईमेल और संदेश भरकर "अनुरोध भेजें" दबाएँ। संदेश हमारी सहायता टीम को ईमेल हो जाता है और हम आपके ईमेल पर जवाब देंगे। इंटरनेट ज़रूरी है।
+This stores your preference only; scheduled Android notifications are not wired up yet.|यह सिर्फ़ आपकी पसंद सहेजता है; निर्धारित Android सूचनाएँ अभी जुड़ी नहीं हैं।
+Today’s quests|आज के मिशन
+Toggle sound|ध्वनि चालू/बंद करें
+Total XP|कुल XP
+Try 2 different subjects|2 अलग विषय आज़माएँ
+Turn sound off|ध्वनि बंद करें
+Turn sound on|ध्वनि चालू करें
+UKG|यूकेजी
+Unstoppable|अजेय
+Warm Up|वार्म अप
+Yes, progress is saved in this app on this device. Clearing app data may erase it.|हाँ, प्रगति इस डिवाइस पर इस ऐप में सहेजी जाती है। ऐप का डेटा साफ़ करने पर यह मिट सकती है।
+Your email (required, so we can reply)|आपका ईमेल (ज़रूरी, ताकि हम जवाब दे सकें)
+Your level|आपका लेवल
+Your name|आपका नाम
+Streak|स्ट्रीक
+Your cards|आपके कार्ड
+Add a card|कार्ड जोड़ें
+Add card|कार्ड जोड़ें
+Again|फिर से
+Answer|उत्तर
+The answer is|सही उत्तर है
+Brilliant!|शानदार!
+Colour|रंग
+Continue|जारी रखें
+Correct|सही
+Could not export on this device.|इस डिवाइस पर एक्सपोर्ट नहीं हो सका।
+Create deck|डेक बनाएँ
+Delete card|कार्ड हटाएँ
+Delete deck|डेक हटाएँ
+Done|हो गया
+Goal complete! Keep going for bonus XP.|लक्ष्य पूरा! बोनस XP के लिए जारी रखें।
+Got it|समझ गया
+Great effort! One more round and you will master it.|बहुत बढ़िया कोशिश! एक और राउंड में आप इसे सीख लेंगे।
+Import cards|कार्ड इम्पोर्ट करें
+Keep going|आगे बढ़ते रहिए
+Nice work|अच्छा काम
+One per line, like: question :: answer|हर पंक्ति में एक, जैसे: प्रश्न :: उत्तर
+Out of hearts|दिल खत्म हो गए
+Paste many at once|एक साथ कई चिपकाएँ
+Pick colour|रंग चुनें
+Play again|फिर खेलें
+Question|प्रश्न
+Tap again to delete deck|डेक हटाने के लिए फिर दबाएँ
+Tap to reveal|उत्तर देखने के लिए दबाएँ
+Think of the answer, then flip the card.|उत्तर सोचिए, फिर कार्ड पलटिए।
+Add at least 4 cards with different answers to unlock multiple choice quizzes. Flashcards work with any number.|बहुविकल्पीय क्विज़ खोलने के लिए अलग-अलग उत्तर वाले कम से कम 4 कार्ड जोड़ें। फ़्लैशकार्ड किसी भी संख्या के कार्ड से चलते हैं।
+Teen mein teen! You are on fire!|लगातार तीन सही! आप तो छा गए!
+Topper! Aaj toh kamaal kar diya!|टॉपर! आज तो कमाल कर दिया!
+Unstoppable! Topper material!|अजेय! आप टॉपर बनने वाले हैं!
+Every champion started here. Practice karte raho!|हर चैंपियन ने यहीं से शुरुआत की थी। अभ्यास करते रहिए!
+XP earned|अर्जित XP
+e.g. Capital of Japan|जैसे: जापान की राजधानी
+e.g. Hindi grammar, Sanskrit shlokas|जैसे: हिन्दी व्याकरण, संस्कृत श्लोक
+e.g. Tokyo|जैसे: टोक्यो
+History|इतिहास
+Geography|भूगोल
+Science|विज्ञान
+Maths|गणित
+India GK|भारत सामान्य ज्ञान
+🌙 Night|🌙 नाइट
+🌷 Pastel light|🌷 पेस्टल लाइट
+Support line|सहायता लाइन
+Good morning|सुप्रभात
+Good afternoon|नमस्कार
+Good evening|शुभ संध्या
+Almost there, try the next!|लगभग सही! अगला प्रश्न कीजिए!
+Bahut badhiya!|बहुत बढ़िया!
+Bilkul sahi!|बिल्कुल सही!
+Ek sawaal aur, phir ek aur. Chalte raho!|एक सवाल और, फिर एक और। चलते रहिए!
+Ekdum sahi!|एकदम सही!
+Galti se hi toh seekhte hain!|गलती से ही तो सीखते हैं!
+Himmat mat haarna!|हिम्मत मत हारना!
+Koi baat nahi, seekhte raho!|कोई बात नहीं, सीखते रहिए!
+Mast jawab!|मस्त जवाब!
+Next one is yours!|अगला प्रश्न आपका है!
+Shabash!|शाबाश!
+Kya baat hai!|क्या बात है!`);
+
+function xu(v){return v==='UKG'?'यूकेजी':v}
+var XP=[[/^Class (\d+|UKG)$/,function(m){return 'कक्षा '+xu(m[1])}],[/^(\d+) questions?$/,function(m){return m[1]+' प्रश्न'}],[/^(\d+)% mastered$/,function(m){return m[1]+'% पूरा सीखा'}],[/^(\d+) \/ (\d+) completed$/,function(m){return m[1]+' / '+m[2]+' पूरे'}],[/^(\d+) \/ (\d+) questions$/,function(m){return m[1]+' / '+m[2]+' प्रश्न'}],[/^(\d+) XP to level (\d+)$/,function(m){return 'लेवल '+m[2]+' तक '+m[1]+' XP'}],[/^Level (\d+)$/,function(m){return 'लेवल '+m[1]}],[/^(\d+) of (\d+)$/,function(m){return m[1]+' / '+m[2]}],[/^Good (morning|afternoon|evening), (.*)$/,function(m){return {morning:'सुप्रभात',afternoon:'नमस्कार',evening:'शुभ संध्या'}[m[1]]+', '+(m[2]==='Learner'?'विद्यार्थी':m[2])}],[/^Subjects explored: (\d+)$/,function(m){return 'खोजे गए विषय: '+m[1]}],[/^Level up! You are now level (\d+)$/,function(m){return 'लेवल अप! अब आप लेवल '+m[1]+' पर हैं'}],[/^Answer (\d+) more questions today\.$/,function(m){return 'आज '+m[1]+' और प्रश्नों के उत्तर दें।'}],[/^Correct! \+(\d+)(.*)$/,function(m){return 'सही! +'+m[1]+m[2]}],[/^Pick a subject to learn$/,function(){return 'सीखने के लिए विषय चुनें'}],[/^UKG · StudyQuest learner$/,function(){return 'यूकेजी · StudyQuest विद्यार्थी'}],[/^Class (.+) · (.+)$/,function(m){return 'कक्षा '+xu(m[1])+' · '+(XD[m[2]]||m[2])}]];
+XP.push([/^(\d+) days?$/,function(m){return m[1]+' दिन'}]);
+XP.push([/^कक्षा UKG$/,function(){return 'कक्षा यूकेजी'}]);
+function xr(c){if(st&&st.lang&&st.lang!=='hi')return xo(c,st.lang);var i,m;if(XD[c]!==undefined)return XD[c];for(i=0;i<XP.length;i++){if(m=c.match(XP[i][0]))return XP[i][1](m)}
+ if(c.indexOf(' · ')>0){var ch=false,ps=c.split(' · ').map(function(p){var t=XD[p];if(t===undefined)for(i=0;i<XP.length;i++){if(m=p.match(XP[i][0])){t=XP[i][1](m);break}}if(t===undefined)return p;ch=true;return t});return ch?ps.join(' · '):undefined}
+ return undefined}
+function xt(s){var m=s.match(/^(\s*)([\s\S]*?)(\s*)$/);if(!m[2])return s;var r=xr(m[2]);return r===undefined?s:m[1]+r+m[3]}
+function xw(n){if(n.nodeType===3){var p=n.parentNode&&n.parentNode.nodeName;if(p==='SCRIPT'||p==='STYLE'||p==='TEXTAREA')return;var v=xt(n.nodeValue);if(v!==n.nodeValue)n.nodeValue=v;return}
+ if(n.nodeType!==1)return;var w=document.createTreeWalker(n,NodeFilter.SHOW_TEXT,null),x,L=[];while(x=w.nextNode())L.push(x);L.forEach(xw);
+ var A=['placeholder','aria-label','title'],E=[n].concat([].slice.call(n.querySelectorAll('[placeholder],[aria-label],[title]')));E.forEach(function(e){A.forEach(function(a){var v=e.getAttribute&&e.getAttribute(a);if(v){var t=xt(v);if(t!==v)e.setAttribute(a,t)}})})}
+function startXL(){if(!document.body)return;if(window.__xl)return;window.__xl=1;new MutationObserver(function(ms){if(!st||!st.lang||st.lang==='en')return;ms.forEach(function(m){if(m.type==='characterData')xw(m.target);else if(m.type==='attributes')xw(m.target);else m.addedNodes.forEach(xw)})}).observe(document.body,{childList:true,subtree:true,characterData:true,attributes:true,attributeFilter:['placeholder','aria-label','title']});if(st&&st.lang&&st.lang!=='en')xw(document.body)}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',startXL);else startXL();
+/* Hindi questions */
+var HIQ=pl(`Who was the first Prime Minister of India?|भारत के पहले प्रधानमंत्री कौन थे?
+Jawaharlal Nehru|जवाहरलाल नेहरू
+Mahatma Gandhi|महात्मा गांधी
+Sardar Patel|सरदार पटेल
+Dr. Rajendra Prasad|डॉ. राजेंद्र प्रसाद
+What is India’s national flag commonly called?|भारत के राष्ट्रीय ध्वज को आमतौर पर क्या कहते हैं?
+Tiranga|तिरंगा
+Union Jack|यूनियन जैक
+Maple Leaf|मेपल लीफ
+Stars and Stripes|स्टार्स एंड स्ट्राइप्स
+Who is known as the Father of the Nation in India?|भारत में राष्ट्रपिता किसे कहा जाता है?
+Subhas Chandra Bose|सुभाष चंद्र बोस
+Bhagat Singh|भगत सिंह
+A.P.J. Abdul Kalam|ए.पी.जे. अब्दुल कलाम
+When is Independence Day celebrated in India?|भारत में स्वतंत्रता दिवस कब मनाया जाता है?
+15 August|15 अगस्त
+26 January|26 जनवरी
+2 October|2 अक्टूबर
+14 November|14 नवंबर
+Which planet do we live on?|हम किस ग्रह पर रहते हैं?
+Earth|पृथ्वी
+Mars|मंगल
+Venus|शुक्र
+Jupiter|बृहस्पति
+Which is the largest ocean?|सबसे बड़ा महासागर कौन-सा है?
+Pacific Ocean|प्रशांत महासागर
+Indian Ocean|हिंद महासागर
+Arctic Ocean|आर्कटिक महासागर
+Atlantic Ocean|अटलांटिक महासागर
+Which direction does the Sun rise from?|सूरज किस दिशा से उगता है?
+East|पूर्व
+West|पश्चिम
+North|उत्तर
+South|दक्षिण
+What do we use to show places on paper?|कागज़ पर जगहें दिखाने के लिए हम क्या इस्तेमाल करते हैं?
+Map|नक्शा
+Clock|घड़ी
+Thermometer|थर्मामीटर
+Compass only|केवल कंपास
+Which part of a plant usually makes food?|पौधे का कौन-सा भाग आमतौर पर भोजन बनाता है?
+Leaves|पत्तियाँ
+Roots|जड़ें
+Flowers|फूल
+Seeds|बीज
+Which sense organ helps us see?|कौन-सी ज्ञानेंद्रिय हमें देखने में मदद करती है?
+Eyes|आँखें
+Ears|कान
+Nose|नाक
+Tongue|जीभ
+What do humans breathe in to live?|जीने के लिए इंसान साँस में क्या लेते हैं?
+Oxygen|ऑक्सीजन
+Carbon dioxide|कार्बन डाइऑक्साइड
+Helium|हीलियम
+Smoke|धुआँ
+How many legs does a spider have?|मकड़ी के कितने पैर होते हैं?
+Eight|आठ
+Six|छह
+Four|चार
+Ten|दस
+How many sides does a triangle have?|त्रिभुज की कितनी भुजाएँ होती हैं?
+Which number comes after 19?|19 के बाद कौन-सी संख्या आती है?
+Assam|असम
+Dispur|दिसपुर
+Bihar|बिहार
+Patna|पटना
+Chhattisgarh|छत्तीसगढ़
+Raipur|रायपुर
+Goa|गोवा
+Panaji|पणजी
+Gujarat|गुजरात
+Gandhinagar|गांधीनगर
+Haryana|हरियाणा
+Chandigarh|चंडीगढ़
+Himachal Pradesh|हिमाचल प्रदेश
+Shimla|शिमला
+Jharkhand|झारखंड
+Ranchi|रांची
+Karnataka|कर्नाटक
+Bengaluru|बेंगलुरु
+Kerala|केरल
+Thiruvananthapuram|तिरुवनंतपुरम
+Madhya Pradesh|मध्य प्रदेश
+Bhopal|भोपाल
+Maharashtra|महाराष्ट्र
+Mumbai|मुंबई
+Manipur|मणिपुर
+Imphal|इंफाल
+Meghalaya|मेघालय
+Shillong|शिलांग
+Mizoram|मिज़ोरम
+Aizawl|आइज़ोल
+Nagaland|नागालैंड
+Kohima|कोहिमा
+Odisha|ओडिशा
+Bhubaneswar|भुवनेश्वर
+Punjab|पंजाब
+Rajasthan|राजस्थान
+Jaipur|जयपुर
+Sikkim|सिक्किम
+Gangtok|गंगटोक
+Tamil Nadu|तमिलनाडु
+Chennai|चेन्नई
+Telangana|तेलंगाना
+Hyderabad|हैदराबाद
+Tripura|त्रिपुरा
+Agartala|अगरतला
+Uttar Pradesh|उत्तर प्रदेश
+Lucknow|लखनऊ
+Uttarakhand|उत्तराखंड
+Dehradun|देहरादून
+West Bengal|पश्चिम बंगाल
+Kolkata|कोलकाता
+Arunachal Pradesh|अरुणाचल प्रदेश
+Itanagar|ईटानगर
+Taj Mahal|ताजमहल
+Agra|आगरा
+Red Fort|लाल किला
+Delhi|दिल्ली
+Charminar|चारमीनार
+Gateway of India|गेटवे ऑफ़ इंडिया
+Hawa Mahal|हवा महल
+Golden Temple|स्वर्ण मंदिर
+Amritsar|अमृतसर
+Victoria Memorial|विक्टोरिया मेमोरियल
+Meenakshi Temple|मीनाक्षी मंदिर
+Madurai|मदुरै
+Mysore Palace|मैसूर महल
+Mysuru|मैसूरु
+India Gate|इंडिया गेट
+Lotus Temple|कमल मंदिर
+Varanasi|वाराणसी
+Ganga|गंगा
+Ahmedabad|अहमदाबाद
+Sabarmati|साबरमती
+Hooghly|हुगली
+Musi|मूसी
+Nashik|नासिक
+Godavari|गोदावरी
+Yamuna|यमुना
+Vijayawada|विजयवाड़ा
+Krishna|कृष्णा
+Gomti|गोमती
+Surat|सूरत
+Tapti|ताप्ती
+Hirakud Dam|हीराकुंड बाँध
+Mahanadi|महानदी
+Bhakra Nangal Dam|भाखड़ा नांगल बाँध
+Sutlej|सतलुज
+Tehri Dam|टिहरी बाँध
+Bhagirathi|भागीरथी
+Sardar Sarovar Dam|सरदार सरोवर बाँध
+Narmada|नर्मदा
+Nagarjuna Sagar Dam|नागार्जुन सागर बाँध
+Mettur Dam|मेट्टूर बाँध
+Kaveri|कावेरी
+Indira Sagar Dam|इंदिरा सागर बाँध
+India|भारत
+New Delhi|नई दिल्ली
+Nepal|नेपाल
+Kathmandu|काठमांडू
+Bhutan|भूटान
+Thimphu|थिम्पू
+Bangladesh|बांग्लादेश
+Dhaka|ढाका
+Pakistan|पाकिस्तान
+Islamabad|इस्लामाबाद
+Afghanistan|अफ़गानिस्तान
+Kabul|काबुल
+Myanmar|म्यांमार
+Naypyidaw|नेपीडॉ
+China|चीन
+Beijing|बीजिंग
+Japan|जापान
+Tokyo|टोक्यो
+France|फ़्रांस
+Paris|पेरिस
+United Kingdom|यूनाइटेड किंगडम
+London|लंदन
+United States|अमेरिका
+Washington, D.C.|वॉशिंगटन डी.सी.
+Russia|रूस
+Moscow|मॉस्को
+Egypt|मिस्र
+Cairo|काहिरा
+Australia|ऑस्ट्रेलिया
+Canberra|कैनबरा
+Canada|कनाडा
+Ottawa|ओटावा
+Germany|जर्मनी
+Berlin|बर्लिन
+Italy|इटली
+Rome|रोम
+Brazil|ब्राज़ील
+Brasília|ब्रासीलिया
+Hydrogen|हाइड्रोजन
+Carbon|कार्बन
+Nitrogen|नाइट्रोजन
+Sodium|सोडियम
+Potassium|पोटैशियम
+Calcium|कैल्शियम
+Iron|लोहा
+Copper|तांबा
+Silver|चांदी
+Gold|सोना
+Mercury|पारा
+Lead|सीसा
+Zinc|जस्ता
+Chlorine|क्लोरीन
+Sulphur|सल्फर
+Magnesium|मैग्नीशियम
+Aluminium|एल्युमिनियम
+Neon|नियॉन
+Force|बल
+Work or energy|कार्य या ऊर्जा
+Power|शक्ति
+Pressure|दाब
+Frequency|आवृत्ति
+Electric current|विद्युत धारा
+Electrical resistance|विद्युत प्रतिरोध
+Potential difference|विभवांतर
+Electric charge|विद्युत आवेश
+Mass|द्रव्यमान
+Length|लंबाई
+Time|समय
+Temperature|तापमान
+newton|न्यूटन
+joule|जूल
+watt|वाट
+pascal|पास्कल
+hertz|हर्ट्ज़
+ampere|एम्पियर
+ohm|ओम
+volt|वोल्ट
+coulomb|कूलॉम
+kilogram|किलोग्राम
+metre|मीटर
+second|सेकंड
+kelvin|केल्विन
+Heart|हृदय
+Lungs|फेफड़े
+Kidneys|गुर्दे
+Stomach|पेट
+Brain|मस्तिष्क
+Skin|त्वचा
+Small intestine|छोटी आँत
+It pumps blood around the body|यह पूरे शरीर में रक्त पंप करता है
+They help us breathe|ये हमें साँस लेने में मदद करते हैं
+They filter blood and remove waste|ये रक्त को छानकर अपशिष्ट निकालते हैं
+It helps digest food|यह भोजन पचाने में मदद करता है
+It controls the body and thinking|यह शरीर और सोच को नियंत्रित करता है
+It protects the body and senses touch|यह शरीर की रक्षा करती है और स्पर्श महसूस कराती है
+It absorbs digested food|यह पचे हुए भोजन को सोखती है
+India became independent|भारत स्वतंत्र हुआ
+The first Battle of Panipat was fought|पानीपत की पहली लड़ाई हुई
+The Battle of Plassey was fought|प्लासी की लड़ाई हुई
+The Third Battle of Panipat was fought|पानीपत की तीसरी लड़ाई हुई
+The Battle of Buxar was fought|बक्सर की लड़ाई हुई
+The Battle of Haldighati was fought|हल्दीघाटी की लड़ाई हुई
+The Second Battle of Tarain was fought|तराइन की दूसरी लड़ाई हुई
+The Indian National Congress was founded|भारतीय राष्ट्रीय कांग्रेस की स्थापना हुई
+Bengal was partitioned by the British|अंग्रेज़ों ने बंगाल का विभाजन किया
+The Jallianwala Bagh massacre happened|जलियाँवाला बाग हत्याकांड हुआ
+The Non-Cooperation Movement began|असहयोग आंदोलन शुरू हुआ
+The Simon Commission came to India|साइमन कमीशन भारत आया
+The Dandi (Salt) March took place|दांडी (नमक) मार्च हुआ
+The Quit India Movement began|भारत छोड़ो आंदोलन शुरू हुआ
+The Constitution was adopted by the Constituent Assembly|संविधान सभा ने संविधान अपनाया
+The Constitution came into effect|संविधान लागू हुआ
+Gandhi returned to India from South Africa|गांधीजी दक्षिण अफ्रीका से भारत लौटे
+Who is called the Father of the Nation?|राष्ट्रपिता किसे कहा जाता है?
+Who is known as the Iron Man of India?|भारत का लौह पुरुष किसे कहा जाता है?
+Who was independent India's first Prime Minister?|स्वतंत्र भारत के पहले प्रधानमंत्री कौन थे?
+Who gave the call 'Give me blood, and I will give you freedom'?|'तुम मुझे खून दो, मैं तुम्हें आज़ादी दूँगा' का नारा किसने दिया?
+Which queen of Jhansi fought in the Revolt of 1857?|1857 के विद्रोह में झाँसी की किस रानी ने युद्ध लड़ा?
+Which revolutionary was hanged in 1931 with Rajguru and Sukhdev?|1931 में राजगुरु और सुखदेव के साथ किस क्रांतिकारी को फाँसी हुई?
+Who chaired the Drafting Committee of the Constitution?|संविधान की प्रारूप समिति के अध्यक्ष कौन थे?
+Who said 'Swaraj is my birthright and I shall have it'?|'स्वराज्य मेरा जन्मसिद्ध अधिकार है' किसने कहा?
+Who wrote the song 'Vande Mataram'?|'वंदे मातरम्' गीत किसने लिखा?
+Who was the first President of India?|भारत के पहले राष्ट्रपति कौन थे?
+Who gave the slogan 'Jai Jawan Jai Kisan'?|'जय जवान जय किसान' का नारा किसने दिया?
+Who was the first Indian woman President of the Indian National Congress?|भारतीय राष्ट्रीय कांग्रेस की पहली भारतीय महिला अध्यक्ष कौन थीं?
+Who led the Dandi March in 1930?|1930 में दांडी मार्च का नेतृत्व किसने किया?
+Who wrote 'Jana Gana Mana', India's national anthem?|भारत का राष्ट्रगान 'जन गण मन' किसने लिखा?
+Sardar Vallabhbhai Patel|सरदार वल्लभभाई पटेल
+Rani Lakshmibai|रानी लक्ष्मीबाई
+Dr. B. R. Ambedkar|डॉ. बी. आर. आंबेडकर
+Bal Gangadhar Tilak|बाल गंगाधर तिलक
+Bankim Chandra Chatterjee|बंकिम चंद्र चट्टोपाध्याय
+Lal Bahadur Shastri|लाल बहादुर शास्त्री
+Sarojini Naidu|सरोजिनी नायडू
+Rabindranath Tagore|रवींद्रनाथ टैगोर
+Who is known as the 'Missile Man of India'?|'भारत के मिसाइल मैन' किसे कहा जाता है?
+Who won the 1930 Nobel Prize in Physics for the Raman effect?|रमन प्रभाव के लिए 1930 का भौतिकी का नोबेल पुरस्कार किसे मिला?
+Who was the first Indian to travel to space?|अंतरिक्ष में जाने वाले पहले भारतीय कौन थे?
+Who was the first woman of Indian origin in space?|अंतरिक्ष में जाने वाली भारतीय मूल की पहली महिला कौन थीं?
+Who won the Nobel Peace Prize in 1979 for work in Kolkata?|कोलकाता में सेवा के लिए 1979 का नोबेल शांति पुरस्कार किसे मिला?
+Who was India's first woman Prime Minister?|भारत की पहली महिला प्रधानमंत्री कौन थीं?
+Who was India's first woman President?|भारत की पहली महिला राष्ट्रपति कौन थीं?
+Who was the first Indian to win a Nobel Prize (Literature, 1913)?|साहित्य (1913) में नोबेल पुरस्कार जीतने वाले पहले भारतीय कौन थे?
+Who is called the 'Nightingale of India'?|'भारत कोकिला' किसे कहा जाता है?
+Who is known as the 'Father of the Indian Constitution'?|'भारतीय संविधान के जनक' किसे कहा जाता है?
+Dr. A. P. J. Abdul Kalam|डॉ. ए. पी. जे. अब्दुल कलाम
+C. V. Raman|सी. वी. रमन
+Rakesh Sharma|राकेश शर्मा
+Kalpana Chawla|कल्पना चावला
+Mother Teresa|मदर टेरेसा
+Indira Gandhi|इंदिरा गांधी
+Pratibha Patil|प्रतिभा पाटिल`);
+var QE=[[/^What is the capital of (.+)\?$/,'{1} की राजधानी क्या है?'],[/^In which city is the (.+) located\?$/,'{1} किस शहर में स्थित है?'],[/^Which river flows by the city of (.+)\?$/,'{1} शहर के पास से कौन-सी नदी बहती है?'],[/^On which river is the (.+) built\?$/,'{1} किस नदी पर बना है?'],[/^What is the chemical symbol of (.+)\?$/,'{1} का रासायनिक प्रतीक क्या है?'],[/^What is the SI unit of (.+)\?$/,'{1} का SI मात्रक क्या है?'],[/^What is the main job of the (.+)\?$/,'{1} का मुख्य कार्य क्या है?'],[/^In which year was this event: (.+) \?$/,'{1} — किस वर्ष की बात है?']];
+var QN=[[/^What is ([^A-Za-z]+)\?$/,'{1} कितना होता है?'],[/^Perimeter of a rectangle (\d+) cm by (\d+) cm \(in cm\)\?$/,'एक आयत की लंबाई {1} सेमी और चौड़ाई {2} सेमी है। उसका परिमाप (सेमी में) क्या होगा?'],[/^Area of a rectangle (\d+) cm × (\d+) cm \(in cm²\)\?$/,'एक आयत की लंबाई {1} सेमी और चौड़ाई {2} सेमी है। उसका क्षेत्रफल (सेमी² में) क्या होगा?'],[/^HCF of (\d+) and (\d+) = \?$/,'{1} और {2} का महत्तम समापवर्तक (HCF) = ?'],[/^(\d+)% of (\d+) = \?$/,'{2} का {1}% = ?'],[/^Mean of (\d+), (\d+) and (\d+) = \?$/,'{1}, {2} और {3} का माध्य = ?'],[/^Solve: (.*)\. x = \?$/,'हल कीजिए: {1}। x = ?'],[/^Cost price ₹(\d+), selling price ₹(\d+)\. Profit % = \?$/,'क्रय मूल्य ₹{1}, विक्रय मूल्य ₹{2}। लाभ % = ?'],[/^Discriminant of (.*) = 0 is \?$/,'{1} = 0 का विविक्तकर (discriminant) = ?'],[/^10th term of the AP (.*) = \?$/,'समांतर श्रेढ़ी {1} का 10वाँ पद = ?'],[/^Right triangle with legs (\d+) and (\d+)\. Hypotenuse = \?$/,'एक समकोण त्रिभुज की भुजाएँ {1} और {2} हैं। कर्ण = ?'],[/^Sum of the first (\d+) natural numbers = \?$/,'पहली {1} प्राकृत संख्याओं का योग = ?']];
+function tq(x){if(HIQ[x]!==undefined)return HIQ[x];if(!/[A-Za-z]/.test(x)||/^[A-Z][a-z]?$/.test(x))return x;var i,m,s,ok;
+ for(i=0;i<QN.length;i++)if(m=x.match(QN[i][0])){return QN[i][1].replace(/\{(\d)\}/g,function(_,k){return m[k]})}
+ for(i=0;i<QE.length;i++)if(m=x.match(QE[i][0])){var e=tq(m[1]);return e===null?null:QE[i][1].replace('{1}',e)}
+ return null}
+function tc(r,k){if(!st||st.lang!=='hi'||k==='eng')return r;var q=tq(r[0]),a=tq(r[1]),d=r[2].map(tq);if(q===null||a===null||d.indexOf(null)>=0)return r;return [q,a,d]}
+var H2=pl(`Which animal says 'moo'?|कौन-सा जानवर "मूं-मूं" बोलता है?
+Which animal says 'meow'?|कौन-सा जानवर "म्याऊँ" बोलता है?
+Which animal says 'bow-wow'?|कौन-सा जानवर "भों-भों" बोलता है?
+Which animal has a long trunk?|किस जानवर की लंबी सूँड़ होती है?
+Which animal can fly?|कौन-सा जानवर उड़ सकता है?
+Which animal lives in water?|कौन-सा जानवर पानी में रहता है?
+Which is a fruit?|इनमें से फल कौन-सा है?
+Which is a vegetable?|इनमें से सब्ज़ी कौन-सी है?
+What colour is the sun?|सूरज का रंग कैसा है?
+What colour is grass?|घास का रंग कैसा है?
+What colour is a ripe tomato?|पके टमाटर का रंग कैसा है?
+What colour is milk?|दूध का रंग कैसा है?
+We see with our ___|हम ___ से देखते हैं
+We hear with our ___|हम ___ से सुनते हैं
+We smell with our ___|हम ___ से सूँघते हैं
+We walk with our ___|हम ___ से चलते हैं
+Which meal do we eat in the morning?|सुबह हम कौन-सा भोजन करते हैं?
+Cow|गाय
+Dog|कुत्ता
+Cat|बिल्ली
+Duck|बत्तख
+Hen|मुर्गी
+Lion|शेर
+Elephant|हाथी
+Rabbit|खरगोश
+Fish|मछली
+Bird|चिड़िया
+Horse|घोड़ा
+Apple|सेब
+Chair|कुर्सी
+Pencil|पेंसिल
+Shoe|जूता
+Potato|आलू
+Banana|केला
+Grapes|अंगूर
+Yellow|पीला
+Blue|नीला
+Green|हरा
+Black|काला
+Red|लाल
+Pink|गुलाबी
+White|सफ़ेद
+eyes|आँखों
+ears|कानों
+nose|नाक
+hands|हाथों
+feet|पैरों
+legs|पैरों
+head|सिर
+Breakfast|नाश्ता
+Dinner|रात का खाना
+Lunch|दोपहर का खाना
+Sleep|सोना
+How many legs does a dog have?|कुत्ते के कितने पैर होते हैं?
+Which season brings rain?|कौन-सा मौसम बारिश लाता है?
+Which season is very hot?|कौन-सा मौसम बहुत गर्म होता है?
+Monsoon|वर्षा ऋतु
+Summer|गर्मी
+Winter|सर्दी
+Autumn|पतझड़
+Spring|वसंत
+Which animal gives us wool?|कौन-सा जानवर हमें ऊन देता है?
+Sheep|भेड़
+Which bird can talk like us?|कौन-सी चिड़िया हमारी तरह बोल सकती है?
+Parrot|तोता
+Crow|कौआ
+Owl|उल्लू
+Eagle|चील
+Where does a fish live?|मछली कहाँ रहती है?
+Water|पानी
+Tree|पेड़
+Sand|रेत
+Nest|घोंसला
+What do plants need to grow?|पौधों को बढ़ने के लिए क्या चाहिए?
+Water and sunlight|पानी और धूप
+Only sand|सिर्फ़ रेत
+Plastic|प्लास्टिक
+Chocolate|चॉकलेट
+Which animal is the biggest?|इनमें सबसे बड़ा जानवर कौन-सा है?
+What gives us light in the day?|दिन में हमें रोशनी कौन देता है?
+Sun|सूरज
+Moon|चाँद
+Star|तारा
+Candle|मोमबत्ती
+What do we drink to stay healthy?|स्वस्थ रहने के लिए हम क्या पीते हैं?
+Paint|पेंट
+Petrol|पेट्रोल
+Ink|स्याही
+How many sides does a square have?|वर्ग की कितनी भुजाएँ होती हैं?
+Which shape is round?|कौन-सी आकृति गोल है?
+Circle|वृत्त
+Square|वर्ग
+Triangle|त्रिभुज
+Rectangle|आयत
+How many fingers are on one hand?|एक हाथ में कितनी उँगलियाँ होती हैं?
+How many eyes do we have?|हमारी कितनी आँखें होती हैं?
+Which is the biggest number?|सबसे बड़ी संख्या कौन-सी है?
+India's national animal is?|भारत का राष्ट्रीय पशु कौन-सा है?
+Tiger|बाघ
+Leopard|तेंदुआ
+India's national bird is?|भारत का राष्ट्रीय पक्षी कौन-सा है?
+Peacock|मोर
+Sparrow|गौरैया
+India's national flower is?|भारत का राष्ट्रीय फूल कौन-सा है?
+Lotus|कमल
+Rose|गुलाब
+Marigold|गेंदा
+Jasmine|चमेली
+India's national fruit is?|भारत का राष्ट्रीय फल कौन-सा है?
+Orange|संतरा
+Mango|आम
+How many days are in a week?|एक सप्ताह में कितने दिन होते हैं?
+How many months are in a year?|एक साल में कितने महीने होते हैं?
+How many colours are in a rainbow?|इंद्रधनुष में कितने रंग होते हैं?
+Which festival is the festival of lights?|रोशनी का त्योहार कौन-सा है?
+Diwali|दिवाली
+Holi|होली
+Eid|ईद
+Pongal|पोंगल
+What do we call a baby cow?|गाय के बच्चे को क्या कहते हैं?
+Calf|बछड़ा
+Kitten|बिल्ली का बच्चा
+Puppy|पिल्ला
+Cub|शावक
+India's currency is the?|भारत की मुद्रा क्या है?
+Rupee|रुपया
+Dollar|डॉलर
+Taka|टका
+Yen|येन
+On which date is Independence Day celebrated in India?|भारत में स्वतंत्रता दिवस किस तारीख को मनाया जाता है?
+On which date is Republic Day celebrated in India?|भारत में गणतंत्र दिवस किस तारीख को मनाया जाता है?
+Gandhi Jayanti is celebrated on?|गांधी जयंती कब मनाई जाती है?
+Children's Day is celebrated on the birthday of?|बाल दिवस किसके जन्मदिन पर मनाया जाता है?
+Dr. Kalam|डॉ. कलाम
+5 September|5 सितंबर
+1 May|1 मई
+Which vehicle flies in the sky?|कौन-सा वाहन आकाश में उड़ता है?
+Aeroplane|हवाई जहाज़
+Car|कार
+Bus|बस
+Bicycle|साइकिल
+Which vehicle has two wheels?|किस वाहन में दो पहिए होते हैं?
+Train|रेलगाड़ी
+Truck|ट्रक
+What do we use to write?|हम लिखने के लिए क्या इस्तेमाल करते हैं?
+Spoon|चम्मच
+Comb|कंघी
+Soap|साबुन
+Which animal is a pet?|इनमें से पालतू जानवर कौन-सा है?
+Wolf|भेड़िया
+What do we wear on our feet?|हम पैरों में क्या पहनते हैं?
+Shoes|जूते
+Cap|टोपी
+Gloves|दस्ताने
+Scarf|मफ़लर
+What do we use to brush our teeth?|दाँत साफ़ करने के लिए हम क्या इस्तेमाल करते हैं?
+Toothbrush|टूथब्रश
+Plate|थाली`);
+for(var k2 in H2)HIQ[k2]=H2[k2];
+QN.push([/^How many (\S+) are there\? (\S+)$/,'यहाँ कितने {1} हैं? {2}'],[/^What comes after (\d+)\?$/,'{1} के बाद कौन-सी संख्या आती है?'],[/^Which number is bigger: (\d+) or (\d+)\?$/,'कौन-सी संख्या बड़ी है: {1} या {2}?']);
+/*ENDHI*/
 
 var ICONS={
  flame:['M12 2c1 4-3 5-3 9a5 5 0 0010 0c0-2-1-3-2-4 0 2-1 3-2 3 1-4-1-6-3-8z',1],
@@ -785,13 +1659,15 @@ function rollDay(){var t=day();if(st.today!==t){st.today=t;st.todayN=0}}
 function bumpStreak(){var t=day();if(st.last===t)return;st.streak=(st.last===yesterday())?st.streak+1:1;st.last=t;if(st.streak>st.best)st.best=st.streak}
 function liveStreak(){return (st.last===day()||st.last===yesterday())?st.streak:0}
 function mastery(s){if(!s.cards.length)return 0;var t=0;s.cards.forEach(function(c){t+=c.box});return Math.round(t/(4*s.cards.length)*100)}
+function subjFor(c){var l=c===11?0:c;return l<=5?['eng','math','sci','gk']:['eng','math','sci','history','geo','gk']}
+function subjName(s){var l=st.cls===11?0:st.cls;if(s.k==='sci'&&l<=5)return st.lang==='hi'?'पर्यावरण अध्ययन':'EVS';if(s.k==='eng')return st.lang==='hi'?'अंग्रेज़ी':'English';return s.n}
 function builtins(){
   if(!st.cls)return [];
-  return SUBJ.map(function(s){
-    var base=s.k==='gk'?BANK.gk:((BANK[s.k]&&BANK[s.k][st.cls])||LOW_BANK[s.k]||BANK.gk);var rows=base.concat(genFor(s.k,st.cls));
-    return {id:'b:'+s.k+':'+st.cls,name:s.n,color:s.c,builtin:true,cards:rows.map(function(r,i){
+  return subjFor(st.cls).map(function(k){return SUBJ.filter(function(x){return x.k===k})[0]}).map(function(s){
+    var lo0=st.cls===11?0:st.cls;var base=(lo0<=2||s.k==='eng')?[]:s.k==='gk'?BANK.gk:((BANK[s.k]&&BANK[s.k][st.cls])||LOW_BANK[s.k]||BANK.gk);var rows=base.concat(genFor(s.k,st.cls));
+    return {id:'b:'+s.k+':'+st.cls,name:subjName(s),color:s.c,builtin:true,cards:rows.map(function(r,i){
       var pk=i<base.length?'b:'+s.k+':'+(s.k==='gk'?'x':st.cls)+':'+i:'g:'+s.k+':'+st.cls+':'+i;
-      return {id:'q'+i,pk:pk,q:r[0],a:r[1],d:r[2],box:st.prog[pk]||0}})}});
+      var tr0=tc(r,s.k);return {id:'q'+i,pk:pk,q:tr0[0],a:tr0[1],d:tr0[2],box:st.prog[pk]||0}})}});
 }
 function find(id){var l=st.subjects.filter(function(s){return s.id===id})[0];if(l)return l;return builtins().filter(function(s){return s.id===id})[0]}
 function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t}return a}
@@ -852,11 +1728,11 @@ function settingsView(){
   var langOpts=LANGS.map(function(l){return '<option value="'+l[0]+'" '+(st.lang===l[0]?'selected':'')+'>'+l[1]+'</option>'}).join('');
   var themeOpts='<button class="setting-option '+(st.theme!=='dark'?'active':'')+'" data-a="theme" data-v="light">🌷 '+tr('light')+'</button><button class="setting-option '+(st.theme==='dark'?'active':'')+'" data-a="theme" data-v="dark">🌙 '+tr('dark')+'</button>';
   return '<div class="top"><div class="brand">'+tr('settings')+'</div>'+sndBtn()+'</div>'+
-  '<div class="card sec"><h3>'+tr('language')+'</h3><div class="field"><label for="langSelect">Choose app language</label><select id="langSelect" style="font:inherit;color:var(--ink);background:var(--surface);border:2px solid var(--line);border-radius:14px;padding:12px;width:100%">'+langOpts+'</select></div><button class="btn small-btn" data-a="savelang">Apply language</button><div class="form-note">Language selection is saved on this device. Core navigation is translated for English, Hindi and Urdu; other languages are available in the selector while broader translations are being added. Learning question banks currently remain in English.</div></div>'+
+  '<div class="card sec"><h3>'+tr('language')+'</h3><div class="field"><label for="langSelect">Choose app language</label><select id="langSelect" style="font:inherit;color:var(--ink);background:var(--surface);border:2px solid var(--line);border-radius:14px;padding:12px;width:100%">'+langOpts+'</select></div><button class="btn small-btn" data-a="savelang">Apply language</button><div class="form-note">Language selection is saved on this device. Hindi is fully available for the app screens and many questions; other languages are still in progress and show English for now.</div></div>'+
   '<div class="card sec"><h3>'+tr('theme')+'</h3><div class="settings-grid">'+themeOpts+'</div></div>'+
   '<div class="card sec"><h3>'+tr('sound')+'</h3><button class="btn alt small-btn" data-a="snd">'+(st.sound===false?'Turn sound on':'Turn sound off')+'</button><div class="form-note">Sound effects are generated locally. No audio is recorded.</div></div>'+
   '<div class="card sec"><h3>'+tr('support')+'</h3><div class="form-note">'+tr('noBackend')+'</div><div class="list"><div class="li"><div><b>Support line 1</b><small>9304287682</small></div><a class="support-link" href="tel:9304287682">'+tr('call')+'</a></div><div class="li"><div><b>Support line 2</b><small>6205955077</small></div><a class="support-link" href="tel:6205955077">'+tr('call')+'</a></div></div></div>'+
-  '<div class="card sec"><h3>'+tr('faq')+'</h3><details><summary>Is my progress saved?</summary><p class="small">Yes, progress is saved in this app on this device. Clearing app data may erase it.</p></details><details><summary>How do I change class?</summary><p class="small">Tap Change class below the dashboard’s subjects.</p></details><details><summary>Does support form send messages?</summary><p class="small">There is no support backend connected in this version. The form checks your fields locally but cannot send a ticket yet.</p></details></div>'+
+  '<div class="card sec"><h3>'+tr('faq')+'</h3><details><summary>Is my progress saved?</summary><p class="small">Yes, progress is saved in this app on this device. Clearing app data may erase it.</p></details><details><summary>How do I change class?</summary><p class="small">Tap Change class below the dashboard’s subjects.</p></details><details><summary>Does support form send messages?</summary><p class="small">Yes. Fill in your name, your email and your message in Contact support and press Submit request. It is emailed to our support team and we will reply to your email. You need an internet connection.</p></details></div>'+
   '<div class="card sec"><h3>Contact support</h3><div class="field"><label for="supportName">Name</label><input id="supportName" maxlength="60" placeholder="Your name" value="'+esc((ui.sd||{}).n||'')+'"></div><div class="field"><label for="supportContact">Your email (required, so we can reply)</label><input id="supportContact" type="email" inputmode="email" autocomplete="email" maxlength="100" placeholder="you@example.com" value="'+esc((ui.sd||{}).c||'')+'"></div><div class="field"><label for="supportMessage">Message</label><textarea id="supportMessage" maxlength="1000" placeholder="Describe the issue">'+esc((ui.sd||{}).m||'')+'</textarea></div><button class="btn small-btn" data-a="supportsubmit"'+(ui.sending?' disabled':'')+'>Submit request</button><div class="form-note" role="status">'+esc(ui.supportMsg||tr('noBackend'))+'</div></div>'+
   '<div class="card sec"><h3>Notifications</h3><button class="btn alt small-btn" data-a="notifications">'+(st.notifications?'Reminders preference: On':'Reminders preference: Off')+'</button><div class="form-note">This stores your preference only; scheduled Android notifications are not wired up yet.</div></div>'+
   '<div class="card sec"><h3>Progress management</h3><button class="btn alt small-btn" data-a="export">Export my progress</button><button class="btn alt small-btn" data-a="reset">'+(ui.confirm==='reset'? 'Tap again to erase all progress':tr('reset'))+'</button><div class="form-note">Export creates a local JSON backup. Reset affects this app’s saved progress.</div></div>'+navHtml();
@@ -1043,7 +1919,7 @@ render();
   }
 
   body.has-admob-banner {
-    padding-top: 60px !important;
+    padding-top: 50px !important;
   }
 </style>
 
