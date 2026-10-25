@@ -60,7 +60,7 @@ jobs:
           android_ns = 'http://schemas.android.com/apk/res/android'
           ET.register_namespace('android', android_ns)
 
-          app_id = 'ca-app-pub-5129021458262508~7242843920'
+          app_id = 'ca-app-pub-5129021458262508~9223692781'
 
           application = root.find('application')
           if application is None:
